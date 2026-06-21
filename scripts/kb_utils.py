@@ -93,7 +93,6 @@ def ensure_index(model) -> tuple[list[dict], np.ndarray]:
             payload = pickle.load(f)
         payload = refresh_index_records(payload)
         if index_is_valid(payload, payload["records"]):
-            save_index(payload["records"], payload["embeddings"])
             return payload["records"], np.asarray(payload["embeddings"], dtype=np.float32)
     return rebuild_index(model)
 

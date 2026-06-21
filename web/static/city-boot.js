@@ -2,7 +2,7 @@ import {
   disposeKnowledgeCity,
   initKnowledgeCity,
   resizeKnowledgeCity,
-} from "./city3d.js";
+} from "./city3d.js?v=7";
 
 window.KnowledgeCity = {
   async open(options) {
@@ -15,3 +15,5 @@ window.KnowledgeCity = {
     disposeKnowledgeCity();
   },
 };
+
+window.dispatchEvent(new Event("knowledge-city-ready"));

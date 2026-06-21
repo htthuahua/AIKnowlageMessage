@@ -1,13 +1,22 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
+import logging
+import os
 import re
+import threading
 from dataclasses import dataclass, field
+
+os.environ.setdefault("HF_HUB_DISABLE_PROGRESS_BARS", "1")
+os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
 from kb_utils import INDEX_PATH, MODEL_DIR, ensure_index, load_index, load_records
+
+logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
+logging.getLogger("transformers").setLevel(logging.ERROR)
 
 _CATALOG_RE = re.compile(
     r"(你会什么|你能做什么|你能回答什么|你知道什么|你懂什么|你会哪些|"
@@ -73,6 +82,7 @@ class QueryResult:
 
 class KnowledgeQA:
     def __init__(self) -> None:
+        self._lock = threading.RLock()
         self._model: SentenceTransformer | None = None
         self._index_mtime: float | None = None
         self._records: list[dict] | None = None
@@ -82,7 +92,10 @@ class KnowledgeQA:
         return INDEX_PATH.stat().st_mtime if INDEX_PATH.exists() else None
 
     def _index_changed(self) -> bool:
-        return self._current_index_mtime() != self._index_mtime
+        current = self._current_index_mtime()
+        if self._index_mtime is None:
+            return current is not None
+        return current != self._index_mtime
 
     def _reload_model(self) -> None:
         if not MODEL_DIR.exists():
@@ -94,16 +107,18 @@ class KnowledgeQA:
         self._index_mtime = self._current_index_mtime()
 
     def load(self) -> None:
-        if self._model is None or self._index_changed():
-            self._reload_model()
+        with self._lock:
+            if self._model is None or self._index_changed():
+                self._reload_model()
 
     def _ensure_ready(self) -> None:
-        if self._model is None or self._index_changed():
-            self._reload_model()
-            return
-        payload = load_index()
-        self._records = payload["records"]
-        self._embeddings = np.asarray(payload["embeddings"], dtype=np.float32)
+        with self._lock:
+            if self._model is None or self._index_changed():
+                self._reload_model()
+            elif self._records is None or self._embeddings is None:
+                payload = load_index()
+                self._records = payload["records"]
+                self._embeddings = np.asarray(payload["embeddings"], dtype=np.float32)
 
     @property
     def model(self) -> SentenceTransformer:
@@ -190,72 +205,81 @@ class KnowledgeQA:
                 message="请输入问题。",
             )
 
-        self._ensure_ready()
-        records = self._records or load_records()
-        embeddings = self._embeddings
-        if embeddings is None:
-            payload = load_index()
-            embeddings = np.asarray(payload["embeddings"], dtype=np.float32)
+        with self._lock:
+            self._ensure_ready()
+            records = self._records or load_records()
+            embeddings = self._embeddings
+            if embeddings is None:
+                payload = load_index()
+                embeddings = np.asarray(payload["embeddings"], dtype=np.float32)
 
-        if self._is_catalog_question(question):
-            return self._build_catalog(question, records)
+            if self._is_catalog_question(question):
+                return self._build_catalog(question, records)
 
-        if self._is_identity_question(question):
-            record = self._find_identity_record(records, question)
-            if record:
+            if self._is_identity_question(question):
+                record = self._find_identity_record(records, question)
+                if record:
+                    return QueryResult(
+                        matched=True,
+                        score=1.0,
+                        question=question,
+                        id=record["id"],
+                        category=record.get("category", ""),
+                        summary=record["summary"],
+                        code=record.get("code", ""),
+                        message="身份介绍",
+                    )
+
+            exact = self._find_exact_record(records, question)
+            if exact:
                 return QueryResult(
                     matched=True,
                     score=1.0,
                     question=question,
-                    id=record["id"],
-                    category=record.get("category", ""),
-                    summary=record["summary"],
-                    code=record.get("code", ""),
-                    message="身份介绍",
+                    id=exact["id"],
+                    category=exact.get("category", ""),
+                    summary=exact["summary"],
+                    code=exact.get("code", ""),
+                    message="精确匹配",
                 )
 
-        exact = self._find_exact_record(records, question)
-        if exact:
+            model = self._model
+            if model is None:
+                raise RuntimeError("模型未加载")
+
+            q_emb = model.encode(
+                [question],
+                normalize_embeddings=True,
+                show_progress_bar=False,
+            )
+            q_emb = np.asarray(q_emb, dtype=np.float32)
+            scores = (embeddings @ q_emb.T).reshape(-1)
+
+            best_idx = int(np.argmax(scores))
+            best_score = float(scores[best_idx])
+            if not np.isfinite(best_score):
+                best_score = 0.0
+
+            record = records[best_idx]
+
+            if best_score < threshold:
+                return QueryResult(
+                    matched=False,
+                    score=best_score,
+                    question=question,
+                    message=f"知识库中可能没有与「{question}」相关的内容。",
+                )
+
             return QueryResult(
                 matched=True,
-                score=1.0,
-                question=question,
-                id=exact["id"],
-                category=exact.get("category", ""),
-                summary=exact["summary"],
-                code=exact.get("code", ""),
-                message="精确匹配",
-            )
-
-        q_emb = self.model.encode([question], normalize_embeddings=True)
-        q_emb = np.asarray(q_emb, dtype=np.float32)
-        scores = (embeddings @ q_emb.T).reshape(-1)
-
-        best_idx = int(np.argmax(scores))
-        best_score = float(scores[best_idx])
-        if not np.isfinite(best_score):
-            best_score = 0.0
-
-        record = records[best_idx]
-
-        if best_score < threshold:
-            return QueryResult(
-                matched=False,
                 score=best_score,
                 question=question,
-                message=f"知识库中可能没有与「{question}」相关的内容。",
+                id=record["id"],
+                category=record.get("category", ""),
+                summary=record["summary"],
+                code=record.get("code", ""),
+                message="匹配成功",
             )
-
-        return QueryResult(
-            matched=True,
-            score=best_score,
-            question=question,
-            id=record["id"],
-            category=record.get("category", ""),
-            summary=record["summary"],
-            code=record.get("code", ""),
-            message="匹配成功",
-        )
 
 
 qa_engine = KnowledgeQA()

@@ -5,6 +5,11 @@ import os
 import sys
 from pathlib import Path
 
+os.environ.setdefault("PYTHONIOENCODING", "utf-8")
+os.environ.setdefault("PYTHONUTF8", "1")
+os.environ.setdefault("HF_HUB_DISABLE_PROGRESS_BARS", "1")
+os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+
 from flask import Flask, jsonify, render_template, request
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -225,9 +230,30 @@ def knowledge_map():
     return jsonify({"total": len(records), "buildings": result})
 
 
+def _run_dir() -> Path:
+    return ROOT / ".run"
+
+
+def _write_pid_file() -> None:
+    run_dir = _run_dir()
+    run_dir.mkdir(parents=True, exist_ok=True)
+    (_run_dir() / "web_app.pid").write_text(str(os.getpid()), encoding="ascii")
+
+
+def _remove_pid_file() -> None:
+    pid_path = _run_dir() / "web_app.pid"
+    if pid_path.exists():
+        pid_path.unlink()
+
+
 def main() -> None:
     os.environ.setdefault("PYTHONIOENCODING", "utf-8")
     os.environ.setdefault("PYTHONUTF8", "1")
+
+    import atexit
+
+    atexit.register(_remove_pid_file)
+    _write_pid_file()
 
     print("正在加载模型与索引...")
     qa_engine.load()
@@ -235,7 +261,7 @@ def main() -> None:
     print(f"知识库条目: {len(records)}")
     print("个人知识库 Web 已启动: http://127.0.0.1:5000")
     print("直接运行: python scripts/web_app.py")
-    app.run(host="127.0.0.1", port=5000, debug=False)
+    app.run(host="127.0.0.1", port=5000, debug=False, threaded=False, use_reloader=False)
 
 
 if __name__ == "__main__":

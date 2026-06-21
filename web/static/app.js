@@ -406,6 +406,30 @@ function showKnowledgePanel(item) {
   cityPanelEl.classList.remove("hidden");
 }
 
+function waitForKnowledgeCity(timeoutMs = 12000) {
+  if (window.KnowledgeCity) {
+    return Promise.resolve();
+  }
+  return new Promise((resolve, reject) => {
+    const timer = window.setTimeout(() => {
+      cleanup();
+      reject(new Error("3D 模块未加载，请 Ctrl+F5 强刷后重试（若仍失败，检查浏览器控制台报错）"));
+    }, timeoutMs);
+
+    function onReady() {
+      cleanup();
+      resolve();
+    }
+
+    function cleanup() {
+      window.clearTimeout(timer);
+      window.removeEventListener("knowledge-city-ready", onReady);
+    }
+
+    window.addEventListener("knowledge-city-ready", onReady);
+  });
+}
+
 async function setCityMode(enabled) {
   if (enabled && uploadMode) {
     await setUploadMode(false);
@@ -430,10 +454,11 @@ async function setCityMode(enabled) {
   closeSidebar();
   hideCityPanel();
 
-  if (cityReady || !window.KnowledgeCity) return;
+  if (cityReady) return;
 
   cityStatsEl.textContent = "正在构建知识之城...";
   try {
+    await waitForKnowledgeCity();
     const data = await window.KnowledgeCity.open({
       canvas: cityCanvasEl,
       onSelect: showCityPanel,

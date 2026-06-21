@@ -55,9 +55,11 @@ function createLabelSprite(text) {
 
 function buildingMaterial() {
   return new THREE.MeshStandardMaterial({
-    color: 0x121216,
-    metalness: 0.15,
-    roughness: 0.82,
+    color: 0x24242e,
+    emissive: 0x15151a,
+    emissiveIntensity: 0.4,
+    metalness: 0.12,
+    roughness: 0.78,
   });
 }
 
@@ -893,7 +895,8 @@ function addKnowledgeCarOnOuterRing(knowledge, index, total, cx = 0, cz = 0, dis
   });
 }
 
-function buildKnowledgeCars(districtInfos) {
+function collectKnowledgeCarJobs(districtInfos) {
+  const jobs = [];
   districtInfos.forEach(({ buildings, cx, cz, index: districtIndex }) => {
     const districtBuildingIds = new Set(buildings.map((building) => building.id));
     const questions = [];
@@ -912,16 +915,45 @@ function buildKnowledgeCars(districtInfos) {
     });
 
     questions.forEach((question, carIndex) => {
-      addKnowledgeCarOnOuterRing(
+      jobs.push({
         question,
         carIndex,
-        questions.length,
+        total: questions.length,
         cx,
         cz,
-        districtIndex
-      );
+        districtIndex,
+      });
     });
   });
+  return jobs;
+}
+
+function buildKnowledgeCarsAsync(districtInfos) {
+  const jobs = collectKnowledgeCarJobs(districtInfos);
+  if (!jobs.length) return;
+
+  let cursor = 0;
+  const batchSize = 36;
+
+  const step = () => {
+    const end = Math.min(cursor + batchSize, jobs.length);
+    for (; cursor < end; cursor += 1) {
+      const job = jobs[cursor];
+      addKnowledgeCarOnOuterRing(
+        job.question,
+        job.carIndex,
+        job.total,
+        job.cx,
+        job.cz,
+        job.districtIndex
+      );
+    }
+    if (cursor < jobs.length) {
+      requestAnimationFrame(step);
+    }
+  };
+
+  requestAnimationFrame(step);
 }
 
 function buildDistrict(cx, cz, buildings, districtIndex, totalDistricts) {
@@ -930,6 +962,12 @@ function buildDistrict(cx, cz, buildings, districtIndex, totalDistricts) {
     scene.add(mesh);
     buildingMeshes.push(mesh);
   });
+
+  if (buildings.length) {
+    const ringLight = new THREE.PointLight(WARM, 0.9, BUILDING_RING_RADIUS * 2.6, 1.5);
+    ringLight.position.set(cx, 12, cz);
+    scene.add(ringLight);
+  }
 
   const segments = buildDistrictRoadNetwork(cx, cz);
   roadSegments.push(...segments);
@@ -1046,11 +1084,20 @@ function onPointerClick(event) {
 
 function onResize(canvas) {
   if (!camera || !renderer) return;
-  const width = canvas.clientWidth;
-  const height = canvas.clientHeight;
+  const width = Math.max(canvas.clientWidth, 1);
+  const height = Math.max(canvas.clientHeight, 1);
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
   renderer.setSize(width, height, false);
+}
+
+async function waitForCanvasSize(canvas, attempts = 24) {
+  for (let i = 0; i < attempts; i += 1) {
+    if (canvas.clientWidth > 0 && canvas.clientHeight > 0) {
+      return;
+    }
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+  }
 }
 
 export async function initKnowledgeCity(options) {
@@ -1059,9 +1106,14 @@ export async function initKnowledgeCity(options) {
   const canvas = options.canvas;
   if (!canvas) return;
 
+  await waitForCanvasSize(canvas);
+
   const response = await fetch("/api/knowledge-map");
   const payload = await response.json();
   if (!response.ok) throw new Error(payload.error || "加载知识地图失败");
+  if (!Array.isArray(payload.buildings) || !payload.buildings.length) {
+    throw new Error("知识库暂无楼宇数据，请先上传知识点");
+  }
   cityData = payload;
 
   const districtBuildingGroups = splitIntoDistricts(payload.buildings);
@@ -1084,7 +1136,9 @@ export async function initKnowledgeCity(options) {
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x08080a);
 
-  camera = new THREE.PerspectiveCamera(48, canvas.clientWidth / canvas.clientHeight, 0.1, 600);
+  const viewWidth = Math.max(canvas.clientWidth, 1);
+  const viewHeight = Math.max(canvas.clientHeight, 1);
+  camera = new THREE.PerspectiveCamera(48, viewWidth / viewHeight, 0.1, 600);
   const cameraBack = 52 + Math.max(0, totalDistricts - 1) * 14;
   const cameraHeight = 28 + Math.max(0, totalDistricts - 1) * 6;
   camera.position.set(sceneBounds.centerX, cameraHeight, sceneBounds.centerZ + cameraBack);
@@ -1093,7 +1147,7 @@ export async function initKnowledgeCity(options) {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 0.95;
-  renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+  renderer.setSize(viewWidth, viewHeight, false);
 
   controls = new OrbitControls(camera, canvas);
   controls.enableDamping = true;
@@ -1113,7 +1167,6 @@ export async function initKnowledgeCity(options) {
     buildDistrict(cx, cz, buildings, index, totalDistricts);
   });
 
-  buildKnowledgeCars(districtInfos);
   payload.districtSummaries = districtInfos.map(({ buildings, index }) => ({
     index: index + 1,
     buildingCount: buildings.length,
@@ -1128,6 +1181,7 @@ export async function initKnowledgeCity(options) {
 
   onResize(canvas);
   animate();
+  buildKnowledgeCarsAsync(districtInfos);
   return payload;
 }
 
