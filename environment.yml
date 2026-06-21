@@ -1,0 +1,15 @@
+name: user-kb-model
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - torch
+      - sentence-transformers>=2.7.0
+      - datasets
+      - accelerate>=1.1.0
+      - flask
+      - faiss-cpu
+      - numpy

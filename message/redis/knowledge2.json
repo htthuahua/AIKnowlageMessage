@@ -1,0 +1,219 @@
+[
+  {
+    "id": "redis_kb_015",
+    "question": "Redis分布式缓存需要解决哪四大核心问题？",
+    "summary": "关于「Redis分布式缓存需要解决哪四大核心问题？」的详细回答：\n\n【简要结论】\nRedis分布式缓存需要解决四大核心问题：①数据丢失问题（通过持久化解决）；②并发能力问题（通过主从集群、读写分离解决）；③故障恢复问题（通过哨兵机制实现健康检测和自动恢复）；④存储能力问题（通过分片集群、插槽机制实现动态扩容）。\n\n【详细解释】\n· Redis分布式缓存需要解决四大核心问题：①数据丢失问题（通过持久化解决）；。\n· ②并发能力问题（通过主从集群、读写分离解决）；。\n· ③故障恢复问题（通过哨兵机制实现健康检测和自动恢复）；。\n· ④存储能力问题（通过分片集群、插槽机制实现动态扩容）。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。",
+    "category": "分布式缓存",
+    "code": ""
+  },
+  {
+    "id": "redis_kb_016",
+    "question": "Redis主从同步的数据同步原理是什么？",
+    "summary": "关于「Redis主从同步的数据同步原理是什么？」的详细回答：\n\n【简要结论】\n主从第一次同步是全量同步，分为三个阶段：第一阶段slave执行replicaof命令建立连接，master判断是否第一次同步并返回数据版本信息；第二阶段master执行bgsave生成RDB文件并发送给slave，同时记录RDB期间的所有命令到repl_baklog；第三阶段master发送repl_baklog中的命令给slave执行。\n\n【详细解释】\n· 主从第一次同步是全量同步，分为三个阶段：第一阶段slave执行replicaof命令建立连接，master判断是否第一次同步并返回数据版本信息；。\n· 第二阶段master执行bgsave生成RDB文件并发送给slave，同时记录RDB期间的所有命令到repl_baklog；。\n  - 定期做内存快照，文件紧凑、恢复较快，适合备份；但快照间隔之间的数据可能丢失。\n· 第三阶段master发送repl_baklog中的命令给slave执行。\n\n【代码说明】\n· 配置/注释说明：\n  - slave节点执行\n  - 全量同步流程\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "主从同步",
+    "code": "// slave节点执行\nreplicaof <master_ip> <master_port>\n\n// 全量同步流程\n1. slave请求数据同步 -> master判断replid是否一致\n2. 不一致则执行bgsave生成RDB -> 发送RDB文件给slave\n3. slave清空本地数据，加载RDB\n4. master发送repl_baklog中的命令给slave执行"
+  },
+  {
+    "id": "redis_kb_017",
+    "question": "master如何判断slave是不是第一次来做数据同步？",
+    "summary": "关于「master如何判断slave是不是第一次来做数据同步？」的详细回答：\n\n【简要结论】\n通过两个重要概念判断：①Replication Id（replid）：数据集的标记，id一致说明是同一数据集，每个master都有唯一的replid，slave会继承master的replid；②offset（偏移量）：随着记录在repl_baklog中的数据增多而逐渐增大。slave完成同步时记录当前offset，如果slave的offset小于master的offset，说明slave数据落后需要更新。slave做数据同步时必须向master声明自己的replid和offset。\n\n【详细解释】\n· 通过两个重要概念判断：①Replication Id（replid）：数据集的标记，id一致说明是同一数据集，每个master都有唯一的replid，slave会继承master的replid；。\n· ②offset（偏移量）：随着记录在repl_baklog中的数据增多而逐渐增大。\n· slave完成同步时记录当前offset，如果slave的offset小于master的offset，说明slave数据落后需要更新。\n· slave做数据同步时必须向master声明自己的replid和offset。\n\n【代码说明】\n· 配置/注释说明：\n  - slave发送自己的replid和offset给master\n  - master判断逻辑\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "主从同步",
+    "code": "// slave发送自己的replid和offset给master\nPSYNC <replid> <offset>\n\n// master判断逻辑\nif (replid不一致) { 执行全量同步 }\nelse if (offset在repl_baklog范围内) { 执行增量同步 }\nelse { 执行全量同步 }"
+  },
+  {
+    "id": "redis_kb_018",
+    "question": "全量同步和增量同步有什么区别？什么时候分别执行？",
+    "summary": "关于「全量同步和增量同步有什么区别？什么时候分别执行？」的详细回答：\n\n【简要结论】\n全量同步：master将完整内存数据生成RDB，发送RDB到slave，后续命令记录在repl_baklog逐个发送。增量同步：slave提交自己的offset到master，master获取repl_baklog中从offset之后的命令给slave。执行全量同步的场景：slave第一次连接master时；slave断开时间太久，repl_baklog中的offset已被覆盖时。执行增量同步的场景：slave断开又恢复，并且在repl_baklog中能找到offset时。\n\n【详细解释】\n· 全量同步：master将完整内存数据生成RDB，发送RDB到slave，后续命令记录在repl_baklog逐个发送。\n  - 定期做内存快照，文件紧凑、恢复较快，适合备份；但快照间隔之间的数据可能丢失。\n· 增量同步：slave提交自己的offset到master，master获取repl_baklog中从offset之后的命令给slave。\n· 执行全量同步的场景：slave第一次连接master时；。\n· slave断开时间太久，repl_baklog中的offset已被覆盖时。\n· 执行增量同步的场景：slave断开又恢复，并且在repl_baklog中能找到offset时。\n\n【代码说明】\n· 配置/注释说明：\n  - 全量同步\n  - 增量同步（自动判断）\n  - slave重启后，如果replid一致且offset在repl_baklog范围内，自动执行增量同步\n  - 注意：repl_baklog大小有上限，写满后会覆盖最早的数据\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。\n\n完整代码示例见下方代码块。",
+    "category": "主从同步",
+    "code": "// 全量同步\nSLAVEOF master_ip master_port  // 第一次连接\n\n// 增量同步（自动判断）\n// slave重启后，如果replid一致且offset在repl_baklog范围内，自动执行增量同步\n\n// 注意：repl_baklog大小有上限，写满后会覆盖最早的数据"
+  },
+  {
+    "id": "redis_kb_019",
+    "question": "如何优化Redis主从集群？",
+    "summary": "关于「如何优化Redis主从集群？」的详细回答：\n\n【简要结论】\n优化方案：①在master中配置repl-diskless-sync yes启用无磁盘复制，避免全量同步时的磁盘IO；②Redis单节点内存占用不要太大，减少RDB导致的过多磁盘IO；③适当提高repl_baklog的大小，slave宕机时尽快实现故障恢复，尽可能避免全量同步；④限制一个master上的slave节点数量，如果太多可以采用主-从-从链式结构，减少master压力。\n\n【详细解释】\n· 优化方案：①在master中配置repl-diskless-sync yes启用无磁盘复制，避免全量同步时的磁盘IO；。\n· ②Redis单节点内存占用不要太大，减少RDB导致的过多磁盘IO；。\n  - 定期做内存快照，文件紧凑、恢复较快，适合备份；但快照间隔之间的数据可能丢失。\n· ③适当提高repl_baklog的大小，slave宕机时尽快实现故障恢复，尽可能避免全量同步；。\n· ④限制一个master上的slave节点数量，如果太多可以采用主-从-从链式结构，减少master压力。\n\n【代码说明】\n· 配置/注释说明：\n  - redis.conf 优化配置\n  - 适当增大repl_baklog\n  - 主-从-从链式结构\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "主从同步",
+    "code": "# redis.conf 优化配置\nrepl-diskless-sync yes\nrepl-backlog-size 10mb  # 适当增大repl_baklog\n\n# 主-从-从链式结构\nmaster -> slave1 -> slave2\n       -> slave3 -> slave4"
+  },
+  {
+    "id": "redis_kb_020",
+    "question": "集群宕机时如何处理？哨兵机制的作用是什么？",
+    "summary": "关于「集群宕机时如何处理？哨兵机制的作用是什么？」的详细回答：\n\n【简要结论】\n从节点宕机重启会从主节点进行消息获取。但主节点宕机时不能进行写操作，解决方案是找一个从节点转化为新主节点。Redis提供了哨兵(Sentinel)机制实现主从集群的自动故障恢复。哨兵的三个作用：①监控：不断检查master和slave是否按预期工作；②自动故障恢复：master故障时将一个slave提升为master，故障实例恢复后以新的master为主；③通知：充当Redis客户端的服务发现来源，集群故障转移时将最新信息推送给客户端。\n\n【详细解释】\n· 从节点宕机重启会从主节点进行消息获取。\n· 但主节点宕机时不能进行写操作，解决方案是找一个从节点转化为新主节点。\n· Redis提供了哨兵(Sentinel)机制实现主从集群的自动故障恢复。\n· 哨兵的三个作用：①监控：不断检查master和slave是否按预期工作；。\n· ②自动故障恢复：master故障时将一个slave提升为master，故障实例恢复后以新的master为主；。\n· ③通知：充当Redis客户端的服务发现来源，集群故障转移时将最新信息推送给客户端。\n\n【代码说明】\n· 配置/注释说明：\n  - Sentinel的三个作用\n  - 故障转移步骤\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "哨兵机制",
+    "code": "// Sentinel的三个作用\n1. 监控(Monitoring)\n2. 自动故障恢复(Auto-failover)\n3. 通知(Notification)\n\n// 故障转移步骤\n1. sentinel给备选slave发送slaveof no one，让其成为master\n2. sentinel给其他slave发送slaveof 新master\n3. sentinel将故障节点标记为slave，恢复后自动成为新master的slave"
+  },
+  {
+    "id": "redis_kb_021",
+    "question": "Sentinel如何判断一个Redis实例是否健康？选举新master的依据是什么？",
+    "summary": "关于「Sentinel如何判断一个Redis实例是否健康？选举新master的依据是什么？」的详细回答：\n\n【简要结论】\nSentinel基于心跳机制监测服务状态，每隔1秒向集群每个实例发送ping命令。主观下线：某Sentinel节点发现某实例未在规定时间响应。客观下线：超过指定数量(quorum)的Sentinel都认为该实例主观下线，quorum最好超过Sentinel实例数量的一半。选举新master的依据（按优先级）：①判断slave与master断开时间长短，超过down-after-milliseconds*10则排除；②判断slave-priority值，越小优先级越高，0则不参与选举；③priority一样则判断offset值，越大说明数据越新优先级越高；④最后判断slave运行id大小，越小优先级越高。\n\n【详细解释】\n· Sentinel基于心跳机制监测服务状态，每隔1秒向集群每个实例发送ping命令。\n· 主观下线：某Sentinel节点发现某实例未在规定时间响应。\n· 客观下线：超过指定数量(quorum)的Sentinel都认为该实例主观下线，quorum最好超过Sentinel实例数量的一半。\n· 选举新master的依据（按优先级）：①判断slave与master断开时间长短，超过down-after-milliseconds*10则排除；。\n· ②判断slave-priority值，越小优先级越高，0则不参与选举；。\n· ③priority一样则判断offset值，越大说明数据越新优先级越高；。\n· ④最后判断slave运行id大小，越小优先级越高。\n\n【代码说明】\n· 配置/注释说明：\n  - sentinel.conf 配置\n  - 选举新master的优先级\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "哨兵机制",
+    "code": "// sentinel.conf 配置\nsentinel monitor mymaster 192.168.150.101 7001 2  // 2为quorum\nsentinel down-after-milliseconds mymaster 5000\nsentinel slave-priority mymaster 100\n\n// 选举新master的优先级\n1. 断开时间 < down-after-milliseconds * 10\n2. slave-priority 越小越优先 (0不参与)\n3. offset 越大越优先\n4. runid 越小越优先"
+  },
+  {
+    "id": "redis_kb_022",
+    "question": "如何在SpringBoot中配置RedisTemplate的哨兵模式？",
+    "summary": "关于「如何在SpringBoot中配置RedisTemplate的哨兵模式？」的详细回答：\n\n【简要结论】\n配置步骤：①在pom中引入spring-boot-starter-data-redis依赖；②在application.yml中指定sentinel相关信息（master名称、nodes节点列表）；③配置主从读写分离，通过LettuceClientConfigurationBuilderCustomizer设置ReadFrom策略。ReadFrom枚举：MASTER（从主节点读取）、MASTER_PREFERRED（优先master，不可用才读replica）、REPLICA（从slave读取）、REPLICA_PREFERRED（优先slave，都不可用才读master）。\n\n【详细解释】\n· 配置步骤：①在pom中引入spring-boot-starter-data-redis依赖；。\n· ②在application.yml中指定sentinel相关信息（master名称、nodes节点列表）；。\n· ③配置主从读写分离，通过LettuceClientConfigurationBuilderCustomizer设置ReadFrom策略。\n· ReadFrom枚举：MASTER（从主节点读取）、MASTER_PREFERRED（优先master，不可用才读replica）、REPLICA（从slave读取）、REPLICA_PREFERRED（优先slave，都不可用才读master）。\n\n【代码说明】\n· 配置/注释说明：\n  - application.yml\n  - Java配置读写分离\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "哨兵模式",
+    "code": "// application.yml\nspring:\n  redis:\n    sentinel:\n      master: mymaster\n      nodes:\n        - 192.168.150.101:27001\n        - 192.168.150.101:27002\n        - 192.168.150.101:27003\n\n// Java配置读写分离\n@Bean\npublic LettuceClientConfigurationBuilderCustomizer configurationBuilderCustomizer(){\n    return configBuilder -> configBuilder.readFrom(ReadFrom.REPLICA_PREFERRED);\n}"
+  },
+  {
+    "id": "redis_kb_023",
+    "question": "Redis分片集群解决了什么问题？有什么特征？",
+    "summary": "关于「Redis分片集群解决了什么问题？有什么特征？」的详细回答：\n\n【简要结论】\n主从和哨兵可以解决高可用、高并发读的问题，但无法解决海量数据存储问题和高并发写的问题。分片集群特征：①集群中有多个master，每个master保存不同数据；②每个master都可以有多个slave节点；③master之间通过ping监测彼此健康状态；④客户端请求可以访问集群任意节点，最终都会被转发到正确节点。\n\n【详细解释】\n· 主从和哨兵可以解决高可用、高并发读的问题，但无法解决海量数据存储问题和高并发写的问题。\n· 分片集群特征：①集群中有多个master，每个master保存不同数据；。\n· ②每个master都可以有多个slave节点；。\n· ③master之间通过ping监测彼此健康状态；。\n· ④客户端请求可以访问集群任意节点，最终都会被转发到正确节点。\n\n【代码说明】\n· 配置/注释说明：\n  - 分片集群结构\n  - 多个master，每个master有slave\n  - master1 -- slave1\n  - master2 -- slave2\n  - master3 -- slave3\n  - 集群操作命令\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "分片集群",
+    "code": "// 分片集群结构\n// 多个master，每个master有slave\n// master1 -- slave1\n// master2 -- slave2\n// master3 -- slave3\n\n// 集群操作命令\nredis-cli --cluster help\nredis-cli --cluster create host1:port1 host2:port2 ... --cluster-replicas 1"
+  },
+  {
+    "id": "redis_kb_024",
+    "question": "什么是Redis散列插槽（Hash Slot）？如何判断key应该在哪个实例？",
+    "summary": "关于「什么是Redis散列插槽（Hash Slot）？如何判断key应该在哪个实例？」的详细回答：\n\n【简要结论】\nRedis将每个master节点映射到0~16383共16384个插槽（hash slot）。数据key不是与节点绑定，而是与插槽绑定。判断key所在实例的步骤：①将16384个插槽分配到不同实例；②根据key的有效部分计算哈希值，对16384取余；③余数作为插槽，寻找插槽所在实例。key的有效部分计算规则：key中包含{}且{}中至少包含1个字符，{}中的部分是有效部分；key中不包含{}，整个key都是有效部分。计算方式利用CRC16算法得到hash值，然后对16384取余得到slot值。\n\n【详细解释】\n· Redis将每个master节点映射到0~16383共16384个插槽（hash slot）。\n· 数据key不是与节点绑定，而是与插槽绑定。\n· 判断key所在实例的步骤：①将16384个插槽分配到不同实例；。\n· ②根据key的有效部分计算哈希值，对16384取余；。\n· ③余数作为插槽，寻找插槽所在实例。\n· key的有效部分计算规则：key中包含{}且{}中至少包含1个字符，{}中的部分是有效部分；。\n· key中不包含{}，整个key都是有效部分。\n· 计算方式利用CRC16算法得到hash值，然后对16384取余得到slot值。\n\n【代码说明】\n· 配置/注释说明：\n  - 查看集群插槽分配\n  - M: f5fc58df... 192.168.150.101:7001 slots:[0-5460]\n  - M: afaaa70d... 192.168.150.101:7002 slots:[5461-10922]\n  - M: 1c00e5f9... 192.168.150.101:7003 slots:[10923-16383]\n  - 将同一类数据固定保存在同一实例\n  - key都以{typeId}为前缀\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "分片集群",
+    "code": "// 查看集群插槽分配\nCLUSTER NODES\n// M: f5fc58df... 192.168.150.101:7001 slots:[0-5460]\n// M: afaaa70d... 192.168.150.101:7002 slots:[5461-10922]\n// M: 1c00e5f9... 192.168.150.101:7003 slots:[10923-16383]\n\n// 将同一类数据固定保存在同一实例\n// key都以{typeId}为前缀\nSET {user}:1:name jack\nSET {user}:1:age 21\n// 有效部分都是user，会落在同一slot"
+  },
+  {
+    "id": "redis_kb_025",
+    "question": "如何对Redis分片集群进行伸缩（添加节点）？",
+    "summary": "关于「如何对Redis分片集群进行伸缩（添加节点）？」的详细回答：\n\n【简要结论】\nredis-cli --cluster提供了很多操作集群的命令，包括create、check、info、fix、add-node等。添加节点的命令格式：redis-cli --cluster add-node new_host:new_port existing_host:existing_port [--cluster-slave --cluster-master-id <arg>]。本质就是集群的扩容。\n\n【详细解释】\n· redis-cli --cluster提供了很多操作集群的命令，包括create、check、info、fix、add-node等。\n· 添加节点的命令格式：redis-cli --cluster add-node new_host:new_port existing_host:existing_port [--cluster-slave --cluster-master-id <arg>]。\n· 本质就是集群的扩容。\n\n【代码说明】\n· 配置/注释说明：\n  - 查看集群命令帮助\n  - 添加master节点\n  - 添加slave节点并指定master\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "分片集群",
+    "code": "# 查看集群命令帮助\nredis-cli --cluster help\n\n# 添加master节点\nredis-cli --cluster add-node 192.168.150.101:7004 192.168.150.101:7001\n\n# 添加slave节点并指定master\nredis-cli --cluster add-node 192.168.150.101:7005 192.168.150.101:7001 --cluster-slave --cluster-master-id <master-id>"
+  },
+  {
+    "id": "redis_kb_026",
+    "question": "JVM进程内缓存和分布式缓存（如Redis）有什么区别？",
+    "summary": "关于「JVM进程内缓存和分布式缓存（如Redis）有什么区别？」的详细回答：\n\n【简要结论】\nJVM缓存（本地缓存）是进程内缓存(In-Process Cache)，数据存储在当前JVM进程的堆内存中，仅该进程可见。分布式缓存（如Redis）是进程间共享的缓存，所有进程/集群可见。JVM缓存访问速度极快（纳秒/微秒级），但多实例部署时数据可能不一致；分布式缓存访问速度快（毫秒级），天然一致但受网络RTT影响。典型实现：JVM缓存有Caffeine、Guava Cache、Ehcache；分布式缓存有Redis、Memcached。\n\n【详细解释】\n· JVM缓存（本地缓存）是进程内缓存(In-Process Cache)，数据存储在当前JVM进程的堆内存中，仅该进程可见。\n· 分布式缓存（如Redis）是进程间共享的缓存，所有进程/集群可见。\n· JVM缓存访问速度极快（纳秒/微秒级），但多实例部署时数据可能不一致；。\n· 分布式缓存访问速度快（毫秒级），天然一致但受网络RTT影响。\n· 典型实现：JVM缓存有Caffeine、Guava Cache、Ehcache；。\n· 分布式缓存有Redis、Memcached。\n\n【代码说明】\n· 配置/注释说明：\n  - JVM进程内缓存 vs 分布式缓存对比\n  - 存储位置：JVM Heap vs 独立缓存服务器\n  - 可见范围：仅当前进程 vs 所有进程/集群\n  - 访问速度：纳秒/微秒级 vs 毫秒级\n  - 数据一致性：多实例可能不一致 vs 天然一致\n  - 容量限制：单机JVM Heap vs 可横向扩展\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 缓存为主、允许少量丢失：可优先考虑 RDB 或混合持久化。\n· 数据安全要求高：倾向 AOF（everysec），并结合主从/集群保证可用性。\n· 修改 redis.conf 后需重启或执行 CONFIG REWRITE 使配置持久生效。\n\n完整代码示例见下方代码块。",
+    "category": "多级缓存",
+    "code": "// JVM进程内缓存 vs 分布式缓存对比\n// 存储位置：JVM Heap vs 独立缓存服务器\n// 可见范围：仅当前进程 vs 所有进程/集群\n// 访问速度：纳秒/微秒级 vs 毫秒级\n// 数据一致性：多实例可能不一致 vs 天然一致\n// 容量限制：单机JVM Heap vs 可横向扩展\n// 生命周期：随进程重启丢失 vs 持久化/独立存在"
+  },
+  {
+    "id": "redis_kb_027",
+    "question": "为什么需要多级缓存架构？典型架构是怎样的？",
+    "summary": "关于「为什么需要多级缓存架构？典型架构是怎样的？」的详细回答：\n\n【简要结论】\n在超高并发场景（如秒杀、热点商品查询）下，即使Redis很快，网络IO和序列化/反序列化依然是瓶颈。多级缓存策略：L1 JVM进程缓存（Caffeine/Guava）- 请求首先到达应用服务器，先查JVM内存，命中直接返回，速度最快扛住绝大部分流量；L2 分布式缓存（Redis）- JVM未命中则查Redis，命中后回写到JVM缓存；L3 数据库（MySQL）- Redis也未命中才查数据库，并回填到Redis和JVM。\n\n【详细解释】\n· 在超高并发场景（如秒杀、热点商品查询）下，即使Redis很快，网络IO和序列化/反序列化依然是瓶颈。\n· 多级缓存策略：L1 JVM进程缓存（Caffeine/Guava）- 请求首先到达应用服务器，先查JVM内存，命中直接返回，速度最快扛住绝大部分流量；。\n· L2 分布式缓存（Redis）- JVM未命中则查Redis，命中后回写到JVM缓存；。\n· L3 数据库（MySQL）- Redis也未命中才查数据库，并回填到Redis和JVM。\n\n【代码说明】\n· 配置/注释说明：\n  - 多级缓存读取流程\n  - L1: JVM本地缓存\n  - L2: Redis分布式缓存\n  - L3: 数据库\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "多级缓存",
+    "code": "// 多级缓存读取流程\npublic Object getData(String key) {\n    // L1: JVM本地缓存\n    Object value = caffeineCache.getIfPresent(key);\n    if (value != null) return value;\n    \n    // L2: Redis分布式缓存\n    value = redisTemplate.opsForValue().get(key);\n    if (value != null) {\n        caffeineCache.put(key, value);  // 回写到JVM缓存\n        return value;\n    }\n    \n    // L3: 数据库\n    value = db.query(key);\n    redisTemplate.opsForValue().set(key, value);\n    caffeineCache.put(key, value);\n    return value;\n}"
+  },
+  {
+    "id": "redis_kb_028",
+    "question": "JVM缓存的主流实现方案有哪些？",
+    "summary": "关于「JVM缓存的主流实现方案有哪些？」的详细回答：\n\n【简要结论】\n三种主流方案：①Caffeine（推荐，Spring Boot 2.x/3.x默认）：由Google Guava作者编写，性能优于Guava，基于W-TinyLFU算法，淘汰策略更智能，支持异步加载，适用于高频读取、数据量适中场景；②Guava Cache：老牌强者，功能丰富，API友好，高并发下淘汰算法略逊于Caffeine，新项目建议优先选Caffeine；③Ehcache：既可作为本地缓存也可配置为分布式缓存，配置相对重，纯本地场景性能不如Caffeine。\n\n【详细解释】\n· 三种主流方案：①Caffeine（推荐，Spring Boot 2.x/3.x默认）：由Google Guava作者编写，性能优于Guava，基于W-TinyLFU算法，淘汰策略更智能，支持异步加载，适用于高频读取、数据量适中场景；。\n· ②Guava Cache：老牌强者，功能丰富，API友好，高并发下淘汰算法略逊于Caffeine，新项目建议优先选Caffeine；。\n· ③Ehcache：既可作为本地缓存也可配置为分布式缓存，配置相对重，纯本地场景性能不如Caffeine。\n\n【代码说明】\n· 配置/注释说明：\n  - Caffeine示例\n  - 获取数据（若不存在则通过Function加载）\n  - Guava Cache（类似API）\n  - Ehcache（XML配置方式）\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "多级缓存",
+    "code": "// Caffeine示例\nCache<String, Object> cache = Caffeine.newBuilder()\n    .maximumSize(10_000)           // 最大条目数\n    .expireAfterWrite(10, TimeUnit.MINUTES)  // 过期时间\n    .recordStats()\n    .build();\n\n// 获取数据（若不存在则通过Function加载）\nObject data = cache.get(\"key\", k -> loadFromDb(k));\n\n// Guava Cache（类似API）\n// Ehcache（XML配置方式）"
+  },
+  {
+    "id": "redis_kb_029",
+    "question": "多级缓存中数据一致性问题的解决方案有哪些？",
+    "summary": "关于「多级缓存中数据一致性问题的解决方案有哪些？」的详细回答：\n\n【简要结论】\n使用JVM缓存构建多级缓存时，最大痛点是数据一致性。当数据库数据更新时，如何保证集群中所有JVM节点的缓存都更新？解决方案：①设置较短的过期时间(TTL)：最简单粗暴，允许短暂不一致，适合读多写少且对实时性要求不极端的场景；②广播失效消息(Pub/Sub)：利用Redis发布订阅功能，某节点更新数据后向Redis Channel发送清除Key的消息，其他节点订阅该Channel收到消息后清除本地JVM缓存；③版本号机制：缓存数据中携带版本号，读取时校验版本，实现较复杂。\n\n【详细解释】\n· 使用JVM缓存构建多级缓存时，最大痛点是数据一致性。\n· 当数据库数据更新时，如何保证集群中所有JVM节点的缓存都更新？。\n· 解决方案：①设置较短的过期时间(TTL)：最简单粗暴，允许短暂不一致，适合读多写少且对实时性要求不极端的场景；。\n· ②广播失效消息(Pub/Sub)：利用Redis发布订阅功能，某节点更新数据后向Redis Channel发送清除Key的消息，其他节点订阅该Channel收到消息后清除本地JVM缓存；。\n· ③版本号机制：缓存数据中携带版本号，读取时校验版本，实现较复杂。\n\n【代码说明】\n· 配置/注释说明：\n  - 方案1: 设置较短TTL\n  - 方案2: Redis Pub/Sub广播失效\n  - 更新数据后发布消息\n  - 其他节点订阅\n  - 方案3: 版本号机制（略）\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "多级缓存",
+    "code": "// 方案1: 设置较短TTL\ncache.put(key, value, 5, TimeUnit.MINUTES);\n\n// 方案2: Redis Pub/Sub广播失效\n// 更新数据后发布消息\nredisTemplate.convertAndSend(\"cache:invalidate\", key);\n\n// 其他节点订阅\nredisMessageListenerContainer.addMessageListener(\n    (message, pattern) -> {\n        String key = message.toString();\n        caffeineCache.invalidate(key);\n    },\n    new PatternTopic(\"cache:invalidate\")\n);\n\n// 方案3: 版本号机制（略）"
+  },
+  {
+    "id": "redis_kb_030",
+    "question": "Lua语言的基础特性有哪些？",
+    "summary": "关于「Lua语言的基础特性有哪些？」的详细回答：\n\n【简要结论】\nLua是一门轻量级、可嵌入、高性能的脚本语言，语法设计哲学是极简主义。基础特性：①动态类型：变量不需要声明类型，类型属于值不属于变量；②区分大小写：var和Var是不同的；③注释：单行用--，多行用--[[ 多行注释 ]]；④语句分隔：通常用换行符，也可用分号分隔。\n\n【详细解释】\n· Lua是一门轻量级、可嵌入、高性能的脚本语言，语法设计哲学是极简主义。\n· 基础特性：①动态类型：变量不需要声明类型，类型属于值不属于变量；。\n· ②区分大小写：var和Var是不同的；。\n  - var 让编译器根据首次赋值推断类型，适合局部变量快速声明。\n· ③注释：单行用--，多行用--[[ 多行注释 ]]；。\n· ④语句分隔：通常用换行符，也可用分号分隔。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Lua语言",
+    "code": "-- Lua基础特性\n-- 动态类型\nlocal a = 10      -- number\na = \"hello\"       -- string\n\n-- 注释\n-- 单行注释\n--[[\n  多行注释\n]]\n\n-- 语句分隔\nlocal x = 1; local y = 2"
+  },
+  {
+    "id": "redis_kb_031",
+    "question": "Lua有哪些基本数据类型？",
+    "summary": "关于「Lua有哪些基本数据类型？」的详细回答：\n\n【简要结论】\nLua有8种基本数据类型：①nil：表示空值或不存在的值；②boolean：true或false，注意只有false和nil被视为假，0和空字符串都是真；③number：双精度浮点数；④string：字符串；⑤function：函数是第一类公民；⑥table：最重要的数据结构，既是数组又是字典；⑦userdata：用于存储C语言的数据结构；⑧thread：协程。\n\n【详细解释】\n· Lua有8种基本数据类型：①nil：表示空值或不存在的值；。\n· ②boolean：true或false，注意只有false和nil被视为假，0和空字符串都是真；。\n· ③number：双精度浮点数；。\n· ④string：字符串；。\n· ⑤function：函数是第一类公民；。\n· ⑥table：最重要的数据结构，既是数组又是字典；。\n· ⑦userdata：用于存储C语言的数据结构；。\n· ⑧thread：协程。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Lua语言",
+    "code": "-- Lua 8种基本数据类型\nlocal n = nil\nlocal b = true\nlocal num = 3.14\nlocal str = \"hello\"\nlocal func = function() end\nlocal t = {1, 2, 3}\n\n-- 注意：只有false和nil为假\nif 0 then print(\"0 is true\") end      -- 输出\nif \"\" then print(\"empty string is true\") end  -- 输出"
+  },
+  {
+    "id": "redis_kb_032",
+    "question": "Lua中变量与赋值有什么特点？",
+    "summary": "关于「Lua中变量与赋值有什么特点？」的详细回答：\n\n【简要结论】\n全局变量：默认直接赋值即为全局变量（不推荐，容易污染全局命名空间）。局部变量：必须使用local关键字声明（强烈推荐，性能更好且安全）。支持多重赋值。\n\n【详细解释】\n· 全局变量：默认直接赋值即为全局变量（不推荐，容易污染全局命名空间）。\n· 局部变量：必须使用local关键字声明（强烈推荐，性能更好且安全）。\n· 支持多重赋值。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Lua语言",
+    "code": "-- 全局变量（不推荐）\nname = \"World\"\n\n-- 局部变量（推荐）\nlocal age = 18\n\n-- 多重赋值\nlocal x, y, z = 1, 2, 3\n\n-- 交换变量\nlocal a, b = 1, 2\na, b = b, a   -- a=2, b=1"
+  },
+  {
+    "id": "redis_kb_033",
+    "question": "Lua的控制结构（if、循环）语法是怎样的？",
+    "summary": "关于「Lua的控制结构（if、循环）语法是怎样的？」的详细回答：\n\n【简要结论】\n条件判断(if)：if 条件 then ... elseif 条件 then ... else ... end，必须有end结尾。循环：①while循环：while 条件 do ... end；②repeat...until循环：类似do...while，先执行后判断，条件满足时停止；③for循环(数值型)：for i = 1, 5 do ... end，可指定步长for i = 10, 1, -2 do；④for循环(泛型/迭代器)：用于遍历table，for k, v in pairs(t) do。\n\n【详细解释】\n· 条件判断(if)：if 条件 then ... elseif 条件 then ... else ... end，必须有end结尾。\n· 循环：①while循环：while 条件 do ... end；。\n· ②repeat...until循环：类似do...while，先执行后判断，条件满足时停止；。\n· ③for循环(数值型)：for i = 1, 5 do ... end，可指定步长for i = 10, 1, -2 do；。\n· ④for循环(泛型/迭代器)：用于遍历table，for k, v in pairs(t) do。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Lua语言",
+    "code": "-- if条件判断\nlocal score = 85\nif score >= 90 then\n    print(\"优秀\")\nelseif score >= 60 then\n    print(\"及格\")\nelse\n    print(\"不及格\")\nend\n\n-- while循环\nlocal i = 1\nwhile i <= 5 do\n    print(i)\n    i = i + 1\nend\n\n-- repeat...until\nlocal i = 1\nrepeat\n    print(i)\n    i = i + 1\nuntil i > 5\n\n-- for数值型\nfor i = 1, 5 do print(i) end\nfor i = 10, 1, -2 do print(i) end\n\n-- for泛型遍历\nlocal t = {a=1, b=2}\nfor k, v in pairs(t) do print(k, v) end"
+  },
+  {
+    "id": "redis_kb_034",
+    "question": "Lua中Table（表）的核心特性和用法是什么？",
+    "summary": "关于「Lua中Table（表）的核心特性和用法是什么？」的详细回答：\n\n【简要结论】\nTable是Lua的灵魂，既不是纯粹的数组也不是纯粹的哈希表，而是两者的结合。特性：①索引默认从1开始（不是0！）；②动态扩容，不需要预设大小。用法：作为数组（Array）：local arr = {10, 20, 30}；作为字典（Hash Map）：local user = {name=\"Alice\", age=25}；混合使用。遍历：ipairs按数字索引顺序遍历（遇到nil停止），pairs无序遍历所有键值对。常用操作：获取长度#t（仅对连续数字索引数组有效），插入table.insert(t, value)，删除table.remove(t, pos)。\n\n【详细解释】\n· Table是Lua的灵魂，既不是纯粹的数组也不是纯粹的哈希表，而是两者的结合。\n· 特性：①索引默认从1开始（不是0！。\n· ）；。\n· ②动态扩容，不需要预设大小。\n· 用法：作为数组（Array）：local arr = {10, 20, 30}；。\n· 作为字典（Hash Map）：local user = {name=\"Alice\", age=25}；。\n· 混合使用。\n· 遍历：ipairs按数字索引顺序遍历（遇到nil停止），pairs无序遍历所有键值对。\n· 常用操作：获取长度#t（仅对连续数字索引数组有效），插入table.insert(t, value)，删除table.remove(t, pos)。\n\n【代码说明】\n· 配置/注释说明：\n  - arr)                -- 获取长度\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Lua语言",
+    "code": "-- 作为数组\nlocal arr = {10, 20, 30}\nprint(arr[1])  -- 输出10（注意：不是0！）\n\n-- 作为字典\nlocal user = {\n    name = \"Alice\",\n    age = 25,\n    [\"favorite color\"] = \"Blue\"\n}\nprint(user.name)           -- Alice（点语法糖）\nprint(user[\"age\"])         -- 25\n\n-- 混合使用\nlocal mixed = {\n    \"Apple\", \"Banana\",    -- 数组部分，索引1, 2\n    id = 100,              -- 字典部分\n    [5] = \"Orange\"         -- 指定索引\n}\n\n-- 遍历\nfor index, value in ipairs(arr) do print(index, value) end\nfor key, value in pairs(user) do print(key, value) end\n\n-- 常用操作\nprint(#arr)                -- 获取长度\ntable.insert(arr, 40)      -- 插入\ntable.remove(arr, 2)       -- 删除"
+  },
+  {
+    "id": "redis_kb_035",
+    "question": "Lua中函数（Function）有什么特点？",
+    "summary": "关于「Lua中函数（Function）有什么特点？」的详细回答：\n\n【简要结论】\nLua中函数是第一类公民，可以赋值给变量、作为参数传递。特点：①可以返回多个值；②支持匿名函数（Lambda）；③支持可变参数(...)，{...}将参数打包成table。\n\n【详细解释】\n· Lua中函数是第一类公民，可以赋值给变量、作为参数传递。\n· 特点：①可以返回多个值；。\n· ②支持匿名函数（Lambda）；。\n· ③支持可变参数(...)，{...}将参数打包成table。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Lua语言",
+    "code": "-- 定义函数\nfunction add(a, b)\n    return a + b\nend\n\n-- 匿名函数（Lambda）\nlocal multiply = function(a, b)\n    return a * b\nend\n\n-- 返回多个值\nfunction getInfo()\n    return \"Bob\", 30, true\nend\nlocal name, age, isMember = getInfo()\n\n-- 可变参数\nfunction sum(...)\n    local s = 0\n    for _, v in ipairs({...}) do\n        s = s + v\n    end\n    return s\nend\nprint(sum(1, 2, 3, 4))  -- 10"
+  },
+  {
+    "id": "redis_kb_036",
+    "question": "Lua中字符串操作和模块（Module）如何使用？",
+    "summary": "关于「Lua中字符串操作和模块（Module）如何使用？」的详细回答：\n\n【简要结论】\nLua字符串是不可变的，常用操作在string库中。连接使用..（两个点）。常用API：string.sub(s, 1, 5)截取，string.lower/upper大小写转换，string.find查找，string.gsub替换。模式匹配：Lua有自己的模式匹配语法（类似正则但更轻量），如%d+匹配数字。模块：使用require加载模块，定义模块时创建一个table作为namespace，最后return该table。\n\n【详细解释】\n· Lua字符串是不可变的，常用操作在string库中。\n· 连接使用..（两个点）。\n· 常用API：string.sub(s, 1, 5)截取，string.lower/upper大小写转换，string.find查找，string.gsub替换。\n· 模式匹配：Lua有自己的模式匹配语法（类似正则但更轻量），如%d+匹配数字。\n· 模块：使用require加载模块，定义模块时创建一个table作为namespace，最后return该table。\n\n【代码说明】\n· 配置/注释说明：\n  - s)  -- 长度\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Lua语言",
+    "code": "-- 字符串操作\nlocal s = \"Hello world\"\nlocal full = \"Hi\" .. \", \" .. \"Lua\"  -- 连接\nprint(#s)  -- 长度\n\n-- 常用API\nstring.sub(s, 1, 5)      -- \"Hello\"（截取）\nstring.lower(s)          -- \"hello world\"\nstring.find(s, \"world\") -- 返回起始和结束索引\nstring.gsub(s, \"world\", \"Lua\")  -- 替换\n\n-- 定义模块 (mymodule.lua)\nlocal M = {}\nfunction M.sayHi()\n    print(\"Hello from module!\")\nend\nM.version = 1.0\nreturn M\n\n-- 使用模块\nlocal myMod = require(\"mymodule\")\nmyMod.sayHi()\nprint(myMod.version)"
+  },
+  {
+    "id": "redis_kb_037",
+    "question": "Lua中如何实现面向对象（OOP）？",
+    "summary": "关于「Lua中如何实现面向对象（OOP）？」的详细回答：\n\n【简要结论】\nLua本身没有class关键字，通过Table + 元表(Metatable)模拟实现。关键步骤：①定义一个table作为类；②设置__index元方法指向自身；③定义构造函数使用setmetatable创建对象；④使用冒号:定义方法（自动传入self）；⑤继承通过设置子类的元表指向父类实现。\n\n【详细解释】\n· Lua本身没有class关键字，通过Table + 元表(Metatable)模拟实现。\n· 关键步骤：①定义一个table作为类；。\n· ②设置__index元方法指向自身；。\n· ③定义构造函数使用setmetatable创建对象；。\n· ④使用冒号:定义方法（自动传入self）；。\n· ⑤继承通过设置子类的元表指向父类实现。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Lua语言",
+    "code": "-- 定义一个\"类\"\nlocal Animal = {}\nAnimal.__index = Animal  -- 关键：设置__index元方法\n\n-- 构造函数\nfunction Animal:new(name)\n    local obj = setmetatable({}, self)\n    obj.name = name\n    return obj\nend\n\nfunction Animal:speak()\n    print(self.name .. \" makes a sound\")\nend\n\n-- 继承\nlocal Dog = {}\nDog.__index = Dog\nsetmetatable(Dog, Animal)  -- Dog的原型是Animal\n\nfunction Dog:speak()\n    print(self.name .. \" barks\")\nend\n\n-- 使用\nlocal d = Dog:new(\"Buddy\")\nd:speak()  -- 输出: Buddy barks"
+  },
+  {
+    "id": "redis_kb_038",
+    "question": "什么是OpenResty？有什么特点？",
+    "summary": "关于「什么是OpenResty？有什么特点？」的详细回答：\n\n【简要结论】\nOpenResty是一个基于Nginx的高性能Web平台，用于方便地搭建能够处理超高并发、扩展性极高的动态Web应用、Web服务和动态网关。特点：①具备Nginx的完整功能；②基于Lua语言进行扩展，集成了大量精良的Lua库、第三方模块；③允许使用Lua自定义业务逻辑、自定义库。\n\n【详细解释】\n· OpenResty是一个基于Nginx的高性能Web平台，用于方便地搭建能够处理超高并发、扩展性极高的动态Web应用、Web服务和动态网关。\n· 特点：①具备Nginx的完整功能；。\n· ②基于Lua语言进行扩展，集成了大量精良的Lua库、第三方模块；。\n· ③允许使用Lua自定义业务逻辑、自定义库。\n\n【代码说明】\n· 配置/注释说明：\n  - OpenResty特点\n  - 官方网站\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "OpenResty",
+    "code": "// OpenResty特点\n1. 基于Nginx的高性能Web平台\n2. 集成了大量Lua库和第三方模块\n3. 允许使用Lua自定义业务逻辑\n\n// 官方网站\nhttps://openresty.org/cn/"
+  },
+  {
+    "id": "redis_kb_039",
+    "question": "OpenResty快速入门的步骤是什么？",
+    "summary": "关于「OpenResty快速入门的步骤是什么？」的详细回答：\n\n【简要结论】\n步骤一：修改nginx.conf文件。①在http下面添加对OpenResty的Lua模块加载（lua_package_path和lua_package_cpath）；②在server下面添加对/api/item路径的监听，使用content_by_lua_file指定lua文件。步骤二：编写item.lua文件。①在nginx目录创建lua文件夹；②新建item.lua文件；③使用ngx.say()返回JSON数据。步骤三：重新加载配置nginx -s reload。\n\n【详细解释】\n· 步骤一：修改nginx.conf文件。\n· ①在http下面添加对OpenResty的Lua模块加载（lua_package_path和lua_package_cpath）；。\n· ②在server下面添加对/api/item路径的监听，使用content_by_lua_file指定lua文件。\n· 步骤二：编写item.lua文件。\n· ①在nginx目录创建lua文件夹；。\n· ②新建item.lua文件；。\n· ③使用ngx.say()返回JSON数据。\n· 步骤三：重新加载配置nginx -s reload。\n\n【代码说明】\n· 配置/注释说明：\n  - nginx.conf 配置\n  - 加载lua模块\n  - 重新加载\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "OpenResty",
+    "code": "# nginx.conf 配置\nhttp {\n    # 加载lua模块\n    lua_package_path \"/usr/local/openresty/lualib/?.lua;;\";\n    lua_package_cpath \"/usr/local/openresty/lualib/?.so;;\";\n    \n    server {\n        location /api/item {\n            default_type application/json;\n            content_by_lua_file lua/item.lua;\n        }\n    }\n}\n\n-- lua/item.lua\nngx.say('\"{\\\"id\\\":10001,\\\"name\\\":\\\"SALSA AIR\\\"}\"')\n\n# 重新加载\nnginx -s reload"
+  },
+  {
+    "id": "redis_kb_040",
+    "question": "OpenResty如何获取不同类型的请求参数？",
+    "summary": "关于「OpenResty如何获取不同类型的请求参数？」的详细回答：\n\n【简要结论】\nOpenResty提供了各种API获取不同类型的请求参数：①路径占位符（如/item/1001）：使用ngx.var[1]获取；②请求头：ngx.req.get_headers()返回table类型；③GET请求参数：ngx.req.get_uri_args()返回table类型；④POST表单参数：先ngx.req.read_body()，再ngx.req.get_post_args()返回table类型；⑤JSON参数：先ngx.req.read_body()，再ngx.req.get_body_data()返回string类型。\n\n【详细解释】\n· OpenResty提供了各种API获取不同类型的请求参数：①路径占位符（如/item/1001）：使用ngx.var[1]获取；。\n  - var 让编译器根据首次赋值推断类型，适合局部变量快速声明。\n· ②请求头：ngx.req.get_headers()返回table类型；。\n· ③GET请求参数：ngx.req.get_uri_args()返回table类型；。\n· ④POST表单参数：先ngx.req.read_body()，再ngx.req.get_post_args()返回table类型；。\n· ⑤JSON参数：先ngx.req.read_body()，再ngx.req.get_body_data()返回string类型。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "OpenResty",
+    "code": "-- 路径占位符 /item/1001\nlocal id = ngx.var[1]\n\n-- 请求头\nlocal headers = ngx.req.get_headers()\n\n-- GET请求参数 ?id=1001\nlocal getParams = ngx.req.get_uri_args()\n\n-- POST表单参数\nngx.req.read_body()\nlocal postParams = ngx.req.get_post_args()\n\n-- JSON参数\nngx.req.read_body()\nlocal jsonBody = ngx.req.get_body_data()"
+  },
+  {
+    "id": "redis_kb_041",
+    "question": "OpenResty中如何发送HTTP请求查询Tomcat？如何封装HTTP查询函数？",
+    "summary": "关于「OpenResty中如何发送HTTP请求查询Tomcat？如何封装HTTP查询函数？」的详细回答：\n\n【简要结论】\nnginx提供了内部API ngx.location.capture发送http请求。返回内容包括resp.status（状态码）、resp.header（响应头table）、resp.body（响应体）。注意path是路径不包含IP和端口，请求会被nginx内部server监听处理。发送到Tomcat需要编写一个server对该路径做反向代理。封装步骤：①在/usr/local/openresty/lualib目录下创建common.lua；②封装read_http函数发送http请求并解析响应；③将方法导出返回。\n\n【详细解释】\n· nginx提供了内部API ngx.location.capture发送http请求。\n· 返回内容包括resp.status（状态码）、resp.header（响应头table）、resp.body（响应体）。\n· 注意path是路径不包含IP和端口，请求会被nginx内部server监听处理。\n· 发送到Tomcat需要编写一个server对该路径做反向代理。\n· 封装步骤：①在/usr/local/openresty/lualib目录下创建common.lua；。\n· ②封装read_http函数发送http请求并解析响应；。\n· ③将方法导出返回。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "OpenResty",
+    "code": "-- 发送HTTP请求\nlocal resp = ngx.location.capture(\"/path\", {\n    method = ngx.HTTP_GET,\n    args = {a=1, b=2},\n    body = \"c=3&d=4\"\n})\n\n-- 反向代理到Tomcat\nlocation /path {\n    proxy_pass http://192.168.150.1:8081;\n}\n\n-- common.lua 封装\nlocal function read_http(path, params)\n    local resp = ngx.location.capture(path, {\n        method = ngx.HTTP_GET,\n        args = params,\n    })\n    if not resp then\n        ngx.log(ngx.ERR, \"http not found\")\n        ngx.exit(404)\n    end\n    return resp.body\nend\nlocal _M = { read_http = read_http }\nreturn _M"
+  },
+  {
+    "id": "redis_kb_042",
+    "question": "OpenResty中如何处理JSON数据？",
+    "summary": "关于「OpenResty中如何处理JSON数据？」的详细回答：\n\n【简要结论】\nOpenResty提供了cjson模块处理JSON的序列化和反序列化。引入：local cjson = require \"cjson\"。序列化：cjson.encode(obj)。反序列化：cjson.decode(jsonString)。\n\n【详细解释】\n· OpenResty提供了cjson模块处理JSON的序列化和反序列化。\n· 引入：local cjson = require \"cjson\"。\n· 序列化：cjson.encode(obj)。\n· 反序列化：cjson.decode(jsonString)。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "OpenResty",
+    "code": "-- 引入cjson模块\nlocal cjson = require \"cjson\"\n\n-- 序列化\nlocal obj = {\n    name = 'jack',\n    age = 21\n}\nlocal json = cjson.encode(obj)\n\n-- 反序列化\nlocal jsonStr = '{\"name\": \"jack\", \"age\": 21}'\nlocal obj = cjson.decode(jsonStr)\nprint(obj.name)  -- jack\n\n-- 实际应用：查询商品信息\nlocal common = require('common')\nlocal read_http = common.read_http\nlocal cjson = require('cjson')\n\nlocal id = ngx.var[1]\nlocal itemJSON = read_http(\"/item/\" .. id, nil)\nlocal stockJSON = read_http(\"/item/stock/\" .. id, nil)\n\nlocal item = cjson.decode(itemJSON)\nlocal stock = cjson.decode(stockJSON)\nitem.stock = stock.stock\nitem.sold = stock.sold\n\nngx.say(cjson.encode(item))"
+  },
+  {
+    "id": "redis_kb_043",
+    "question": "如何实现Tomcat集群的负载均衡？",
+    "summary": "关于「如何实现Tomcat集群的负载均衡？」的详细回答：\n\n【简要结论】\n通过Nginx/OpenResty配置反向代理和upstream实现Tomcat集群负载均衡。配置upstream定义Tomcat集群，使用hash $request_uri进行取模（保证同一请求路由到同一节点）。location配置将/item路径请求代理到tomcat-cluster。\n\n【详细解释】\n· 通过Nginx/OpenResty配置反向代理和upstream实现Tomcat集群负载均衡。\n· 配置upstream定义Tomcat集群，使用hash $request_uri进行取模（保证同一请求路由到同一节点）。\n· location配置将/item路径请求代理到tomcat-cluster。\n\n【代码说明】\n· 配置/注释说明：\n  - nginx.conf\n  - tomcat集群配置\n  - 反向代理配置\n  - 架构流程\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "负载均衡",
+    "code": "# nginx.conf\n# tomcat集群配置\nupstream tomcat-cluster {\n    hash $request_uri;\n    server 192.168.150.1:8081;\n    server 192.168.150.1:8082;\n}\n\n# 反向代理配置\nlocation /item {\n    proxy_pass http://tomcat-cluster;\n}\n\n// 架构流程\n浏览器 -> Nginx反向代理 -> OpenResty(本地缓存) -> Tomcat集群(进程缓存) -> 数据库"
+  },
+  {
+    "id": "redis_kb_044",
+    "question": "什么是冷启动和缓存预热？如何实现？",
+    "summary": "关于「什么是冷启动和缓存预热？如何实现？」的详细回答：\n\n【简要结论】\n冷启动：服务刚启动时Redis中没有缓存，如果所有商品数据都在第一次查询时添加缓存，可能会给数据库带来较大压力。缓存预热：在实际开发中利用大数据统计用户访问的热点数据，在项目启动时将这些热点数据提前查询并保存到Redis中。实现步骤：①利用Docker安装Redis；②在item-service中引入spring-boot-starter-data-redis依赖；③配置Redis地址；④编写初始化类实现InitializingBean接口，在afterPropertiesSet()中初始化缓存。\n\n【详细解释】\n· 冷启动：服务刚启动时Redis中没有缓存，如果所有商品数据都在第一次查询时添加缓存，可能会给数据库带来较大压力。\n· 缓存预热：在实际开发中利用大数据统计用户访问的热点数据，在项目启动时将这些热点数据提前查询并保存到Redis中。\n· 实现步骤：①利用Docker安装Redis；。\n· ②在item-service中引入spring-boot-starter-data-redis依赖；。\n· ③配置Redis地址；。\n· ④编写初始化类实现InitializingBean接口，在afterPropertiesSet()中初始化缓存。\n\n【代码说明】\n· 配置/注释说明：\n  - Docker安装Redis\n  - application.yml\n  - 缓存预热初始化类\n  - 初始化缓存：加载热点数据到Redis\n  - ...\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "缓存预热",
+    "code": "# Docker安装Redis\ndocker run --name redis -p 6379:6379 -d redis redis-server --appendonly yes\n\n// application.yml\nspring:\n  redis:\n    host: 192.168.150.101\n\n// 缓存预热初始化类\n@Component\npublic class RedisHandler implements InitializingBean {\n    @Autowired\n    private StringRedisTemplate redisTemplate;\n    \n    @Override\n    public void afterPropertiesSet() throws Exception {\n        // 初始化缓存：加载热点数据到Redis\n        // ...\n    }\n}"
+  },
+  {
+    "id": "redis_kb_045",
+    "question": "Spring中InitializingBean接口的作用是什么？与其他初始化方式有什么区别？",
+    "summary": "关于「Spring中InitializingBean接口的作用是什么？与其他初始化方式有什么区别？」的详细回答：\n\n【简要结论】\nInitializingBean接口位于org.springframework.beans.factory包下，只包含afterPropertiesSet()方法。时机：Spring容器在完成Bean的所有依赖注入之后，会立即自动调用afterPropertiesSet()方法。作用：编写自定义初始化逻辑，如校验配置、加载缓存数据、建立连接池等。三种初始化方式的执行顺序：@PostConstruct -> afterPropertiesSet() -> init-method。对比：@PostConstruct（Java标准注解，侵入性低，首选）；InitializingBean（Spring特有接口，侵入性高，不推荐新项目使用）；init-method（Spring配置机制，适合第三方类）。\n\n【详细解释】\n· InitializingBean接口位于org.springframework.beans.factory包下，只包含afterPropertiesSet()方法。\n· 时机：Spring容器在完成Bean的所有依赖注入之后，会立即自动调用afterPropertiesSet()方法。\n· 作用：编写自定义初始化逻辑，如校验配置、加载缓存数据、建立连接池等。\n· 三种初始化方式的执行顺序：@PostConstruct -> afterPropertiesSet() -> init-method。\n· 对比：@PostConstruct（Java标准注解，侵入性低，首选）；。\n· InitializingBean（Spring特有接口，侵入性高，不推荐新项目：通常采用 ）。\n  - ）：在 InitializingBean（Spring特有接口，侵入性高，不推荐新项目 体系中承担服务治理或通信支撑作用。\n· init-method（Spring配置机制，适合第三方类）。\n\n【代码说明】\n· 配置/注释说明：\n  - InitializingBean接口\n  - 使用示例\n  - 依赖注入完成后执行初始化\n  - 三种初始化方式执行顺序\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。\n\n完整代码示例见下方代码块。",
+    "category": "Spring",
+    "code": "// InitializingBean接口\npublic interface InitializingBean {\n    void afterPropertiesSet() throws Exception;\n}\n\n// 使用示例\n@Component\npublic class DataLoader implements InitializingBean {\n    @Override\n    public void afterPropertiesSet() throws Exception {\n        // 依赖注入完成后执行初始化\n        System.out.println(\"正在加载数据...\");\n    }\n}\n\n// 三种初始化方式执行顺序\n@PostConstruct -> afterPropertiesSet() -> init-method"
+  }
+]

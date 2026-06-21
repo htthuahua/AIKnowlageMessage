@@ -1,0 +1,86 @@
+[
+  {
+    "id": "react_kb_001",
+    "question": "React 是什么？核心学习内容有哪些？",
+    "summary": "关于「React 是什么？核心学习内容有哪些？」的详细回答：\n\n【简要结论】\nReact 是一个搭建网站的方式，核心学习内容包括组件之间的通信、路由跳转以及 JSX 显示语法。\n\n【详细解释】\n· React 是一个搭建网站的方式，核心学习内容包括组件之间的通信、路由跳转以及 JSX 显示语法。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "React-简介",
+    "code": ""
+  },
+  {
+    "id": "react_kb_002",
+    "question": "如何安装 React？",
+    "summary": "关于「如何安装 React？」的详细回答：\n\n【简要结论】\n安装 React 需要 Node 环境，使用 npm 安装 react 和 react-dom 包。\n\n【详细解释】\n· 安装 React 需要 Node 环境，使用 npm 安装 react 和 react-dom 包。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "React-环境搭建",
+    "code": "npm install react react-dom"
+  },
+  {
+    "id": "react_kb_003",
+    "question": "什么是 JSX？它和 JS 有什么关系？",
+    "summary": "关于「什么是 JSX？它和 JS 有什么关系？」的详细回答：\n\n【简要结论】\nJSX 是一种语法糖，类似于 HTML 的语法，可以在 JavaScript 中直接编写。JSX 会被 Babel 编译成 React.createElement 调用。选择 JS 配置创建项目时，文件后缀为 .jsx。\n\n【详细解释】\n· JSX 是一种语法糖，类似于 HTML 的语法，可以在 JavaScript 中直接编写。\n· JSX 会被 Babel 编译成 React.createElement 调用。\n· 选择 JS 配置创建项目时，文件后缀为 .jsx。\n\n【代码说明】\n· 配置/注释说明：\n  - JSX 写法\n  - 编译后等价于\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "React-JSX语法",
+    "code": "// JSX 写法\nconst element = <h1>Hello, world!</h1>;\n\n// 编译后等价于\nconst element = React.createElement('h1', null, 'Hello, world!');"
+  },
+  {
+    "id": "react_kb_004",
+    "question": "React 项目的主要文件结构是怎样的？",
+    "summary": "关于「React 项目的主要文件结构是怎样的？」的详细回答：\n\n【简要结论】\nReact 项目主要包含 node_modules、public、src 等目录。src 目录下有 assets、components 文件夹，以及 App.jsx（主组件）、main.jsx（入口文件）、App.css、index.css 等文件。\n\n【详细解释】\n· React 项目主要包含 node_modules、public、src 等目录。\n· src 目录下有 assets、components 文件夹，以及 App.jsx（主组件）、main.jsx（入口文件）、App.css、index.css 等文件。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "React-项目结构",
+    "code": ""
+  },
+  {
+    "id": "react_kb_005",
+    "question": "React 中如何实现路由功能？",
+    "summary": "关于「React 中如何实现路由功能？」的详细回答：\n\n【简要结论】\nReact 使用 react-router-dom 库实现路由。需要安装该包，然后在 App.jsx 中导入 BrowserRouter、Routes、Route 等组件，配置路由出口和对应的路径与组件映射。\n\n【详细解释】\n· React 使用 react-router-dom 库实现路由。\n· 需要安装该包，然后在 App.jsx 中导入 BrowserRouter、Routes、Route 等组件，配置路由出口和对应的路径与组件映射。\n\n【代码说明】\n· 配置/注释说明：\n  - App.jsx\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "React-路由",
+    "code": "npm install react-router-dom\n\n// App.jsx\nimport { BrowserRouter as Router, Routes, Route } from 'react-router-dom';\nimport Home from './components/Home';\nimport About from './components/About';\nimport Contact from './components/Contact';\n\nfunction App() {\n  return (\n    <Router>\n      <div className=\"App\">\n        <Routes>\n          <Route path=\"/\" element={<Home />} />\n          <Route path=\"/about\" element={<About />} />\n          <Route path=\"/contact\" element={<Contact />} />\n        </Routes>\n      </div>\n    </Router>\n  );\n}\nexport default App;"
+  },
+  {
+    "id": "react_kb_006",
+    "question": "React 中如何让某个组件不受路由切换影响一直显示？",
+    "summary": "关于「React 中如何让某个组件不受路由切换影响一直显示？」的详细回答：\n\n【简要结论】\n将组件放在 Router 外部或 Routes 外部，这样该组件就不会受路由页面切换管理，无论切换到哪个页面都会一直显示。\n\n【详细解释】\n· 将组件放在 Router 外部或 Routes 外部，这样该组件就不会受路由页面切换管理，无论切换到哪个页面都会一直显示。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "React-路由",
+    "code": "return (\n  <>\n    <HelloWorld />  {/* 不受路由管理，始终显示 */}\n    <Router>\n      <div className=\"App\">\n        <Routes>\n          <Route path=\"/\" element={<Home />} />\n          <Route path=\"/about\" element={<About />} />\n        </Routes>\n      </div>\n    </Router>\n  </>\n);"
+  },
+  {
+    "id": "react_kb_007",
+    "question": "React 中如何定义和导出组件？",
+    "summary": "关于「React 中如何定义和导出组件？」的详细回答：\n\n【简要结论】\nReact 组件以函数形式封装，通过 return 返回 JSX（HTML 标签）。一个文件可以有默认导出（export default）和命名导出（export {}），默认导出只能有一个，命名导出可以有多个。\n\n【详细解释】\n· React 组件以函数形式封装，通过 return 返回 JSX（HTML 标签）。\n· 一个文件可以有默认导出（export default）和命名导出（export {}），默认导出只能有一个，命名导出可以有多个。\n\n【代码说明】\n· 配置/注释说明：\n  - 默认导出\n  - 命名导出\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "React-组件基础",
+    "code": "// 默认导出\nfunction HelloWorld() {\n  return <h1>你好世界</h1>;\n}\nexport default HelloWorld;\n\n// 命名导出\nfunction HelloChina() {\n  return <h1>你好中国</h1>;\n}\nfunction HelloIndia() {\n  return <h1>你好印度</h1>;\n}\nexport { HelloChina, HelloIndia };"
+  },
+  {
+    "id": "react_kb_008",
+    "question": "React 中如何导入和使用组件？",
+    "summary": "关于「React 中如何导入和使用组件？」的详细回答：\n\n【简要结论】\n使用 import 导入组件，默认导出直接导入，命名导出需要用花括号。导入后直接在 JSX 中以标签形式使用，相较于 Vue 简化了组件注册流程。\n\n【详细解释】\n· 使用 import 导入组件，默认导出直接导入，命名导出需要用花括号。\n· 导入后直接在 JSX 中以标签形式使用，相较于 Vue 简化了组件注册流程。\n\n【代码说明】\n· 配置/注释说明：\n  - 导入默认导出和命名导出\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "React-组件基础",
+    "code": "// 导入默认导出和命名导出\nimport HelloWorld, { HelloChina, HelloIndia } from './components/HelloWorld';\n\n// 使用\nfunction App() {\n  return (\n    <>\n      <HelloWorld />\n      <HelloChina />\n      <HelloIndia />\n    </>\n  );\n}"
+  },
+  {
+    "id": "react_kb_009",
+    "question": "React 中如何加载外部 HTML 文件？",
+    "summary": "关于「React 中如何加载外部 HTML 文件？」的详细回答：\n\n【简要结论】\n使用 useEffect 和 useRef 配合 fetch API 异步加载 HTML 文件，然后将 HTML 内容插入到 DOM 中。但不建议这样做，会增加代码复杂度，能用函数写尽量不用外部 HTML。\n\n【详细解释】\n· 使用 useEffect 和 useRef 配合 fetch API 异步加载 HTML 文件，然后将 HTML 内容插入到 DOM 中。\n· 但不建议这样做，会增加代码复杂度，能用函数写尽量不用外部 HTML。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "React-高级用法",
+    "code": "import { useEffect, useRef } from 'react';\n\nfunction HelloIndia() {\n  const containerRef = useRef(null);\n\n  useEffect(() => {\n    fetch('/src/components/tab.html')\n      .then(response => response.text())\n      .then(html => {\n        if (containerRef.current) {\n          containerRef.current.innerHTML = html;\n        }\n      })\n      .catch(error => console.error('Error loading HTML:', error));\n  }, []); // 空依赖数组，只在组件挂载时执行\n\n  return <div ref={containerRef}></div>;\n}\nexport default HelloIndia;"
+  },
+  {
+    "id": "react_kb_010",
+    "question": "React 中父子组件如何通信？",
+    "summary": "关于「React 中父子组件如何通信？」的详细回答：\n\n【简要结论】\n父传子通过 props 传递数据；子传父通过 props 传递回调函数，子组件调用该函数将数据传回父组件。使用 useState 管理状态。\n\n【详细解释】\n· 父传子通过 props 传递数据；。\n· 子传父通过 props 传递回调函数，子组件调用该函数将数据传回父组件。\n· 使用 useState 管理状态。\n\n【代码说明】\n· 配置/注释说明：\n  - 子组件\n  - 父组件\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "React-组件通信",
+    "code": "// 子组件\nimport { useState } from 'react';\n\nfunction ChildComponent({ message, onSendData }) {\n  const [inputValue, setInputValue] = useState('');\n\n  const handleSend = () => {\n    onSendData(inputValue);\n    setInputValue('');\n  };\n\n  return (\n    <div>\n      <h3>子组件</h3>\n      <p>父组件传来的消息: {message}</p>\n      <input\n        value={inputValue}\n        onChange={(e) => setInputValue(e.target.value)}\n        placeholder=\"输入要发送给父组件的数据\"\n      />\n      <button onClick={handleSend}>发送给父组件</button>\n    </div>\n  );\n}\nexport default ChildComponent;\n\n// 父组件\nimport { useState } from 'react';\nimport ChildComponent from './ChildComponent';\n\nfunction ParentComponent() {\n  const [message, setMessage] = useState('来自父组件的消息');\n  const [childData, setChildData] = useState('');\n\n  const handleChildData = (data) => {\n    setChildData(data);\n  };\n\n  return (\n    <div>\n      <h2>父组件</h2>\n      <input\n        value={message}\n        onChange={(e) => setMessage(e.target.value)}\n      />\n      <p>子组件传来的数据: {childData}</p>\n      <ChildComponent message={message} onSendData={handleChildData} />\n    </div>\n  );\n}\nexport default ParentComponent;"
+  },
+  {
+    "id": "react_kb_011",
+    "question": "React 中如何实现页面跳转？",
+    "summary": "关于「React 中如何实现页面跳转？」的详细回答：\n\n【简要结论】\n使用 react-router-dom 的 Link 组件进行声明式导航，或使用 window.location.href 进行编程式导航。\n\n【详细解释】\n· 使用 react-router-dom 的 Link 组件进行声明式导航，或使用 window.location.href 进行编程式导航。\n\n【代码说明】\n· 配置/注释说明：\n  - 声明式导航\n  - 编程式导航\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "React-路由",
+    "code": "import { Link } from 'react-router-dom';\n\n// 声明式导航\n<Link to=\"/about\" style={{ marginRight: '10px' }}>关于我们</Link>\n<Link to=\"/contact\">联系我们</Link>\n\n// 编程式导航\n<button onClick={() => window.location.href = '/'}>点击我返回主页</button>"
+  },
+  {
+    "id": "react_kb_012",
+    "question": "React 组件和 Vue 组件有什么区别？",
+    "summary": "关于「React 组件和 Vue 组件有什么区别？」的详细回答：\n\n【简要结论】\nReact 组件以函数形式封装，通过 return 返回 JSX 标签；Vue 组件包含大量 HTML 代码，通过 template 定义页面，不是函数控制组件显示而是通过 HTML 创建的页面进行显示。React 的组件导出导入方式比 Vue 更简化，Vue 需要在 data 中写 Component 标识进行组件注册。\n\n【详细解释】\n· React 组件以函数形式封装，通过 return 返回 JSX 标签；。\n· Vue 组件包含大量 HTML 代码，通过 template 定义页面，不是函数控制组件显示而是通过 HTML 创建的页面进行显示。\n· React 的组件导出导入方式比 Vue 更简化，Vue 需要在 data 中写 Component 标识进行组件注册。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "React-对比Vue",
+    "code": ""
+  }
+]

@@ -1,0 +1,142 @@
+[
+  {
+    "id": "dart_kb_001",
+    "question": "Dart中如何声明变量？",
+    "summary": "关于「Dart中如何声明变量？」的详细回答：\n\n【简要结论】\n可以使用var自动推断类型，或显式指定类型如String、int。const用于编译时常量，final用于运行时常量。\n\n【详细解释】\n· 可以使用var自动推断类型，或显式指定类型如String、int。\n  - var 让编译器根据首次赋值推断类型，适合局部变量快速声明。\n· const用于编译时常量，final用于运行时常量。\n  - final 表示引用不可重新绑定，常用于运行期才能确定的常量。\n  - const 用于编译期常量，值必须在编译时确定。\n\n【代码说明】\n· 配置/注释说明：\n  - 输出hello world\n  - 编译确定值\n  - 运行时确定值\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "基础语法",
+    "code": "// 输出hello world\nvoid main(List<String> args) {\n  var age=18;           // var自动推断为int\n  var name = \"张三\";     // var自动推断为String\n  // 编译确定值\n  const sex = \"男\";      // const编译时常量\n  print(sex);\n  print(age.runtimeType);   // 输出 int\n  print(name.runtimeType);  // 输出 String\n  print('hello world');\n  // 运行时确定值\n  final time = DateTime.now();  // final运行时常量\n  print(time);\n  String str = \"hello world\";   // 显式类型声明\n  print(str);\n  int i = 10;\n  print(i);\n  print(i.runtimeType);\n  bool b = true;\n  print(b);\n  print(b.runtimeType);\n}"
+  },
+  {
+    "id": "dart_kb_002",
+    "question": "Dart有哪些集合类型？",
+    "summary": "关于「Dart有哪些集合类型？」的详细回答：\n\n【简要结论】\nList（列表/数组）、Map（键值对/字典）、Set（集合，元素唯一）。Dart还支持元组（如(1,2,3)）及其解构赋值。\n\n【详细解释】\n· List（列表/数组）、Map（键值对/字典）、Set（集合，元素唯一）。\n· Dart还支持元组（如(1,2,3)）及其解构赋值。\n\n【代码说明】\n· 配置/注释说明：\n  - 元组的解构赋值\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "集合",
+    "code": "// 数组\nList<int> list = [1,2,3,4,5];\nprint(list);\nprint(list.runtimeType);  // List<int>\n// 字典\nMap<String,dynamic> map = {\"name\":\"张三\",\"age\":18};\nprint(map);\nprint(map.runtimeType);   // Map<String, dynamic>\n// 集合\nSet<int> set = {1,2,3,4,5};\nprint(set);\nprint(set.runtimeType);   // Set<int>\n// 元组\nvar tuple = (1,2,3);\nprint(tuple);\nprint(tuple.runtimeType); // (int, int, int)\n// 元组的解构赋值\nvar (a,b1,c) = tuple;\nprint(a);\nprint(b1);\nprint(c);"
+  },
+  {
+    "id": "dart_kb_003",
+    "question": "Dart中的dynamic和var有什么区别？",
+    "summary": "关于「Dart中的dynamic和var有什么区别？」的详细回答：\n\n【简要结论】\nvar在首次赋值时确定类型，之后不能再赋其他类型的值（变量本身可以重新赋值同类型值）；dynamic可以存放任意类型且类型可以改变。dynamic绕过了类型检查，可能引发运行时错误。\n\n【详细解释】\n· var在首次赋值时确定类型，之后不能再赋其他类型的值（变量本身可以重新赋值同类型值）；。\n  - var 让编译器根据首次赋值推断类型，适合局部变量快速声明。\n· dynamic可以存放任意类型且类型可以改变。\n· dynamic绕过了类型检查，可能引发运行时错误。\n\n【代码说明】\n· 配置/注释说明：\n  - 泛型就是有个类型检查\n  - 容易产生类型错误\n  - 而且是在运行时产生报错可能在编译时不会报错\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。\n\n完整代码示例见下方代码块。",
+    "category": "类型系统",
+    "code": "// 泛型就是有个类型检查\n// 容易产生类型错误\n// 而且是在运行时产生报错可能在编译时不会报错\ndynamic d = 10.0;          // dynamic可以存放任意类型\nprint(d);\nprint(d.runtimeType);      // double\nd = \"hello world\";         // 类型可以改变\nprint(d);\nprint(d.runtimeType);      // String"
+  },
+  {
+    "id": "dart_kb_004",
+    "question": "Dart如何进行空安全处理？",
+    "summary": "关于「Dart如何进行空安全处理？」的详细回答：\n\n【简要结论】\n使用?表示可空类型，如String?。使用??提供默认值，使用?.进行安全调用（若为null则跳过），使用!强制解包（若为null会报错）。\n\n【详细解释】\n· 使用?表示可空类型，如String?。\n· 使用??提供默认值，使用?.进行安全调用（若为null则跳过），使用!强制解包（若为null会报错）。\n\n【代码说明】\n· 配置/注释说明：\n  - 安全机制\n  - 运行时会跳过（因为str1为null，?.会安全跳过）\n  - str1=\"hello world\";\n  - 运行时会报错（!强制解包，若为null则报错）\n  - str1!.startsWith(\"hello\");\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "空安全",
+    "code": "// 安全机制\nString? str1=null;   // ?表示可空类型\nprint(str1);\n// 运行时会跳过（因为str1为null，?.会安全跳过）\nstr1?.startsWith(\"hello\");\n// str1=\"hello world\";\n// 运行时会报错（!强制解包，若为null则报错）\n// str1!.startsWith(\"hello\");\nString str2 = str1 ?? \"老高\";  // ??提供默认值\nprint(str2);"
+  },
+  {
+    "id": "dart_kb_005",
+    "question": "Dart中如何进行算术运算和赋值？",
+    "summary": "关于「Dart中如何进行算术运算和赋值？」的详细回答：\n\n【简要结论】\n支持标准的算术运算符（+、-、*、/等），运算结果可以重新赋值给变量。\n\n【详细解释】\n· 支持标准的算术运算符（+、-、*、/等），运算结果可以重新赋值给变量。\n\n【代码说明】\n· 配置/注释说明：\n  - 进行算数运算符和赋值操作\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "运算符",
+    "code": "// 进行算数运算符和赋值操作\ndouble d1 = 10.0;\ndouble d2 = 5.0;\nd1 = 10.0/d2;   // d1 = 2.0\nd2 = 10.0/d1;   // d2 = 5.0\nprint(d1);\nprint(d2);"
+  },
+  {
+    "id": "dart_kb_006",
+    "question": "Dart中如何定义和调用函数？",
+    "summary": "关于「Dart中如何定义和调用函数？」的详细回答：\n\n【简要结论】\n支持普通函数、可选参数函数（使用{}包裹命名参数）、匿名函数（赋值给变量）和箭头函数（=>）。调用时直接使用函数名加参数即可。\n\n【详细解释】\n· 支持普通函数、可选参数函数（使用{}包裹命名参数）、匿名函数（赋值给变量）和箭头函数（=>）。\n· 调用时直接使用函数名加参数即可。\n\n【代码说明】\n· 配置/注释说明：\n  - 普通函数定义\n  - 可选参数函数（使用{}包裹命名参数，?表示可选）\n  - 匿名函数赋值给变量\n  - 箭头函数（表达式函数）\n  - 函数调用\n  - 调用普通函数\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "函数",
+    "code": "// 普通函数定义\nint add(int a,int b){\n  return a+b;\n}\n// 可选参数函数（使用{}包裹命名参数，?表示可选）\nint add2(int a,{int? b1,int? c1}){\n  return a+(b1??0)+(c1??0);  // ??提供默认值\n}\n// 匿名函数赋值给变量\nFunction add3 = (int a,int b){\n  return a+b;\n};\n// 箭头函数（表达式函数）\nadd4()=>print(\"hello world\");\n\n// 函数调用\nvoid main() {\n  // 调用普通函数\n  int result = add(1,2);\n  print(result);  // 3\n  // 调用可选参数函数\n  int result2 = add2(1,b1:2,c1:3);  // 命名参数需要指定名称\n  print(result2);  // 6\n  int result3 = add2(1,b1:2);        // 可选参数可以省略\n  print(result3);  // 3\n  // 调用匿名函数\n  int result4 = add3(1,2);\n  print(result4);  // 3\n  // 调用箭头函数\n  add4();  // 输出 hello world\n}"
+  },
+  {
+    "id": "dart_kb_007",
+    "question": "Dart中如何创建和使用类？",
+    "summary": "关于「Dart中如何创建和使用类？」的详细回答：\n\n【简要结论】\n使用class关键字，支持构造函数（默认、命名构造函数）、语法糖构造函数（Person({this.name,this.age})）。成员方法默认为公有，使用_前缀设为私有。\n\n【详细解释】\n· 使用class关键字，支持构造函数（默认、命名构造函数）、语法糖构造函数（Person({this.name,this.age})）。\n· 成员方法默认为公有，使用_前缀设为私有。\n\n【代码说明】\n· 配置/注释说明：\n  - 默认构造函数\n  - Person(this.name,this.age);\n  - 命名构造函数（可以和默认构造函数同时存在）\n  - 语法糖构造函数（使用{}包裹命名参数）\n  - 私有方法（使用_前缀）\n  - void _study(){\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "类",
+    "code": "class Person{\n  String? name = \"\";\n  int? age = 0;\n  // 默认构造函数\n  // Person(this.name,this.age);\n  // 命名构造函数（可以和默认构造函数同时存在）\n  Person.createPerson(this.name,this.age);\n  // 语法糖构造函数（使用{}包裹命名参数）\n  Person({this.name,this.age});\n  void study(){\n    print(\"$name在学习\");\n  }\n  // 私有方法（使用_前缀）\n  // void _study(){\n  //   print(\"$name在学习\");\n  // }\n}\n\n// 类的实例化和调用\nvoid main() {\n  Person p = Person(name:\"张三\",age:18);  // 使用命名参数构造\n  p.study();  // 输出 张三在学习\n}"
+  },
+  {
+    "id": "dart_kb_008",
+    "question": "Dart中如何实现继承？",
+    "summary": "关于「Dart中如何实现继承？」的详细回答：\n\n【简要结论】\n使用extends实现单继承，子类通过super调用父类方法，使用@override重写父类方法。\n\n【详细解释】\n· 使用extends实现单继承，子类通过super调用父类方法，使用@override重写父类方法。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "面向对象",
+    "code": "// 继承\nclass Student extends Person{\n  String? id = \"\";\n  @override\n  void study(){\n    super.study();  // 调用父类方法\n  }\n}"
+  },
+  {
+    "id": "dart_kb_009",
+    "question": "Dart中如何实现混合（Mixin）？",
+    "summary": "关于「Dart中如何实现混合（Mixin）？」的详细回答：\n\n【简要结论】\n使用mixin关键字定义混合类，通过with关键字将混合类的能力添加到类中。混合可以实现多重继承的效果。\n\n【详细解释】\n· 使用mixin关键字定义混合类，通过with关键字将混合类的能力添加到类中。\n· 混合可以实现多重继承的效果。\n\n【代码说明】\n· 配置/注释说明：\n  - 混合（mixin）\n  - 先定义一个mixin对象\n  - 使用with实现混合\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "面向对象",
+    "code": "// 混合（mixin）\n// 先定义一个mixin对象\nmixin Study{\n  String? name = \"\";\n  void study(){\n    print(\"$name在学习\");\n  }\n}\n// 使用with实现混合\nclass Student2 with Study{\n  String? id = \"\";\n  @override\n  void study(){\n    super.study();  // 调用mixin中的方法\n  }\n}"
+  },
+  {
+    "id": "dart_kb_010",
+    "question": "Dart中如何定义抽象类？",
+    "summary": "关于「Dart中如何定义抽象类？」的详细回答：\n\n【简要结论】\n使用abstract关键字定义抽象类，抽象类不能直接实例化。使用implements关键字实现抽象类。\n\n【详细解释】\n· 使用abstract关键字定义抽象类，抽象类不能直接实例化。\n· 使用implements关键字实现抽象类。\n\n【代码说明】\n· 配置/注释说明：\n  - Animal animal = Animal(); // 错误：抽象类不能实例化\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "高级特性",
+    "code": "abstract class Animal {\n  void speak();\n}\n\nclass Dog implements Animal {\n  @override\n  void speak() {\n    print('汪汪');\n  }\n}\n\nvoid main() {\n  Dog dog = Dog();\n  dog.speak();\n  // Animal animal = Animal(); // 错误：抽象类不能实例化\n}"
+  },
+  {
+    "id": "dart_kb_011",
+    "question": "Dart中如何定义泛型类？",
+    "summary": "关于「Dart中如何定义泛型类？」的详细回答：\n\n【简要结论】\n使用<T>语法定义泛型类，T表示类型参数。泛型提供了类型安全检查，可以在编译时发现类型错误。\n\n【详细解释】\n· 使用<T>语法定义泛型类，T表示类型参数。\n· 泛型提供了类型安全检查，可以在编译时发现类型错误。\n\n【代码说明】\n· 配置/注释说明：\n  - 泛型类\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "高级特性",
+    "code": "// 泛型类\nclass Box<T>{\n  T? value;  // T为泛型类型\n}"
+  },
+  {
+    "id": "dart_kb_012",
+    "question": "Dart的异步编程模型是什么？",
+    "summary": "关于「Dart的异步编程模型是什么？」的详细回答：\n\n【简要结论】\nDart采用单线程+事件循环机制。执行顺序为：同步代码 → 微任务队列 → 事件队列。微任务优先级高于事件队列。\n\n【详细解释】\n· Dart采用单线程+事件循环机制。\n· 执行顺序为：同步代码 → 微任务队列 → 事件队列。\n· 微任务优先级高于事件队列。\n\n【代码说明】\n· 配置/注释说明：\n  - 异步编程Dart中采用单线程+事件循环机制\n  - 事件循环\n  - 执行同步代码执行微任务队列执行事件队列结束\n  - 微任务队列\n  - 事件队列\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "异步编程",
+    "code": "// 异步编程Dart中采用单线程+事件循环机制\n// 事件循环\n// 执行同步代码执行微任务队列执行事件队列结束\n// 微任务队列\n// 事件队列"
+  },
+  {
+    "id": "dart_kb_013",
+    "question": "Dart中如何使用Future处理异步任务？",
+    "summary": "关于「Dart中如何使用Future处理异步任务？」的详细回答：\n\n【简要结论】\nFuture表示一个异步操作的结果。使用then处理成功结果，使用catchError处理错误，支持链式调用。\n\n【详细解释】\n· Future表示一个异步操作的结果。\n· 使用then处理成功结果，使用catchError处理错误，支持链式调用。\n\n【代码说明】\n· 配置/注释说明：\n  - return \"hello world\";\n  - 链式调用就是一直执行回调就行下次成功返回的对象使用异步来进行接收从而进行链式调用\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "异步编程",
+    "code": "// 异步\nFuture f = Future((){\n  print(\"hello world\");\n  // return \"hello world\";\n  throw Exception(\"error\");  // 抛出异常\n});\nf.then((value){   // 处理成功结果\n  print(value);\n});\nf.catchError((error){  // 处理错误\n  print(error);\n});\n// 链式调用就是一直执行回调就行下次成功返回的对象使用异步来进行接收从而进行链式调用"
+  },
+  {
+    "id": "dart_kb_014",
+    "question": "Dart中async/await如何使用？",
+    "summary": "关于「Dart中async/await如何使用？」的详细回答：\n\n【简要结论】\nasync标记异步函数，await等待Future完成。配合try-catch捕获异常。它是Future链式调用的语法糖，使异步代码看起来像同步代码。\n\n【详细解释】\n· async标记异步函数，await等待Future完成。\n· 配合try-catch捕获异常。\n· 它是Future链式调用的语法糖，使异步代码看起来像同步代码。\n\n【代码说明】\n· 配置/注释说明：\n  - async await就是异步调用的语法糖\n  - 调用异步函数\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "异步编程",
+    "code": "// async await就是异步调用的语法糖\nvoid test1() async {\n  try{\n    await Future(() {\n      return \"hello world\";\n    });\n    await Future.delayed(Duration(seconds: 2));  // 等待2秒\n    print(\"函数执行\");\n  }catch(error){\n    print(error);\n  }\n}\n\n// 调用异步函数\nvoid main() {\n  test1();  // 2秒后输出 \"函数执行\"\n}"
+  },
+  {
+    "id": "dart_kb_015",
+    "question": "test1.dart文件的内容是什么？",
+    "summary": "关于「test1.dart文件的内容是什么？」的详细回答：\n\n【简要结论】\ntest1.dart是一个空的Dart入口文件，只包含一个空的main函数，没有任何业务逻辑。\n\n【详细解释】\n· test1.dart是一个空的Dart入口文件，只包含一个空的main函数，没有任何业务逻辑。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "项目结构",
+    "code": "void main(List<String> args) {\n  \n}"
+  },
+  {
+    "id": "dart_kb_016",
+    "question": "Dart中如何输出信息到控制台？",
+    "summary": "关于「Dart中如何输出信息到控制台？」的详细回答：\n\n【简要结论】\n使用print()函数可以输出信息到控制台。可以输出变量值、字符串拼接结果等。\n\n【详细解释】\n· 使用print()函数可以输出信息到控制台。\n· 可以输出变量值、字符串拼接结果等。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "基础语法",
+    "code": "print(sex);\nprint(age.runtimeType);\nprint(name.runtimeType);\nprint('hello world');\nprint(time);\nprint(str);\nprint(i);\nprint(i.runtimeType);\nprint(b);\nprint(b.runtimeType);\nprint(list);\nprint(list.runtimeType);\nprint(map);\nprint(map.runtimeType);\nprint(set);\nprint(set.runtimeType);\nprint(tuple);\nprint(tuple.runtimeType);\nprint(a);\nprint(b1);\nprint(c);\nprint(d);\nprint(d.runtimeType);\nprint(str1);\nprint(str2);\nprint(d1);\nprint(d2);\nprint(result);\nprint(result2);\nprint(result3);\nprint(result4);"
+  },
+  {
+    "id": "dart_kb_017",
+    "question": "Dart中如何获取变量的运行时类型？",
+    "summary": "关于「Dart中如何获取变量的运行时类型？」的详细回答：\n\n【简要结论】\n使用.runtimeType属性可以获取变量的运行时类型，返回Type对象。\n\n【详细解释】\n· 使用.runtimeType属性可以获取变量的运行时类型，返回Type对象。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "基础语法",
+    "code": "print(age.runtimeType);   // 输出 int\nprint(name.runtimeType);  // 输出 String\nprint(i.runtimeType);     // 输出 int\nprint(b.runtimeType);     // 输出 bool\nprint(list.runtimeType);  // 输出 List<int>\nprint(map.runtimeType);   // 输出 Map<String, dynamic>\nprint(set.runtimeType);   // 输出 Set<int>\nprint(tuple.runtimeType); // 输出 (int, int, int)\nprint(d.runtimeType);     // 输出 double 或 String"
+  },
+  {
+    "id": "dart_kb_018",
+    "question": "Dart中元组如何定义和解构？",
+    "summary": "关于「Dart中元组如何定义和解构？」的详细回答：\n\n【简要结论】\n使用圆括号定义元组，如(1,2,3)。使用var (a,b,c) = tuple语法进行解构赋值，将元组元素分别赋给多个变量。\n\n【详细解释】\n· 使用圆括号定义元组，如(1,2,3)。\n· 使用var (a,b,c) = tuple语法进行解构赋值，将元组元素分别赋给多个变量。\n  - var 让编译器根据首次赋值推断类型，适合局部变量快速声明。\n\n【代码说明】\n· 配置/注释说明：\n  - 元组的解构赋值\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "集合",
+    "code": "// 元组\nvar tuple = (1,2,3);\nprint(tuple);\nprint(tuple.runtimeType); // (int, int, int)\n// 元组的解构赋值\nvar (a,b1,c) = tuple;\nprint(a);\nprint(b1);\nprint(c);"
+  },
+  {
+    "id": "dart_kb_019",
+    "question": "Dart中可选参数如何定义和使用？",
+    "summary": "关于「Dart中可选参数如何定义和使用？」的详细回答：\n\n【简要结论】\n使用{}包裹命名参数，参数名后加?表示可选。调用时使用参数名:值的形式传递。可以使用??运算符提供默认值。\n\n【详细解释】\n· 使用{}包裹命名参数，参数名后加?表示可选。\n· 调用时使用参数名:值的形式传递。\n· 可以使用??运算符提供默认值。\n\n【代码说明】\n· 配置/注释说明：\n  - 可选参数\n  - 调用可选参数函数\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "函数",
+    "code": "// 可选参数\nint add2(int a,{int? b1,int? c1}){\n  return a+(b1??0)+(c1??0);  // ??提供默认值\n}\n// 调用可选参数函数\nint result2 = add2(1,b1:2,c1:3);  // 命名参数需要指定名称\nprint(result2);  // 6\nint result3 = add2(1,b1:2);        // 可选参数可以省略\nprint(result3);  // 3"
+  },
+  {
+    "id": "dart_kb_020",
+    "question": "Dart中命名构造函数有什么用？",
+    "summary": "关于「Dart中命名构造函数有什么用？」的详细回答：\n\n【简要结论】\n命名构造函数可以为类提供多个构造方式，使用类名.构造函数名(参数)的形式调用。可以与默认构造函数同时存在。\n\n【详细解释】\n· 命名构造函数可以为类提供多个构造方式，使用类名.构造函数名(参数)的形式调用。\n· 可以与默认构造函数同时存在。\n\n【代码说明】\n· 配置/注释说明：\n  - 命名构造函数（可以和默认构造函数同时存在）\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "类",
+    "code": "// 命名构造函数（可以和默认构造函数同时存在）\nPerson.createPerson(this.name,this.age);"
+  }
+]

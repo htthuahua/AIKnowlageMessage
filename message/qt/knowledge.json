@@ -1,0 +1,156 @@
+[
+  {
+    "id": "qt_kb_001",
+    "question": "CMakeLists.txt中cmake_minimum_required的作用是什么？",
+    "summary": "关于「CMakeLists.txt中cmake_minimum_required的作用是什么？」的详细回答：\n\n【简要结论】\n指定CMake的最低版本要求为3.16\n\n【详细解释】\n· 指定CMake的最低版本要求为3.16。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "CMake",
+    "code": "cmake_minimum_required(VERSION 3.16)"
+  },
+  {
+    "id": "qt_kb_002",
+    "question": "CMakeLists.txt中project指令的作用是什么？",
+    "summary": "关于「CMakeLists.txt中project指令的作用是什么？」的详细回答：\n\n【简要结论】\n定义项目名称为QmlControls，版本0.1，使用C++语言\n\n【详细解释】\n· 定义项目名称为QmlControls，版本0.1，使用C++语言。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "CMake",
+    "code": "project(QmlControls VERSION 0.1 LANGUAGES CXX)"
+  },
+  {
+    "id": "qt_kb_003",
+    "question": "CMakeLists.txt中如何设置C++标准？",
+    "summary": "关于「CMakeLists.txt中如何设置C++标准？」的详细回答：\n\n【简要结论】\n使用CMAKE_CXX_STANDARD_REQUIRED ON强制要求C++标准\n\n【详细解释】\n· 使用CMAKE_CXX_STANDARD_REQUIRED ON强制要求C++标准。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "CMake",
+    "code": "set(CMAKE_CXX_STANDARD_REQUIRED ON)"
+  },
+  {
+    "id": "qt_kb_004",
+    "question": "CMakeLists.txt中如何查找Qt6 Quick模块？",
+    "summary": "关于「CMakeLists.txt中如何查找Qt6 Quick模块？」的详细回答：\n\n【简要结论】\n使用find_package查找Qt6的Quick组件\n\n【详细解释】\n· 使用find_package查找Qt6的Quick组件。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "CMake",
+    "code": "find_package(Qt6 REQUIRED COMPONENTS Quick)"
+  },
+  {
+    "id": "qt_kb_005",
+    "question": "CMakeLists.txt中qt_standard_project_setup的作用是什么？",
+    "summary": "关于「CMakeLists.txt中qt_standard_project_setup的作用是什么？」的详细回答：\n\n【简要结论】\n设置Qt标准项目配置，要求Qt版本6.8\n\n【详细解释】\n· 设置Qt标准项目配置，要求Qt版本6.8。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "CMake",
+    "code": "qt_standard_project_setup(REQUIRES 6.8)"
+  },
+  {
+    "id": "qt_kb_006",
+    "question": "CMakeLists.txt中如何添加可执行文件？",
+    "summary": "关于「CMakeLists.txt中如何添加可执行文件？」的详细回答：\n\n【简要结论】\n使用qt_add_executable添加名为appQmlControls的可执行文件，包含main.cpp\n\n【详细解释】\n· 使用qt_add_executable添加名为appQmlControls的可执行文件，包含main.cpp。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "CMake",
+    "code": "qt_add_executable(appQmlControls\n    main.cpp\n)"
+  },
+  {
+    "id": "qt_kb_007",
+    "question": "CMakeLists.txt中如何添加QML模块？",
+    "summary": "关于「CMakeLists.txt中如何添加QML模块？」的详细回答：\n\n【简要结论】\n使用qt_add_qml_module添加QML模块，指定URI为QmlControls，包含Main.qml文件\n\n【详细解释】\n· 使用qt_add_qml_module添加QML模块，指定URI为QmlControls，包含Main.qml文件。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "CMake",
+    "code": "qt_add_qml_module(appQmlControls\n    URI QmlControls\n    QML_FILES\n        Main.qml\n)"
+  },
+  {
+    "id": "qt_kb_008",
+    "question": "CMakeLists.txt中set_target_properties的作用是什么？",
+    "summary": "关于「CMakeLists.txt中set_target_properties的作用是什么？」的详细回答：\n\n【简要结论】\n设置目标属性，包括MACOSX_BUNDLE_BUNDLE_VERSION、MACOSX_BUNDLE_SHORT_VERSION_STRING、MACOSX_BUNDLE和WIN32_EXECUTABLE\n\n【详细解释】\n· 设置目标属性，包括MACOSX_BUNDLE_BUNDLE_VERSION、MACOSX_BUNDLE_SHORT_VERSION_STRING、MACOSX_BUNDLE和WIN32_EXECUTABLE。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "CMake",
+    "code": "set_target_properties(appQmlControls PROPERTIES\n    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}\n    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}\n    MACOSX_BUNDLE TRUE\n    WIN32_EXECUTABLE TRUE\n)"
+  },
+  {
+    "id": "qt_kb_009",
+    "question": "CMakeLists.txt中如何链接Qt库？",
+    "summary": "关于「CMakeLists.txt中如何链接Qt库？」的详细回答：\n\n【简要结论】\n使用target_link_libraries链接Qt6::Quick库，PRIVATE表示仅当前目标使用\n\n【详细解释】\n· 使用target_link_libraries链接Qt6::Quick库，PRIVATE表示仅当前目标使用。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "CMake",
+    "code": "target_link_libraries(appQmlControls\n    PRIVATE Qt6::Quick\n)"
+  },
+  {
+    "id": "qt_kb_010",
+    "question": "CMakeLists.txt中install指令的作用是什么？",
+    "summary": "关于「CMakeLists.txt中install指令的作用是什么？」的详细回答：\n\n【简要结论】\n安装目标文件到指定目录，BUNDLE安装到当前目录，LIBRARY到CMAKE_INSTALL_LIBDIR，RUNTIME到CMAKE_INSTALL_BINDIR\n\n【详细解释】\n· 安装目标文件到指定目录，BUNDLE安装到当前目录，LIBRARY到CMAKE_INSTALL_LIBDIR，RUNTIME到CMAKE_INSTALL_BINDIR。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "CMake",
+    "code": "include(GNUInstallDirs)\ninstall(TARGETS appQmlControls\n    BUNDLE DESTINATION .\n    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}\n    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}\n)"
+  },
+  {
+    "id": "qt_kb_011",
+    "question": "main(2).cpp加载的QML模块是什么？",
+    "summary": "关于「main(2).cpp加载的QML模块是什么？」的详细回答：\n\n【简要结论】\n加载QmlControls模块的Main文件\n\n【详细解释】\n· 加载QmlControls模块的Main文件。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Qt/QML",
+    "code": "engine.loadFromModule(\"QmlControls\", \"Main\");"
+  },
+  {
+    "id": "qt_kb_012",
+    "question": "main(3).cpp加载的QML模块是什么？",
+    "summary": "关于「main(3).cpp加载的QML模块是什么？」的详细回答：\n\n【简要结论】\n加载Layout模块的Main文件\n\n【详细解释】\n· 加载Layout模块的Main文件。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Qt/QML",
+    "code": "engine.loadFromModule(\"Layout\", \"Main\");"
+  },
+  {
+    "id": "qt_kb_013",
+    "question": "main(2).cpp和main(3).cpp的区别是什么？",
+    "summary": "关于「main(2).cpp和main(3).cpp的区别是什么？」的详细回答：\n\n【简要结论】\n两者代码结构完全相同，唯一区别是loadFromModule加载的模块名称不同：main(2).cpp加载QmlControls，main(3).cpp加载Layout\n\n【详细解释】\n· 两者代码结构完全相同，唯一区别是loadFromModule加载的模块名称不同：main(2).cpp加载QmlControls，main(3).cpp加载Layout。\n\n【代码说明】\n· 配置/注释说明：\n  - main(2).cpp\n  - main(3).cpp\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。\n\n完整代码示例见下方代码块。",
+    "category": "Qt/QML",
+    "code": "// main(2).cpp\nengine.loadFromModule(\"QmlControls\", \"Main\");\n\n// main(3).cpp\nengine.loadFromModule(\"Layout\", \"Main\");"
+  },
+  {
+    "id": "qt_kb_014",
+    "question": "QGuiApplication的作用是什么？",
+    "summary": "关于「QGuiApplication的作用是什么？」的详细回答：\n\n【简要结论】\n创建Qt GUI应用程序对象，管理应用程序的控制流和主要设置\n\n【详细解释】\n· 创建Qt GUI应用程序对象，管理应用程序的控制流和主要设置。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Qt/QML",
+    "code": "QGuiApplication app(argc, argv);"
+  },
+  {
+    "id": "qt_kb_015",
+    "question": "QQmlApplicationEngine的作用是什么？",
+    "summary": "关于「QQmlApplicationEngine的作用是什么？」的详细回答：\n\n【简要结论】\nQML应用程序引擎，用于加载和管理QML文件\n\n【详细解释】\n· QML应用程序引擎，用于加载和管理QML文件。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Qt/QML",
+    "code": "QQmlApplicationEngine engine;"
+  },
+  {
+    "id": "qt_kb_016",
+    "question": "objectCreationFailed信号的作用是什么？",
+    "summary": "关于「objectCreationFailed信号的作用是什么？」的详细回答：\n\n【简要结论】\n当QML对象创建失败时触发，连接到退出应用程序的Lambda函数\n\n【详细解释】\n· 当QML对象创建失败时触发，连接到退出应用程序的Lambda函数。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Qt/QML",
+    "code": "QObject::connect(\n    &engine,\n    &QQmlApplicationEngine::objectCreationFailed,\n    &app,\n    []() { QCoreApplication::exit(-1); },\n    Qt::QueuedConnection);"
+  },
+  {
+    "id": "qt_kb_017",
+    "question": "Qt::QueuedConnection的作用是什么？",
+    "summary": "关于「Qt::QueuedConnection的作用是什么？」的详细回答：\n\n【简要结论】\n表示信号槽连接使用队列方式，槽函数在接收者线程的事件循环中执行\n\n【详细解释】\n· 表示信号槽连接使用队列方式，槽函数在接收者线程的事件循环中执行。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Qt/QML",
+    "code": "Qt::QueuedConnection"
+  },
+  {
+    "id": "qt_kb_018",
+    "question": "QCoreApplication::exit(-1)的作用是什么？",
+    "summary": "关于「QCoreApplication::exit(-1)的作用是什么？」的详细回答：\n\n【简要结论】\n以非零状态码退出应用程序，表示异常终止\n\n【详细解释】\n· 以非零状态码退出应用程序，表示异常终止。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Qt/QML",
+    "code": "[]() { QCoreApplication::exit(-1); }"
+  },
+  {
+    "id": "qt_kb_019",
+    "question": "app.exec()的作用是什么？",
+    "summary": "关于「app.exec()的作用是什么？」的详细回答：\n\n【简要结论】\n进入应用程序的主事件循环，等待事件如用户输入\n\n【详细解释】\n· 进入应用程序的主事件循环，等待事件如用户输入。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Qt/QML",
+    "code": "return app.exec();"
+  },
+  {
+    "id": "qt_kb_020",
+    "question": "CMakeLists.txt中MACOSX_BUNDLE的作用是什么？",
+    "summary": "关于「CMakeLists.txt中MACOSX_BUNDLE的作用是什么？」的详细回答：\n\n【简要结论】\n设置为TRUE表示在macOS上构建为应用程序包(bundle)\n\n【详细解释】\n· 设置为TRUE表示在macOS上构建为应用程序包(bundle)。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "CMake",
+    "code": "MACOSX_BUNDLE TRUE"
+  },
+  {
+    "id": "qt_kb_021",
+    "question": "CMakeLists.txt中WIN32_EXECUTABLE的作用是什么？",
+    "summary": "关于「CMakeLists.txt中WIN32_EXECUTABLE的作用是什么？」的详细回答：\n\n【简要结论】\n设置为TRUE表示在Windows上构建为GUI应用程序（不显示控制台窗口）\n\n【详细解释】\n· 设置为TRUE表示在Windows上构建为GUI应用程序（不显示控制台窗口）。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "CMake",
+    "code": "WIN32_EXECUTABLE TRUE"
+  },
+  {
+    "id": "qt_kb_022",
+    "question": "CMakeLists.txt中GNUInstallDirs的作用是什么？",
+    "summary": "关于「CMakeLists.txt中GNUInstallDirs的作用是什么？」的详细回答：\n\n【简要结论】\n包含GNU标准的安装目录定义，如CMAKE_INSTALL_LIBDIR和CMAKE_INSTALL_BINDIR\n\n【详细解释】\n· 包含GNU标准的安装目录定义，如CMAKE_INSTALL_LIBDIR和CMAKE_INSTALL_BINDIR。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "CMake",
+    "code": "include(GNUInstallDirs)"
+  }
+]

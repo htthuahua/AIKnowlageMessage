@@ -1,0 +1,142 @@
+[
+  {
+    "id": "httpclient_kb_001",
+    "question": "什么是HttpClient？它有什么作用？",
+    "summary": "关于「什么是HttpClient？它有什么作用？」的详细回答：\n\n【简要结论】\nHttpClient是Apache Jakarta Common下的一个子项目，用于提供高效的、功能丰富的、支持HTTP协议的客户端编程工具包。相比传统的URLConnection，它更方便易用，支持HTTP协议的各种特性。\n\n【详细解释】\n· HttpClient是Apache Jakarta Common下的一个子项目，用于提供高效的、功能丰富的、支持HTTP协议的客户端编程工具包。\n· 相比传统的URLConnection，它更方便易用，支持HTTP协议的各种特性。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "HttpClient",
+    "code": ""
+  },
+  {
+    "id": "httpclient_kb_002",
+    "question": "使用HttpClient发送请求的核心API有哪些？",
+    "summary": "关于「使用HttpClient发送请求的核心API有哪些？」的详细回答：\n\n【简要结论】\n核心API包括：1) HttpClient（接口）- 具体的实现类为CloseableHttpClient；2) HttpClients（工具类）- 用于创建HttpClient对象；3) CloseableHttpResponse（接口）- 用于接收服务端返回的数据。\n\n【详细解释】\n· 核心API包括：1) HttpClient（接口）- 具体的实现类为CloseableHttpClient；。\n· 2) HttpClients（工具类）- 用于创建HttpClient对象；。\n· 3) CloseableHttpResponse（接口）- 用于接收服务端返回的数据。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "HttpClient",
+    "code": ""
+  },
+  {
+    "id": "httpclient_kb_003",
+    "question": "使用HttpClient发送请求的步骤是什么？",
+    "summary": "关于「使用HttpClient发送请求的步骤是什么？」的详细回答：\n\n【简要结论】\n步骤：1) 创建HttpClient对象（通过HttpClients.createDefault()）；2) 创建Http请求对象（如HttpGet、HttpPost等）；3) 调用HttpClient的execute方法发送请求；4) 通过CloseableHttpResponse获取服务端返回的状态码和响应体数据。\n\n【详细解释】\n· 步骤：1) 创建HttpClient对象（通过HttpClients.createDefault()）；。\n· 2) 创建Http请求对象（如HttpGet、HttpPost等）；。\n· 3) 调用HttpClient的execute方法发送请求；。\n· 4) 通过CloseableHttpResponse获取服务端返回的状态码和响应体数据。\n\n【代码说明】\n· 配置/注释说明：\n  - 创建HttpClient对象\n  - 创建GET请求\n  - 发送请求\n  - 获取状态码\n  - 获取响应体\n  - 关闭资源\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "HttpClient",
+    "code": "// 创建HttpClient对象\nCloseableHttpClient httpClient = HttpClients.createDefault();\n\n// 创建GET请求\nHttpGet httpGet = new HttpGet(\"http://localhost:8080/test\");\n\n// 发送请求\nCloseableHttpResponse response = httpClient.execute(httpGet);\n\n// 获取状态码\nint statusCode = response.getStatusLine().getStatusCode();\n\n// 获取响应体\nHttpEntity entity = response.getEntity();\nString body = EntityUtils.toString(entity);\n\n// 关闭资源\nresponse.close();\nhttpClient.close();"
+  },
+  {
+    "id": "httpclient_kb_004",
+    "question": "Spring Cache是什么？如何开启缓存功能？",
+    "summary": "关于「Spring Cache是什么？如何开启缓存功能？」的详细回答：\n\n【简要结论】\nSpring Cache是一个框架，实现了基于注解的缓存功能。它提供了一层抽象，底层可以切换不同的缓存实现（如EHCache、Caffeine、Redis）。开启方式：在启动类上添加@EnableCaching注解。\n\n【详细解释】\n· Spring Cache是一个框架，实现了基于注解的缓存功能。\n· 它提供了一层抽象，底层可以切换不同的缓存实现（如EHCache、Caffeine、Redis）。\n· 开启方式：在启动类上添加@EnableCaching注解。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Spring Cache",
+    "code": "@EnableCaching  // 开启缓存注解功能\n@SpringBootApplication\npublic class CacheDemoApplication {\n    public static void main(String[] args) {\n        SpringApplication.run(CacheDemoApplication.class, args);\n    }\n}"
+  },
+  {
+    "id": "httpclient_kb_005",
+    "question": "@Cacheable注解的作用和使用方式是什么？",
+    "summary": "关于「@Cacheable注解的作用和使用方式是什么？」的详细回答：\n\n【简要结论】\n@Cacheable注解用于在方法执行前先查询缓存中是否有数据，如果有则直接返回缓存数据；如果没有则调用方法并将返回值放入缓存。常用属性：value/cacheNames（缓存名称，必需）、key（缓存key，支持SpEL表达式）。\n\n【详细解释】\n· @Cacheable注解用于在方法执行前先查询缓存中是否有数据，如果有则直接返回缓存数据；。\n· 如果没有则调用方法并将返回值放入缓存。\n· 常用属性：value/cacheNames（缓存名称，必需）、key（缓存key，支持SpEL表达式）。\n\n【代码说明】\n· 配置/注释说明：\n  - id\")\n  - key的SpEL表达式写法\n  - user.id\")\n  - result.id\")\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Spring Cache",
+    "code": "@Cacheable(cacheNames = \"userCache\", key = \"#id\")\npublic User getById(Long id) {\n    User user = userMapper.getById(id);\n    return user;\n}\n\n// key的SpEL表达式写法\n@Cacheable(cacheNames = \"userCache\", key = \"#user.id\")\npublic User getByUser(User user) {\n    return userMapper.getById(user.getId());\n}\n\n@Cacheable(cacheNames = \"userCache\", key = \"#result.id\")\npublic User getById(Long id) {\n    return userMapper.getById(id);\n}"
+  },
+  {
+    "id": "httpclient_kb_006",
+    "question": "@CachePut注解与@Cacheable有什么区别？",
+    "summary": "关于「@CachePut注解与@Cacheable有什么区别？」的详细回答：\n\n【简要结论】\n@CachePut注解会先执行方法，然后将方法的返回值放入缓存。与@Cacheable的区别：@Cacheable会先查缓存，命中则直接返回不执行方法；@CachePut一定会执行方法，并将结果更新到缓存。常用于更新操作后同步更新缓存。\n\n【详细解释】\n· @CachePut注解会先执行方法，然后将方法的返回值放入缓存。\n· 与@Cacheable的区别：@Cacheable会先查缓存，命中则直接返回不执行方法；。\n· @CachePut一定会执行方法，并将结果更新到缓存。\n· 常用于更新操作后同步更新缓存。\n\n【代码说明】\n· 配置/注释说明：\n  - user.id\")\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。\n\n完整代码示例见下方代码块。",
+    "category": "Spring Cache",
+    "code": "@CachePut(cacheNames = \"userCache\", key = \"#user.id\")\npublic User update(User user) {\n    userMapper.updateById(user);\n    return user;\n}"
+  },
+  {
+    "id": "httpclient_kb_007",
+    "question": "@CacheEvict注解的作用是什么？",
+    "summary": "关于「@CacheEvict注解的作用是什么？」的详细回答：\n\n【简要结论】\n@CacheEvict注解用于将一条或多条数据从缓存中删除。常用场景：删除数据时同步清除缓存。属性：value/cacheNames（缓存名称）、key（要删除的缓存key）、allEntries（是否删除该cacheNames下所有缓存，默认false）。\n\n【详细解释】\n· @CacheEvict注解用于将一条或多条数据从缓存中删除。\n· 常用场景：删除数据时同步清除缓存。\n· 属性：value/cacheNames（缓存名称）、key（要删除的缓存key）、allEntries（是否删除该cacheNames下所有缓存，默认false）。\n\n【代码说明】\n· 配置/注释说明：\n  - id\")\n  - 删除所有缓存\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Spring Cache",
+    "code": "@CacheEvict(cacheNames = \"userCache\", key = \"#id\")\npublic void deleteById(Long id) {\n    userMapper.deleteById(id);\n}\n\n// 删除所有缓存\n@CacheEvict(cacheNames = \"userCache\", allEntries = true)\npublic void deleteAll() {\n    userMapper.deleteAll();\n}"
+  },
+  {
+    "id": "httpclient_kb_008",
+    "question": "Spring Cache中缓存数据的key是如何生成的？",
+    "summary": "关于「Spring Cache中缓存数据的key是如何生成的？」的详细回答：\n\n【简要结论】\n缓存数据的key生成规则：如果配置了key属性，则使用SpEL表达式生成；如果没有配置key，则使用默认的keyGenerator生成，通常是SimpleKey对象（包含所有方法参数）。key的SpEL表达式常用变量：#id（参数名）、#result（方法返回值）、#root.args（参数数组）、#root.methodName（方法名）等。\n\n【详细解释】\n· 缓存数据的key生成规则：如果配置了key属性，则使用SpEL表达式生成；。\n· 如果没有配置key，则使用默认的keyGenerator生成，通常是SimpleKey对象（包含所有方法参数）。\n· key的SpEL表达式常用变量：#id（参数名）、#result（方法返回值）、#root.args（参数数组）、#root.methodName（方法名）等。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "Spring Cache",
+    "code": ""
+  },
+  {
+    "id": "httpclient_kb_009",
+    "question": "Spring Task是什么？如何开启定时任务？",
+    "summary": "关于「Spring Task是什么？如何开启定时任务？」的详细回答：\n\n【简要结论】\nSpring Task是Spring框架提供的定时任务工具，按照约定的时间自动执行某个代码逻辑。应用场景：信用卡每月还款提醒、火车票售票系统处理未支付订单等。开启方式：在启动类上添加@EnableScheduling注解。\n\n【详细解释】\n· Spring Task是Spring框架提供的定时任务工具，按照约定的时间自动执行某个代码逻辑。\n· 应用场景：信用卡每月还款提醒、火车票售票系统处理未支付订单等。\n· 开启方式：在启动类上添加@EnableScheduling注解。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Spring Task",
+    "code": "@EnableScheduling  // 开启定时任务\n@SpringBootApplication\npublic class TaskDemoApplication {\n    public static void main(String[] args) {\n        SpringApplication.run(TaskDemoApplication.class, args);\n    }\n}"
+  },
+  {
+    "id": "httpclient_kb_010",
+    "question": "如何在Spring Task中定义定时任务？",
+    "summary": "关于「如何在Spring Task中定义定时任务？」的详细回答：\n\n【简要结论】\n定义方式：1) 创建一个任务类，使用@Component注解纳入Spring容器管理；2) 在方法上添加@Scheduled注解，并通过cron属性指定定时规则。Spring会自动按照cron表达式的时间规则执行该方法。\n\n【详细解释】\n· 定义方式：1) 创建一个任务类，使用@Component注解纳入Spring容器管理；。\n· 2) 在方法上添加@Scheduled注解，并通过cron属性指定定时规则。\n· Spring会自动按照cron表达式的时间规则执行该方法。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Spring Task",
+    "code": "@Component\npublic class MyTask {\n    \n    @Scheduled(cron = \"0/5 * * * * ?\")\n    public void executeTask() {\n        System.out.println(\"定时任务执行了...\");\n    }\n}"
+  },
+  {
+    "id": "httpclient_kb_011",
+    "question": "cron表达式的格式和含义是什么？",
+    "summary": "关于「cron表达式的格式和含义是什么？」的详细回答：\n\n【简要结论】\ncron表达式是一个字符串，包含6或7个域（由空格分隔），每个域代表一个时间含义。格式：秒(0-59) 分(0-59) 时(0-23) 日(1-31) 月(1-12) 周几(1-7或SUN-SAT) [年(1970-2099，可选)]。特殊字符：*（任意值）、?（不指定值，用于日和周几互斥）、-（范围）、,（列表）、/（增量）、L（最后）、W（最近工作日）等。\n\n【详细解释】\n· cron表达式是一个字符串，包含6或7个域（由空格分隔），每个域代表一个时间含义。\n· 格式：秒(0-59) 分(0-59) 时(0-23) 日(1-31) 月(1-12) 周几(1-7或SUN-SAT) [年(1970-2099，可选)]。\n· 特殊字符：*（任意值）、?（不指定值，用于日和周几互斥）、-（范围）、,（列表）、/（增量）、L（最后）、W（最近工作日）等。\n\n【代码说明】\n· 配置/注释说明：\n  - 示例cron表达式\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Spring Task",
+    "code": "// 示例cron表达式\n\"0 0 10,14,16 * * ?\"      // 每天10点、14点、16点执行\n\"0 0/30 9-17 * * ?\"       // 朝九晚五每半小时执行\n\"0 15 10 ? * 1-6\"         // 每月15日上午10:15执行\n\"0 0 2 1 * ? *\"           // 每月1日凌晨2点执行\n\"0 15 10 ? * 2L\"          // 每月最后一个周一上午10:15执行\n\"0 0 23 L * ?\"            // 每月最后一天23点执行\n\"0 0 23 LW * ?\"           // 每月最后一个工作日23点执行"
+  },
+  {
+    "id": "httpclient_kb_012",
+    "question": "WebSocket是什么？与HTTP有什么区别？",
+    "summary": "关于「WebSocket是什么？与HTTP有什么区别？」的详细回答：\n\n【简要结论】\nWebSocket是基于TCP连接的全双工通信协议。与HTTP的区别：1) HTTP是短连接（请求-响应后即断开），WebSocket是长连接；2) HTTP是单向通信（客户端请求-服务端响应），WebSocket支持双向通信（客户端和服务端都可主动发送消息）；3) WebSocket基于HTTP协议握手建立连接，之后使用ws/wss协议进行数据传输。\n\n【详细解释】\n· WebSocket是基于TCP连接的全双工通信协议。\n· 与HTTP的区别：1) HTTP是短连接（请求-响应后即断开），WebSocket是长连接；。\n· 2) HTTP是单向通信（客户端请求-服务端响应），WebSocket支持双向通信（客户端和服务端都可主动发送消息）；。\n· 3) WebSocket基于HTTP协议握手建立连接，之后：通常采用 ws/wss协议进行数据传输。\n  - ws/wss协议进行数据传输：在 3) WebSocket基于HTTP协议握手建立连接，之后 体系中承担服务治理或通信支撑作用。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "WebSocket",
+    "code": ""
+  },
+  {
+    "id": "httpclient_kb_013",
+    "question": "使用Spring Boot实现WebSocket的入门案例步骤是什么？",
+    "summary": "关于「使用Spring Boot实现WebSocket的入门案例步骤是什么？」的详细回答：\n\n【简要结论】\n步骤：1) 导入Spring-WS的起步依赖（spring-boot-starter-websocket）；2) 导入WebSocket的客户端坐标（如Java-WebSocket）；3) 编写WebSocket服务端组件，使用@ServerEndpoint声明服务端；4) 配置WebSocket并注册服务端组件。\n\n【详细解释】\n· 步骤：1) 导入Spring-WS的起步依赖（spring-boot-starter-websocket）；。\n· 2) 导入WebSocket的客户端坐标（如Java-WebSocket）；。\n· 3) 编写WebSocket服务端组件，使用@ServerEndpoint声明服务端；。\n· 4) 配置WebSocket并注册服务端组件。\n\n【代码说明】\n· 配置/注释说明：\n  - 1. 添加依赖\n  - spring-boot-starter-websocket\n  - 2. WebSocket服务端\n  - 3. 配置类\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "WebSocket",
+    "code": "// 1. 添加依赖\n// spring-boot-starter-websocket\n\n// 2. WebSocket服务端\n@Component\n@ServerEndpoint(\"/ws/\" + \"${server.port}\")\npublic class WebSocketServer {\n    \n    @OnOpen\n    public void onOpen(Session session) {\n        System.out.println(\"客户端连接成功\");\n    }\n    \n    @OnMessage\n    public void onMessage(String message, Session session) {\n        System.out.println(\"收到消息：\" + message);\n    }\n    \n    @OnClose\n    public void onClose(Session session) {\n        System.out.println(\"客户端断开连接\");\n    }\n}\n\n// 3. 配置类\n@Configuration\npublic class WebSocketConfig {\n    @Bean\n    public ServerEndpointExporter serverEndpointExporter() {\n        return new ServerEndpointExporter();\n    }\n}"
+  },
+  {
+    "id": "httpclient_kb_014",
+    "question": "什么是Apache ECharts？",
+    "summary": "关于「什么是Apache ECharts？」的详细回答：\n\n【简要结论】\nApache ECharts是一款基于JavaScript的数据可视化图表库，提供直观、生动、可交互、可个性化定制的数据可视化图表。它由百度开源，现已成为Apache基金会顶级项目，广泛应用于各种数据可视化场景。\n\n【详细解释】\n· Apache ECharts是一款基于JavaScript的数据可视化图表库，提供直观、生动、可交互、可个性化定制的数据可视化图表。\n· 它由百度开源，现已成为Apache基金会顶级项目，广泛应用于各种数据可视化场景。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "数据可视化",
+    "code": ""
+  },
+  {
+    "id": "httpclient_kb_015",
+    "question": "什么是Apache POI？它有什么作用？",
+    "summary": "关于「什么是Apache POI？它有什么作用？」的详细回答：\n\n【简要结论】\nApache POI是一个开源的Java读写Office文档的API，提供了对各种格式Office文档的读写能力。主要包括：POIFS（操作OLE2格式文档）、HSSF（操作Excel 2003，.xls格式）、XSSF（操作Excel 2007+，.xlsx格式）、HSLF/XSLF（操作PPT）、HWPF/XWPF（操作Word）等。\n\n【详细解释】\n· Apache POI是一个开源的Java读写Office文档的API，提供了对各种格式Office文档的读写能力。\n· 主要包括：POIFS（操作OLE2格式文档）、HSSF（操作Excel 2003，.xls格式）、XSSF（操作Excel 2007+，.xlsx格式）、HSLF/XSLF（操作PPT）、HWPF/XWPF（操作Word）等。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "Apache POI",
+    "code": ""
+  },
+  {
+    "id": "httpclient_kb_016",
+    "question": "如何使用POI读取Excel文件（.xlsx格式）？",
+    "summary": "关于「如何使用POI读取Excel文件（.xlsx格式）？」的详细回答：\n\n【简要结论】\n步骤：1) 创建工作簿对象（XSSFWorkbook）；2) 获取工作表（Sheet）；3) 遍历行（Row）和单元格（Cell）；4) 根据单元格类型获取值。注意：需要处理不同类型的单元格（字符串、数字、布尔值等）。\n\n【详细解释】\n· 步骤：1) 创建工作簿对象（XSSFWorkbook）；。\n· 2) 获取工作表（Sheet）；。\n· 3) 遍历行（Row）和单元格（Cell）；。\n· 4) 根据单元格类型获取值。\n· 注意：需要处理不同类型的单元格（字符串、数字、布尔值等）。\n\n【代码说明】\n· 配置/注释说明：\n  - 读取.xlsx文件\n  - 根据类型获取值\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Apache POI",
+    "code": "// 读取.xlsx文件\nXSSFWorkbook excel = new XSSFWorkbook(new FileInputStream(file));\nXSSFSheet sheet = excel.getSheetAt(0);\n\nfor (int i = 0; i <= sheet.getLastRowNum(); i++) {\n    XSSFRow row = sheet.getRow(i);\n    if (row != null) {\n        for (int j = 0; j < row.getLastCellNum(); j++) {\n            XSSFCell cell = row.getCell(j);\n            if (cell != null) {\n                // 根据类型获取值\n                switch (cell.getCellType()) {\n                    case STRING:\n                        String value = cell.getStringCellValue();\n                        break;\n                    case NUMERIC:\n                        double num = cell.getNumericCellValue();\n                        break;\n                    case BOOLEAN:\n                        boolean bool = cell.getBooleanCellValue();\n                        break;\n                }\n            }\n        }\n    }\n}\nexcel.close();"
+  },
+  {
+    "id": "httpclient_kb_017",
+    "question": "如何使用POI向Excel文件写入数据？",
+    "summary": "关于「如何使用POI向Excel文件写入数据？」的详细回答：\n\n【简要结论】\n步骤：1) 创建工作簿（XSSFWorkbook）；2) 创建工作表（Sheet）；3) 创建行（Row）和单元格（Cell）；4) 设置单元格值；5) 通过输出流写入文件。可以设置单元格样式（如字体、对齐方式等）。\n\n【详细解释】\n· 步骤：1) 创建工作簿（XSSFWorkbook）；。\n· 2) 创建工作表（Sheet）；。\n· 3) 创建行（Row）和单元格（Cell）；。\n· 4) 设置单元格值；。\n· 5) 通过输出流写入文件。\n· 可以设置单元格样式（如字体、对齐方式等）。\n\n【代码说明】\n· 配置/注释说明：\n  - 写入.xlsx文件\n  - 创建行\n  - 创建单元格并设置值\n  - 写入文件\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Apache POI",
+    "code": "// 写入.xlsx文件\nXSSFWorkbook excel = new XSSFWorkbook();\nXSSFSheet sheet = excel.createSheet(\"Sheet1\");\n\n// 创建行\nXSSFRow row = sheet.createRow(0);\n\n// 创建单元格并设置值\nXSSFCell cell = row.createCell(0);\ncell.setCellValue(\"姓名\");\n\nXSSFCell cell2 = row.createCell(1);\ncell2.setCellValue(\"年龄\");\n\n// 写入文件\nFileOutputStream out = new FileOutputStream(\"test.xlsx\");\nexcel.write(out);\nout.close();\nexcel.close();"
+  },
+  {
+    "id": "httpclient_kb_018",
+    "question": "POI操作Excel时，HSSF和XSSF有什么区别？",
+    "summary": "关于「POI操作Excel时，HSSF和XSSF有什么区别？」的详细回答：\n\n【简要结论】\nHSSF用于操作Excel 2003版本（.xls格式），XSSF用于操作Excel 2007及以上版本（.xlsx格式）。主要区别：1) 文件格式不同（.xls vs .xlsx）；2) XSSF支持更大的数据量（.xlsx基于XML，行数限制更高）；3) 类名不同（HSSFWorkbook vs XSSFWorkbook，HSSFSheet vs XSSFSheet等）。\n\n【详细解释】\n· HSSF用于操作Excel 2003版本（.xls格式），XSSF用于操作Excel 2007及以上版本（.xlsx格式）。\n· 主要区别：1) 文件格式不同（.xls vs .xlsx）；。\n· 2) XSSF支持更大的数据量（.xlsx基于XML，行数限制更高）；。\n· 3) 类名不同（HSSFWorkbook vs XSSFWorkbook，HSSFSheet vs XSSFSheet等）。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "Apache POI",
+    "code": ""
+  },
+  {
+    "id": "httpclient_kb_019",
+    "question": "Spring Cache中@Cacheable的key属性支持哪些SpEL表达式？",
+    "summary": "关于「Spring Cache中@Cacheable的key属性支持哪些SpEL表达式？」的详细回答：\n\n【简要结论】\n常用SpEL表达式：#id（参数名，如方法参数为Long id则可用#id）、#user.id（参数对象的属性）、#result.id（方法返回值的属性，注意@Cacheable中#result在缓存命中时不可用，因为方法未执行）、#root.args[0]（第一个参数）、#root.methodName（方法名）、#root.target（目标对象）等。\n\n【详细解释】\n· 常用SpEL表达式：#id（参数名，如方法参数为Long id则可用#id）、#user.id（参数对象的属性）、#result.id（方法返回值的属性，注意@Cacheable中#result在缓存命中时不可用，因为方法未执行）、#root.args[0]（第一个参数）、#root.methodName（方法名）、#root.target（目标对象）等。\n\n【代码说明】\n· 配置/注释说明：\n  - id\")\n  - user.id\")\n  - result.id\")\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Spring Cache",
+    "code": "@Cacheable(cacheNames = \"userCache\", key = \"#id\")\npublic User getById(Long id) { }\n\n@Cacheable(cacheNames = \"userCache\", key = \"#user.id\")\npublic User getByUser(User user) { }\n\n@CachePut(cacheNames = \"userCache\", key = \"#result.id\")\npublic User update(User user) { }"
+  },
+  {
+    "id": "httpclient_kb_020",
+    "question": "WebSocket中的@ServerEndpoint注解有什么作用？",
+    "summary": "关于「WebSocket中的@ServerEndpoint注解有什么作用？」的详细回答：\n\n【简要结论】\n@ServerEndpoint注解用于声明一个WebSocket服务端端点。value属性指定WebSocket的访问路径。配合@OnOpen（连接建立时触发）、@OnMessage（收到消息时触发）、@OnClose（连接关闭时触发）等注解，可以处理WebSocket的各种生命周期事件。需要通过ServerEndpointExporter将其注册到Spring容器中。\n\n【详细解释】\n· @ServerEndpoint注解用于声明一个WebSocket服务端端点。\n· value属性指定WebSocket的访问路径。\n· 配合@OnOpen（连接建立时触发）、@OnMessage（收到消息时触发）、@OnClose（连接关闭时触发）等注解，可以处理WebSocket的各种生命周期事件。\n· 需要通过ServerEndpointExporter将其注册到Spring容器中。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "WebSocket",
+    "code": "@ServerEndpoint(\"/ws/\" + \"${server.port}\")\npublic class WebSocketServer {\n    \n    @OnOpen\n    public void onOpen(Session session) { }\n    \n    @OnMessage\n    public void onMessage(String message, Session session) { }\n    \n    @OnClose\n    public void onClose(Session session) { }\n    \n    @OnError\n    public void onError(Session session, Throwable error) { }\n}"
+  }
+]

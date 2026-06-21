@@ -1,0 +1,219 @@
+[
+  {
+    "id": "exam_jvm_001",
+    "question": "JVM由哪些部分组成，运行流程是什么？",
+    "summary": "关于「JVM由哪些部分组成，运行流程是什么？」的详细回答：\n\n【简要结论】\nJVM由ClassLoader（类加载器）、Runtime Data Area（运行时数据区）、Execution Engine（执行引擎）、Native Method Library（本地库接口）四部分组成。运行流程：1) 类加载器将Java代码转为字节码；2) 运行时数据区将字节码加载到内存；3) 执行引擎将字节码翻译为系统指令，调用本地库接口完成程序功能。\n\n【详细解释】\n· JVM由ClassLoader（类加载器）、Runtime Data Area（运行时数据区）、Execution Engine（执行引擎）、Native Method Library（本地库接口）四部分组成。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 运行流程：1) 类加载器将Java代码转为字节码；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 2) 运行时数据区将字节码加载到内存；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 3) 执行引擎将字节码翻译为系统指令，调用本地库接口完成程序功能。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "JVM",
+    "code": ""
+  },
+  {
+    "id": "exam_jvm_002",
+    "question": "什么是程序计数器？",
+    "summary": "关于「什么是程序计数器？」的详细回答：\n\n【简要结论】\n程序计数器是线程私有的，保存字节码行号，记录正在执行的字节码指令地址。用于多线程切换时记录执行位置，是JVM规范中唯一没有规定OOM的区域，不进行GC。\n\n【详细解释】\n· 程序计数器是线程私有的，保存字节码行号，记录正在执行的字节码指令地址。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 用于多线程切换时记录执行位置，是JVM规范中唯一没有规定OOM的区域，不进行GC。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "JVM",
+    "code": ""
+  },
+  {
+    "id": "exam_jvm_003",
+    "question": "Java堆的组成和特点是什么？",
+    "summary": "关于「Java堆的组成和特点是什么？」的详细回答：\n\n【简要结论】\n线程共享区域，保存对象实例和数组。分为年轻代（Eden区、S0、S1，比例8:1:1）和老年代（生命周期长的对象）。Java8将方法区（永久代）移到本地内存的元空间（MetaSpace），避免OOM。\n\n【详细解释】\n· 线程共享区域，保存对象实例和数组。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 分为年轻代（Eden区、S0、S1，比例8:1:1）和老年代（生命周期长的对象）。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· Java8将方法区（永久代）移到本地内存的元空间（MetaSpace），避免OOM。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "JVM",
+    "code": ""
+  },
+  {
+    "id": "exam_jvm_004",
+    "question": "虚拟机栈的特点和溢出问题？",
+    "summary": "关于「虚拟机栈的特点和溢出问题？」的详细回答：\n\n【简要结论】\n每个线程运行时所需的内存，先进后出，由多个栈帧组成。垃圾回收不涉及栈内存（栈帧弹栈即释放）。栈帧过多（如递归）导致StackOverflowError；栈帧过大导致线程数减少。默认栈内存约1024k。\n\n【详细解释】\n· 每个线程运行时所需的内存，先进后出，由多个栈帧组成。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 垃圾回收不涉及栈内存（栈帧弹栈即释放）。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 栈帧过多（如递归）导致StackOverflowError；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 栈帧过大导致线程数减少。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 默认栈内存约1024k。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n【实践建议】\n· 理解 JVM 结构有助于排查内存、类加载和线程问题。",
+    "category": "JVM",
+    "code": ""
+  },
+  {
+    "id": "exam_jvm_005",
+    "question": "双亲委派模型是什么？JVM为什么采用它？",
+    "summary": "关于「双亲委派模型是什么？JVM为什么采用它？」的详细回答：\n\n【简要结论】\n类加载器接到加载请求时，先委托给父类加载器完成，依次递归，只有父类无法完成时才由子类加载。原因：1) 避免类被重复加载，保证唯一性；2) 保证类库API安全，防止核心类被篡改。\n\n【详细解释】\n· 类加载器接到加载请求时，先委托给父类加载器完成，依次递归，只有父类无法完成时才由子类加载。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 原因：1) 避免类被重复加载，保证唯一性；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 2) 保证类库API安全，防止核心类被篡改。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "JVM",
+    "code": ""
+  },
+  {
+    "id": "exam_jvm_006",
+    "question": "类装载的执行过程？",
+    "summary": "关于「类装载的执行过程？」的详细回答：\n\n【简要结论】\n7个阶段：加载（查找导入class文件）→验证（准确性检查）→准备（为类变量分配内存并设初始值）→解析（符号引用转直接引用）→初始化（静态变量/代码块初始化）→使用（执行程序代码）→卸载（销毁Class对象）。其中验证、准备、解析统称连接。\n\n【详细解释】\n· 7个阶段：加载（查找导入class文件）→验证（准确性检查）→准备（为类变量分配内存并设初始值）→解析（符号引用转直接引用）→初始化（静态变量/代码块初始化）→使用（执行程序代码）→卸载（销毁Class对象）。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 其中验证、准备、解析统称连接。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n【实践建议】\n· 理解 JVM 结构有助于排查内存、类加载和线程问题。",
+    "category": "JVM",
+    "code": ""
+  },
+  {
+    "id": "exam_jvm_007",
+    "question": "JVM垃圾回收算法有哪些？",
+    "summary": "关于「JVM垃圾回收算法有哪些？」的详细回答：\n\n【简要结论】\n1) 标记清除：标记垃圾后清除，有碎片化问题；2) 复制算法：内存分两半，复制存活对象，无碎片但利用率低；3) 标记整理：标记后移动存活对象再清理边界外垃圾，解决碎片化但效率略低；4) 分代收集：堆分新生代（MinorGC）和老年代（MajorGC/FullGC）。\n\n【详细解释】\n· 1) 标记清除：标记垃圾后清除，有碎片化问题；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 2) 复制算法：内存分两半，复制存活对象，无碎片但利用率低；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 3) 标记整理：标记后移动存活对象再清理边界外垃圾，解决碎片化但效率略低；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 4) 分代收集：堆分新生代（MinorGC）和老年代（MajorGC/FullGC）。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n【实践建议】\n· 理解 JVM 结构有助于排查内存、类加载和线程问题。",
+    "category": "JVM",
+    "code": ""
+  },
+  {
+    "id": "exam_jvm_008",
+    "question": "G1垃圾回收器的特点？",
+    "summary": "关于「G1垃圾回收器的特点？」的详细回答：\n\n【简要结论】\nJDK9后默认使用，划分多个区域（eden/survivor/old/humongous），采用复制算法，响应时间与吞吐量兼顾。分三阶段：新生代回收、并发标记、混合收集。若并发失败（回收速度<创建速度）触发Full GC。\n\n【详细解释】\n· JDK9后默认使用，划分多个区域（eden/survivor/old/humongous），采用复制算法，响应时间与吞吐量兼顾。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 分三阶段：新生代回收、并发标记、混合收集。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 若并发失败（回收速度<创建速度）触发Full GC。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n【实践建议】\n· 理解 JVM 结构有助于排查内存、类加载和线程问题。",
+    "category": "JVM",
+    "code": ""
+  },
+  {
+    "id": "exam_jvm_009",
+    "question": "强引用、软引用、弱引用、虚引用的区别？",
+    "summary": "关于「强引用、软引用、弱引用、虚引用的区别？」的详细回答：\n\n【简要结论】\n强引用：GC Roots不引用时才回收；软引用：内存不足时回收；弱引用：GC时无论内存是否充足都回收（ThreadLocal用弱引用）；虚引用：必须配合引用队列，对象回收时入队，由Reference Handler释放直接内存。\n\n【详细解释】\n· 强引用：GC Roots不引用时才回收；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 软引用：内存不足时回收；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 弱引用：GC时无论内存是否充足都回收（ThreadLocal用弱引用）；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 虚引用：必须配合引用队列，对象回收时入队，由Reference Handler释放直接内存。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n【代码说明】\n· 配置/注释说明：\n  - 弱引用示例\n  - ThreadLocal内存泄漏：Entry的key是弱引用（ThreadLocal），value是强引用，使用完需调用remove()\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。\n\n完整代码示例见下方代码块。",
+    "category": "JVM",
+    "code": "// 弱引用示例\nWeakReference weakReference = new WeakReference(user);\n// ThreadLocal内存泄漏：Entry的key是弱引用（ThreadLocal），value是强引用，使用完需调用remove()"
+  },
+  {
+    "id": "exam_jvm_010",
+    "question": "JVM常用调优参数有哪些？",
+    "summary": "关于「JVM常用调优参数有哪些？」的详细回答：\n\n【简要结论】\n-Xms/-Xmx：堆初始/最大大小；-Xmn：年轻代大小；-Xss：线程栈大小；-XX:SurvivorRatio：Eden与Survivor比例；-XX:+UseParallelGC/-XX:+UseG1GC：选择垃圾收集器；-XX:+HeapDumpOnOutOfMemoryError：OOM时生成dump。\n\n【详细解释】\n· -Xms/-Xmx：堆初始/最大大小；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· -Xmn：年轻代大小；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· -Xss：线程栈大小；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· -XX:SurvivorRatio：Eden与Survivor比例；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· -XX:+UseParallelGC/-XX:+UseG1GC：选择垃圾收集器；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· -XX:+HeapDumpOnOutOfMemoryError：OOM时生成dump。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n完整代码示例见下方代码块。",
+    "category": "JVM",
+    "code": "nohup java -Xms512m -Xmx1024m -jar app.jar --spring.profiles.active=prod &"
+  },
+  {
+    "id": "exam_jvm_011",
+    "question": "JVM调优工具有哪些？",
+    "summary": "关于「JVM调优工具有哪些？」的详细回答：\n\n【简要结论】\n命令工具：jps（进程状态）、jstack（线程堆栈）、jmap（堆转储快照）、jstat（GC统计）、jhat（分析dump）。可视化工具：jconsole（基于JMX的GUI监控）、VisualVM（线程/内存/CPU监控，分析dump）。\n\n【详细解释】\n· 命令工具：jps（进程状态）、jstack（线程堆栈）、jmap（堆转储快照）、jstat（GC统计）、jhat（分析dump）。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 可视化工具：jconsole（基于JMX的GUI监控）、VisualVM（线程/内存/CPU监控，分析dump）。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n完整代码示例见下方代码块。",
+    "category": "JVM",
+    "code": "jmap -dump:format=b,file=heap.hprof pid\njstat -gcutil pid"
+  },
+  {
+    "id": "exam_jvm_012",
+    "question": "Java内存泄漏排查思路？",
+    "summary": "关于「Java内存泄漏排查思路？」的详细回答：\n\n【简要结论】\n1) 通过jmap生成内存快照dump，或配置-XX:+HeapDumpOnOutOfMemoryError自动生成；2) 使用VisualVM或Eclipse MAT分析dump文件；3) 查看堆信息定位问题代码行；4) 修复代码（如检查未关闭的资源、静态集合持有对象等）。\n\n【详细解释】\n· 1) 通过jmap生成内存快照dump，或配置-XX:+HeapDumpOnOutOfMemoryError自动生成；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 2) 使用VisualVM或Eclipse MAT分析dump文件；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 3) 查看堆信息定位问题代码行；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 4) 修复代码（如检查未关闭的资源、静态集合持有对象等）。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n完整代码示例见下方代码块。",
+    "category": "JVM",
+    "code": "-XX:+HeapDumpOnOutOfMemoryError\n-XX:HeapDumpPath=/home/app/dumps/"
+  },
+  {
+    "id": "exam_jvm_013",
+    "question": "CPU飙高排查方案？",
+    "summary": "关于「CPU飙高排查方案？」的详细回答：\n\n【简要结论】\n1) top命令查看CPU占用高的进程；2) ps H -eo pid,tid,%CPU | grep pid 查看该进程的线程CPU占用；3) printf '%x\\n' tid 将线程id转为16进制；4) jstack pid 打印堆栈，定位到具体代码行号。\n\n【详细解释】\n· 1) top命令查看CPU占用高的进程；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 2) ps H -eo pid,tid,%CPU | grep pid 查看该进程的线程CPU占用；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 3) printf '%x\\n' tid 将线程id转为16进制；。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n· 4) jstack pid 打印堆栈，定位到具体代码行号。\n  - 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解 JVM 结构有助于排查内存、类加载和线程问题。\n\n完整代码示例见下方代码块。",
+    "category": "JVM",
+    "code": "ps H -eo pid,tid,%CPU | grep 40940\nprintf \"%x\\n\" 30979\njstack 30978"
+  },
+  {
+    "id": "exam_collection_001",
+    "question": "ArrayList和LinkedList的区别？",
+    "summary": "关于「ArrayList和LinkedList的区别？」的详细回答：\n\n【简要结论】\nArrayList底层是动态数组，LinkedList是双向链表。查询：ArrayList按索引O(1)，LinkedList不支持下标查询O(n)。增删：ArrayList尾部O(1)、中间O(n)；LinkedList头尾O(1)、中间O(n)。内存：ArrayList连续省内存，LinkedList需存两个指针更占内存。两者都不是线程安全的。\n\n【详细解释】\n· ArrayList底层是动态数组，LinkedList是双向链表。\n· 查询：ArrayList按索引O(1)，LinkedList不支持下标查询O(n)。\n· 增删：ArrayList尾部O(1)、中间O(n)；。\n· LinkedList头尾O(1)、中间O(n)。\n· 内存：ArrayList连续省内存，LinkedList需存两个指针更占内存。\n· 两者都不是线程安全的。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "集合",
+    "code": ""
+  },
+  {
+    "id": "exam_collection_002",
+    "question": "ArrayList的扩容机制？",
+    "summary": "关于「ArrayList的扩容机制？」的详细回答：\n\n【简要结论】\n初始容量为0，第一次添加时初始化为10。扩容为原来的1.5倍（oldCapacity + (oldCapacity >> 1)），每次扩容需拷贝数组。指定容量new ArrayList(10)不会扩容。\n\n【详细解释】\n· 初始容量为0，第一次添加时初始化为10。\n· 扩容为原来的1.5倍（oldCapacity + (oldCapacity >> 1)），每次扩容需拷贝数组。\n· 指定容量new ArrayList(10)不会扩容。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "集合",
+    "code": ""
+  },
+  {
+    "id": "exam_collection_003",
+    "question": "数组和List如何相互转换？修改会影响对方吗？",
+    "summary": "关于「数组和List如何相互转换？修改会影响对方吗？」的详细回答：\n\n【简要结论】\n数组转List：Arrays.asList()，修改数组会影响List（底层共用同一数组）。List转数组：list.toArray(new String[0])，修改List不影响数组（底层进行了数组拷贝）。\n\n【详细解释】\n· 数组转List：Arrays.asList()，修改数组会影响List（底层共用同一数组）。\n· List转数组：list.toArray(new String[0])，修改List不影响数组（底层进行了数组拷贝）。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "集合",
+    "code": "List<String> list = Arrays.asList(arr); // 修改arr会影响list\nString[] arr = list.toArray(new String[0]); // 修改list不影响arr"
+  },
+  {
+    "id": "exam_collection_004",
+    "question": "HashMap的实现原理？JDK1.7和1.8的区别？",
+    "summary": "关于「HashMap的实现原理？JDK1.7和1.8的区别？」的详细回答：\n\n【简要结论】\n底层是hash表（数组+链表/红黑树）。put时计算key的hash值确定数组下标，冲突时用链表或红黑树存储。JDK1.7：数组+链表（头插法）。JDK1.8：数组+链表+红黑树，链表长度>8且数组长度>=64时转红黑树，扩容时树节点<=6退化链表，采用尾插法避免死循环。\n\n【详细解释】\n· 底层是hash表（数组+链表/红黑树）。\n· put时计算key的hash值确定数组下标，冲突时用链表或红黑树存储。\n· JDK1.7：数组+链表（头插法）。\n· JDK1.8：数组+链表+红黑树，链表长度>8且数组长度>=64时转红黑树，扩容时树节点<=6退化链表，采用尾插法避免死循环。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "集合",
+    "code": ""
+  },
+  {
+    "id": "exam_collection_005",
+    "question": "HashMap的put方法具体流程？",
+    "summary": "关于「HashMap的put方法具体流程？」的详细回答：\n\n【简要结论】\n1) 判断table是否为空，为空则resize初始化；2) 计算hash值得到索引；3) 该位置无数据则直接插入；4) 有数据则判断key是否相同（覆盖value）；5) 判断是否为红黑树节点（树中插入）；6) 遍历链表尾部插入，链表长度>8转红黑树；7) 插入后size>threshold则扩容。\n\n【详细解释】\n· 1) 判断table是否为空，为空则resize初始化；。\n· 2) 计算hash值得到索引；。\n· 3) 该位置无数据则直接插入；。\n· 4) 有数据则判断key是否相同（覆盖value）；。\n· 5) 判断是否为红黑树节点（树中插入）；。\n· 6) 遍历链表尾部插入，链表长度>8转红黑树；。\n· 7) 插入后size>threshold则扩容。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "集合",
+    "code": ""
+  },
+  {
+    "id": "exam_collection_006",
+    "question": "HashMap的扩容机制？",
+    "summary": "关于「HashMap的扩容机制？」的详细回答：\n\n【简要结论】\n第一次添加初始化长度为16，之后达到阈值（数组长度*0.75）时扩容为2倍。创建新数组后迁移数据：无冲突节点用e.hash & (newCap-1)计算新索引；红黑树走红黑树操作；链表拆分为高低位两条链表，(e.hash & oldCap)==0留在原位置，否则移到原位置+oldCap。\n\n【详细解释】\n· 第一次添加初始化长度为16，之后达到阈值（数组长度*0.75）时扩容为2倍。\n· 创建新数组后迁移数据：无冲突节点用e.hash & (newCap-1)计算新索引；。\n· 红黑树走红黑树操作；。\n· 链表拆分为高低位两条链表，(e.hash & oldCap)==0留在原位置，否则移到原位置+oldCap。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "集合",
+    "code": ""
+  },
+  {
+    "id": "exam_collection_007",
+    "question": "HashMap的寻址算法？为什么数组长度必须是2的次幂？",
+    "summary": "关于「HashMap的寻址算法？为什么数组长度必须是2的次幂？」的详细回答：\n\n【简要结论】\nhash(key) = (h = key.hashCode()) ^ (h >>> 16)，即hashCode与右移16位后的值异或，使hash更均匀。索引计算：(n-1) & hash 代替取模。数组长度必须是2的次幂原因：1) 位与运算代替取模效率更高；2) 扩容时(e.hash & oldCap)==0判断新位置，要么原位置要么原位置+oldCap，重新计算索引效率高。\n\n【详细解释】\n· hash(key) = (h = key.hashCode()) ^ (h >>> 16)，即hashCode与右移16位后的值异或，使hash更均匀。\n· 索引计算：(n-1) & hash 代替取模。\n· 数组长度必须是2的次幂原因：1) 位与运算代替取模效率更高；。\n· 2) 扩容时(e.hash & oldCap)==0判断新位置，要么原位置要么原位置+oldCap，重新计算索引效率高。\n\n【代码说明】\n· 配置/注释说明：\n  - hash计算\n  - 索引计算：i = (n - 1) & hash\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "集合",
+    "code": "// hash计算\nstatic final int hash(Object key) {\n    int h;\n    return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);\n}\n// 索引计算：i = (n - 1) & hash"
+  },
+  {
+    "id": "exam_collection_008",
+    "question": "JDK1.7中HashMap多线程死循环问题？",
+    "summary": "关于「JDK1.7中HashMap多线程死循环问题？」的详细回答：\n\n【简要结论】\nJDK1.7采用头插法，扩容时多线程可能导致环形链表。线程1读取到链表A->B准备扩容，线程2完成扩容后顺序变为B->A。线程1继续执行时，先将A移入新链表，再将B插入链头，但B.next已指向A，形成A<->B循环。JDK1.8改为尾插法保持原顺序，避免死循环。\n\n【详细解释】\n· JDK1.7采用头插法，扩容时多线程可能导致环形链表。\n· 线程1读取到链表A->B准备扩容，线程2完成扩容后顺序变为B->A。\n· 线程1继续执行时，先将A移入新链表，再将B插入链头，但B.next已指向A，形成A<->B循环。\n· JDK1.8改为尾插法保持原顺序，避免死循环。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "集合",
+    "code": ""
+  },
+  {
+    "id": "exam_collection_009",
+    "question": "HashSet与HashMap的区别？",
+    "summary": "关于「HashSet与HashMap的区别？」的详细回答：\n\n【简要结论】\nHashSet实现Set接口，仅存储对象；HashMap实现Map接口，存储键值对。HashSet底层用HashMap实现，利用HashMap的key存储元素，value默认为一个Object对象。判断重复标准与HashMap相同：hashCode相等且equals返回true。\n\n【详细解释】\n· HashSet实现Set接口，仅存储对象；。\n· HashMap实现Map接口，存储键值对。\n· HashSet底层用HashMap实现，利用HashMap的key存储元素，value默认为一个Object对象。\n· 判断重复标准与HashMap相同：hashCode相等且equals返回true。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "集合",
+    "code": ""
+  },
+  {
+    "id": "exam_collection_010",
+    "question": "HashTable与HashMap的区别？",
+    "summary": "关于「HashTable与HashMap的区别？」的详细回答：\n\n【简要结论】\n1) 数据结构：HashTable是数组+链表，HashMap 1.8后是数组+链表+红黑树；2) null值：HashTable key/value都不能为null，HashMap可以；3) hash算法不同；4) 扩容：HashTable翻倍+1，HashMap翻倍；5) 线程安全：HashTable用synchronized，HashMap非线程安全。多线程环境建议用ConcurrentHashMap。\n\n【详细解释】\n· 1) 数据结构：HashTable是数组+链表，HashMap 1.8后是数组+链表+红黑树；。\n· 2) null值：HashTable key/value都不能为null，HashMap可以；。\n· 3) hash算法不同；。\n· 4) 扩容：HashTable翻倍+1，HashMap翻倍；。\n· 5) 线程安全：HashTable用synchronized，HashMap非线程安全。\n· 多线程环境建议用ConcurrentHashMap。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "集合",
+    "code": ""
+  },
+  {
+    "id": "exam_collection_011",
+    "question": "红黑树的特点和时间复杂度？",
+    "summary": "关于「红黑树的特点和时间复杂度？」的详细回答：\n\n【简要结论】\n红黑树是自平衡二叉搜索树。性质：节点红/黑；根节点黑；叶子节点是黑色空节点；红色节点的子节点都是黑色；从任一节点到叶子的所有路径包含相同数目的黑色节点。查找/添加/删除时间复杂度均为O(log n)。添加删除后可能需旋转调整保持平衡。\n\n【详细解释】\n· 红黑树是自平衡二叉搜索树。\n· 性质：节点红/黑；。\n· 根节点黑；。\n· 叶子节点是黑色空节点；。\n· 红色节点的子节点都是黑色；。\n· 从任一节点到叶子的所有路径包含相同数目的黑色节点。\n· 查找/添加/删除时间复杂度均为O(log n)。\n· 添加删除后可能需旋转调整保持平衡。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "集合",
+    "code": ""
+  },
+  {
+    "id": "exam_kafka_001",
+    "question": "Kafka是什么？核心架构组成？",
+    "summary": "关于「Kafka是什么？核心架构组成？」的详细回答：\n\n【简要结论】\nKafka是分布式流处理平台/消息中间件。核心组成：1) Broker：服务器节点，负责存储和转发消息；2) Topic：消息主题，逻辑分类；3) Partition：主题分片，实现水平扩展；4) Producer：生产者；5) Consumer：消费者；6) Consumer Group：消费者组，组内消费者共同消费一个Topic。\n\n【详细解释】\n· Kafka是分布式流处理平台/消息中间件。\n· 核心组成：1) Broker：服务器节点，负责存储和转发消息；。\n· 2) Topic：消息主题，逻辑分类；。\n· 3) Partition：主题分片，实现水平扩展；。\n· 4) Producer：生产者；。\n· 5) Consumer：消费者；。\n· 6) Consumer Group：消费者组，组内消费者共同消费一个Topic。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "Kafka",
+    "code": ""
+  },
+  {
+    "id": "exam_kafka_002",
+    "question": "Kafka的偏移量（Offset）保留机制？",
+    "summary": "关于「Kafka的偏移量（Offset）保留机制？」的详细回答：\n\n【简要结论】\noffsets.retention.minutes默认7天。Kafka 2.1+版本改进：旧版本从最后一次提交偏移量开始计时，新版本从消费者组变为Empty（无活跃成员）开始计时。只要消费者组有活跃成员，偏移量永远不会过期。只有所有实例离线超过保留时间，偏移量才会被清理。\n\n【详细解释】\n· offsets.retention.minutes默认7天。\n· Kafka 2.1+版本改进：旧版本从最后一次提交偏移量开始计时，新版本从消费者组变为Empty（无活跃成员）开始计时。\n· 只要消费者组有活跃成员，偏移量永远不会过期。\n· 只有所有实例离线超过保留时间，偏移量才会被清理。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "Kafka",
+    "code": ""
+  },
+  {
+    "id": "exam_kafka_003",
+    "question": "Kafka 4.0的KRaft模式是什么？相比ZooKeeper有什么优势？",
+    "summary": "关于「Kafka 4.0的KRaft模式是什么？相比ZooKeeper有什么优势？」的详细回答：\n\n【简要结论】\nKRaft（Kafka Raft）是Kafka内置的元数据管理服务，替代ZooKeeper。优势：1) 无需额外部署ZooKeeper，运维简化；2) 支持分区数从20万提升到200万；3) 元数据操作更快（创建1000分区从10-15秒缩短到1-2秒）；4) 控制器选举从分钟级缩短到毫秒级。Kafka 4.0已彻底移除ZooKeeper支持。\n\n【详细解释】\n· KRaft（Kafka Raft）是Kafka内置的元数据管理服务，替代ZooKeeper。\n· 优势：1) 无需额外部署ZooKeeper，运维简化；。\n· 2) 支持分区数从20万提升到200万；。\n· 3) 元数据操作更快（创建1000分区从10-15秒缩短到1-2秒）；。\n· 4) 控制器选举从分钟级缩短到毫秒级。\n· Kafka 4.0已彻底移除ZooKeeper支持。\n\n【代码说明】\n· 配置/注释说明：\n  - KRaft单节点启动\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Kafka",
+    "code": "# KRaft单节点启动\nKAFKA_CLUSTER_ID=\"$(bin/kafka-storage.sh random-uuid)\"\nbin/kafka-storage.sh format -t $KAFKA_CLUSTER_ID -c config/kraft/server.properties\nbin/kafka-server-start.sh config/kraft/server.properties"
+  },
+  {
+    "id": "exam_kafka_004",
+    "question": "Kafka的消息确认机制（ACK）？",
+    "summary": "关于「Kafka的消息确认机制（ACK）？」的详细回答：\n\n【简要结论】\n生产者发送消息到Broker，Broker存储成功后返回ACK给生产者，生产者确认消息已到达MQ。消费者处理完消息后发送ACK给Broker，Broker收到后安全删除消息。这种机制确保消息至少被消费一次。\n\n【详细解释】\n· 生产者发送消息到Broker，Broker存储成功后返回ACK给生产者，生产者确认消息已到达MQ。\n· 消费者处理完消息后发送ACK给Broker，Broker收到后安全删除消息。\n· 这种机制确保消息至少被消费一次。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "Kafka",
+    "code": ""
+  },
+  {
+    "id": "exam_mq_001",
+    "question": "为什么要使用消息队列（MQ）？",
+    "summary": "关于「为什么要使用消息队列（MQ）？」的详细回答：\n\n【简要结论】\n1) 解耦：生产者和消费者独立演进；2) 异步：生产者无需等待消费者处理完成，提高响应速度；3) 削峰：高峰期消息暂存队列，消费者按能力消费，保护系统；4) 可恢复性：系统部分故障不影响消息传递。\n\n【详细解释】\n· 1) 解耦：生产者和消费者独立演进；。\n· 2) 异步：生产者无需等待消费者处理完成，提高响应速度；。\n· 3) 削峰：高峰期消息暂存队列，消费者按能力消费，保护系统；。\n· 4) 可恢复性：系统部分故障不影响消息传递。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "MQ",
+    "code": ""
+  },
+  {
+    "id": "exam_mq_002",
+    "question": "RabbitMQ的工作模式有哪些？",
+    "summary": "关于「RabbitMQ的工作模式有哪些？」的详细回答：\n\n【简要结论】\n1) 简单模式：一个生产者一个消费者；2) Work Queues：一个生产者多个消费者（轮询/公平分发）；3) Publish/Subscribe（Fanout）：广播模式，所有队列接收消息；4) Routing（Direct）：精确路由键匹配；5) Topics（Topic）：模糊匹配路由键（#匹配0或多个单词，*匹配1个单词）。\n\n【详细解释】\n· 1) 简单模式：一个生产者一个消费者；。\n· 2) Work Queues：一个生产者多个消费者（轮询/公平分发）；。\n· 3) Publish/Subscribe（Fanout）：广播模式，所有队列接收消息；。\n· 4) Routing（Direct）：精确路由键匹配；。\n· 5) Topics（Topic）：模糊匹配路由键（#匹配0或多个单词，*匹配1个单词）。\n\n【代码说明】\n· 配置/注释说明：\n  - SpringBoot中监听队列\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "MQ",
+    "code": "// SpringBoot中监听队列\n@RabbitListener(queues = \"queue_name\")\npublic void receive(String message) {\n    System.out.println(message);\n}"
+  },
+  {
+    "id": "exam_mq_003",
+    "question": "如何保证消息的可靠性？",
+    "summary": "关于「如何保证消息的可靠性？」的详细回答：\n\n【简要结论】\n1) 生产者确认（Publisher Confirm）：Broker收到消息后返回ACK；2) 消息持久化：队列和消息标记为durable；3) 消费者手动ACK：处理完成后手动确认，失败可重试或进入死信队列；4) 事务机制（性能较低）。\n\n【详细解释】\n· 1) 生产者确认（Publisher Confirm）：Broker收到消息后返回ACK；。\n· 2) 消息持久化：队列和消息标记为durable；。\n· 3) 消费者手动ACK：处理完成后手动确认，失败可重试或进入死信队列；。\n· 4) 事务机制（性能较低）。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "MQ",
+    "code": ""
+  }
+]

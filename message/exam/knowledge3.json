@@ -1,0 +1,352 @@
+[
+  {
+    "id": "exam_thread_001",
+    "question": "线程和进程的区别？",
+    "summary": "关于「线程和进程的区别？」的详细回答：\n\n【简要结论】\n进程是正在运行程序的实例，是资源分配的最小单位，不同进程使用不同内存空间。线程是指令流，是CPU调度的最小单位，同一进程下的线程共享内存空间。线程更轻量，上下文切换成本低于进程。Java中线程作为最小调度单位，进程作为资源分配的最小单位。\n\n【详细解释】\n· 进程是正在运行程序的实例，是资源分配的最小单位，不同进程：通常采用 不同内存空间。\n  - 不同内存空间：在 进程是正在运行程序的实例，是资源分配的最小单位，不同进程 体系中承担服务治理或通信支撑作用。\n· 线程是指令流，是CPU调度的最小单位，同一进程下的线程共享内存空间。\n· 线程更轻量，上下文切换成本低于进程。\n· Java中线程作为最小调度单位，进程作为资源分配的最小单位。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "多线程",
+    "code": ""
+  },
+  {
+    "id": "exam_thread_002",
+    "question": "并行和并发有什么区别？",
+    "summary": "关于「并行和并发有什么区别？」的详细回答：\n\n【简要结论】\n并发（concurrent）：同一时间应对多件事情的能力，多个线程轮流使用CPU（时间片轮转），宏观并行微观串行。并行（parallel）：同一时间动手做多件事情的能力，多核CPU同时执行多个线程。单核CPU只有并发没有并行；多核CPU既有并发也有并行。\n\n【详细解释】\n· 并发（concurrent）：同一时间应对多件事情的能力，多个线程轮流：通常采用 CPU（时间片轮转），宏观并行微观串行。\n  - CPU（时间片轮转）：在 并发（concurrent）：同一时间应对多件事情的能力，多个线程轮流 体系中承担服务治理或通信支撑作用。\n  - 宏观并行微观串行：在 并发（concurrent）：同一时间应对多件事情的能力，多个线程轮流 体系中承担服务治理或通信支撑作用。\n· 并行（parallel）：同一时间动手做多件事情的能力，多核CPU同时执行多个线程。\n· 单核CPU只有并发没有并行；。\n· 多核CPU既有并发也有并行。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "多线程",
+    "code": ""
+  },
+  {
+    "id": "exam_thread_003",
+    "question": "创建线程的四种方式？",
+    "summary": "关于「创建线程的四种方式？」的详细回答：\n\n【简要结论】\n1) 继承Thread类，重写run()方法；2) 实现Runnable接口，重写run()方法（无返回值）；3) 实现Callable接口，重写call()方法（有返回值，配合FutureTask使用）；4) 线程池创建（ExecutorService.submit()）。项目中推荐使用线程池方式，避免频繁创建销毁线程的开销。\n\n【详细解释】\n· 1) 继承Thread类，重写run()方法；。\n· 2) 实现Runnable接口，重写run()方法（无返回值）；。\n· 3) 实现Callable接口，重写call()方法（有返回值，配合FutureTask使用）；。\n· 4) 线程池创建（ExecutorService.submit()）。\n· 项目中推荐使用线程池方式，避免频繁创建销毁线程的开销。\n\n【代码说明】\n· 配置/注释说明：\n  - Callable + FutureTask\n  - 线程池\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "多线程",
+    "code": "// Callable + FutureTask\nFutureTask<String> ft = new FutureTask<>(new MyCallable());\nnew Thread(ft).start();\nString result = ft.get(); // 阻塞获取结果\n\n// 线程池\nExecutorService pool = Executors.newFixedThreadPool(3);\npool.submit(new MyRunnable());\npool.shutdown();"
+  },
+  {
+    "id": "exam_thread_004",
+    "question": "Runnable和Callable的区别？",
+    "summary": "关于「Runnable和Callable的区别？」的详细回答：\n\n【简要结论】\n1) 返回值：Runnable的run()无返回值；Callable的call()有返回值（泛型），需配合Future/FutureTask获取。2) 异常处理：Callable可以抛出异常；Runnable只能在内部消化异常。3) 使用方式：Runnable直接传入Thread或线程池；Callable需包装为FutureTask再传入Thread。\n\n【详细解释】\n· 1) 返回值：Runnable的run()无返回值；。\n· Callable的call()有返回值（泛型），需配合Future/FutureTask获取。\n· 2) 异常处理：Callable可以抛出异常；。\n· Runnable只能在内部消化异常。\n· 3)：通常采用 方式：Runnable直接传入Thread或线程池。\n  - 方式：Runnable直接传入Thread或线程池：在 3) 体系中承担服务治理或通信支撑作用。\n· Callable需包装为FutureTask再传入Thread。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "多线程",
+    "code": ""
+  },
+  {
+    "id": "exam_thread_005",
+    "question": "线程的run()和start()有什么区别？",
+    "summary": "关于「线程的run()和start()有什么区别？」的详细回答：\n\n【简要结论】\nstart()：启动线程，由JVM调用run()方法执行线程逻辑，只能调用一次，会创建新的操作系统线程。run()：只是普通的方法调用，不会创建新线程，在当前线程中执行run方法体，可以多次调用。直接调用run()不会实现多线程效果。\n\n【详细解释】\n· start()：启动线程，由JVM调用run()方法执行线程逻辑，只能调用一次，会创建新的操作系统线程。\n· run()：只是普通的方法调用，不会创建新线程，在当前线程中执行run方法体，可以多次调用。\n· 直接调用run()不会实现多线程效果。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "多线程",
+    "code": ""
+  },
+  {
+    "id": "exam_thread_006",
+    "question": "线程包括哪些状态，状态之间如何变化？",
+    "summary": "关于「线程包括哪些状态，状态之间如何变化？」的详细回答：\n\n【简要结论】\nJDK中Thread.State定义6种状态：NEW（新建，未调用start）、RUNNABLE（可运行，等待CPU调度）、BLOCKED（阻塞，等待Monitor锁）、WAITING（无限等待，调用wait/join/LockSupport.park）、TIMED_WAITING（限时等待，调用sleep/wait(timeout)/join(timeout)）、TERMINATED（终止，执行完毕）。状态转换：NEW→start()→RUNNABLE；RUNNABLE→获取锁失败→BLOCKED→获取锁→RUNNABLE；RUNNABLE→wait()→WAITING→notify()→RUNNABLE；RUNNABLE→sleep(time)→TIMED_WAITING→超时→RUNNABLE；RUNNABLE→执行完毕→TERMINATED。\n\n【详细解释】\n· JDK中Thread.State定义6种状态：NEW（新建，未调用start）、RUNNABLE（可运行，等待CPU调度）、BLOCKED（阻塞，等待Monitor锁）、WAITING（无限等待，调用wait/join/LockSupport.park）、TIMED_WAITING（限时等待，调用sleep/wait(timeout)/join(timeout)）、TERMINATED（终止，执行完毕）。\n· 状态转换：NEW→start()→RUNNABLE；。\n· RUNNABLE→获取锁失败→BLOCKED→获取锁→RUNNABLE；。\n· RUNNABLE→wait()→WAITING→notify()→RUNNABLE；。\n· RUNNABLE→sleep(time)→TIMED_WAITING→超时→RUNNABLE；。\n· RUNNABLE→执行完毕→TERMINATED。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "多线程",
+    "code": ""
+  },
+  {
+    "id": "exam_thread_007",
+    "question": "wait()和sleep()的区别？",
+    "summary": "关于「wait()和sleep()的区别？」的详细回答：\n\n【简要结论】\n共同点：都会让线程暂时放弃CPU使用权，进入阻塞状态。不同点：1) 方法归属：sleep()是Thread的静态方法；wait()是Object的成员方法。2) 醒来时机：sleep(long)超时自动醒来；wait()需被notify()/notifyAll()唤醒，wait(long)超时也可自动醒来。3) 锁特性：wait()必须先获取对象锁，执行后释放锁；sleep()无此限制，若在synchronized中执行不释放锁。\n\n【详细解释】\n· 共同点：都会让线程暂时放弃CPU：通常采用 权，进入阻塞状态。\n  - 权：在 共同点：都会让线程暂时放弃CPU 体系中承担服务治理或通信支撑作用。\n  - 进入阻塞状态：在 共同点：都会让线程暂时放弃CPU 体系中承担服务治理或通信支撑作用。\n· 不同点：1) 方法归属：sleep()是Thread的静态方法；。\n· wait()是Object的成员方法。\n· 2) 醒来时机：sleep(long)超时自动醒来；。\n· wait()需被notify()/notifyAll()唤醒，wait(long)超时也可自动醒来。\n· 3) 锁特性：wait()必须先获取对象锁，执行后释放锁；。\n· sleep()无此限制，若在synchronized中执行不释放锁。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "多线程",
+    "code": ""
+  },
+  {
+    "id": "exam_thread_008",
+    "question": "synchronized关键字的底层原理？",
+    "summary": "关于「synchronized关键字的底层原理？」的详细回答：\n\n【简要结论】\nsynchronized采用互斥方式，同一时刻至多一个线程持有对象锁。底层基于JVM的Monitor实现（C++编写）：1) 每个Java对象头关联一个Monitor；2) Monitor内部有Owner（持有锁的线程）、EntryList（阻塞等待锁的线程）、WaitSet（调用wait等待的线程）；3) 字节码层面通过monitorenter和monitorexit指令实现加锁解锁；4) 锁升级：无锁→偏向锁→轻量级锁→重量级锁，减少无竞争时的性能开销。\n\n【详细解释】\n· synchronized采用互斥方式，同一时刻至多一个线程持有对象锁。\n· 底层基于JVM的Monitor实现（C++编写）：1) 每个Java对象头关联一个Monitor；。\n· 2) Monitor内部有Owner（持有锁的线程）、EntryList（阻塞等待锁的线程）、WaitSet（调用wait等待的线程）；。\n· 3) 字节码层面通过monitorenter和monitorexit指令实现加锁解锁；。\n· 4) 锁升级：无锁→偏向锁→轻量级锁→重量级锁，减少无竞争时的性能开销。\n\n【代码说明】\n· 配置/注释说明：\n  - 字节码层面：monitorenter + monitorexit\n  - 对象头Mark Word记录锁状态\n  - 后三位001=无锁 101=偏向锁 00=轻量级锁 10=重量级锁\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "多线程",
+    "code": "// 字节码层面：monitorenter + monitorexit\n// 对象头Mark Word记录锁状态\n// 后三位001=无锁 101=偏向锁 00=轻量级锁 10=重量级锁"
+  },
+  {
+    "id": "exam_thread_009",
+    "question": "synchronized锁升级过程？",
+    "summary": "关于「synchronized锁升级过程？」的详细回答：\n\n【简要结论】\n1) 无锁：对象创建后默认状态。2) 偏向锁：只有一个线程访问同步块时，Mark Word记录线程ID，后续该线程进入无需CAS，只需判断线程ID是否是自己。3) 轻量级锁：多个线程交替访问（无竞争），线程栈创建Lock Record，通过CAS将对象头指向Lock Record，失败则自旋。4) 重量级锁：线程竞争激烈，自旋失败，膨胀为Monitor，线程进入EntryList阻塞等待。JDK15后默认禁用偏向锁。\n\n【详细解释】\n· 1) 无锁：对象创建后默认状态。\n· 2) 偏向锁：只有一个线程访问同步块时，Mark Word记录线程ID，后续该线程进入无需CAS，只需判断线程ID是否是自己。\n· 3) 轻量级锁：多个线程交替访问（无竞争），线程栈创建Lock Record，通过CAS将对象头指向Lock Record，失败则自旋。\n· 4) 重量级锁：线程竞争激烈，自旋失败，膨胀为Monitor，线程进入EntryList阻塞等待。\n· JDK15后默认禁用偏向锁。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "多线程",
+    "code": ""
+  },
+  {
+    "id": "exam_thread_010",
+    "question": "什么是JMM（Java内存模型）？",
+    "summary": "关于「什么是JMM（Java内存模型）？」的详细回答：\n\n【简要结论】\nJMM定义了线程共享变量的访问规则：1) 所有共享变量（实例变量、类变量）存储在主内存（RAM）；2) 每个线程有自己的工作内存，保存变量的副本；3) 线程对变量的读写必须在工作内存中完成，不能直接读写主内存；4) 线程间变量传递需通过主内存。JMM围绕原子性、可见性、有序性三大特性展开，volatile/synchronized/Lock等机制都基于此模型实现。\n\n【详细解释】\n· JMM定义了线程共享变量的访问规则：1) 所有共享变量（实例变量、类变量）存储在主内存（RAM）；。\n· 2) 每个线程有自己的工作内存，保存变量的副本；。\n· 3) 线程对变量的读写必须在工作内存中完成，不能直接读写主内存；。\n· 4) 线程间变量传递需通过主内存。\n· JMM围绕原子性、可见性、有序性三大特性展开，volatile/synchronized/Lock等机制都基于此模型实现。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "多线程",
+    "code": ""
+  },
+  {
+    "id": "exam_thread_011",
+    "question": "volatile关键字的作用和原理？",
+    "summary": "关于「volatile关键字的作用和原理？」的详细回答：\n\n【简要结论】\n作用：1) 保证可见性：一个线程修改volatile变量，其他线程立即可见（通过内存屏障强制刷新主内存）。2) 禁止指令重排序：插入内存屏障，确保程序执行有序性。原理：写操作加入StoreStore+StoreLoad屏障（阻止上方写操作越过volatile写）；读操作加入LoadLoad+LoadStore屏障（阻止下方读操作越过volatile读）。注意：volatile不保证原子性（如i++操作）。\n\n【详细解释】\n· 作用：1) 保证可见性：一个线程修改volatile变量，其他线程立即可见（通过内存屏障强制刷新主内存）。\n· 2) 禁止指令重排序：插入内存屏障，确保程序执行有序性。\n· 原理：写操作加入StoreStore+StoreLoad屏障（阻止上方写操作越过volatile写）；。\n· 读操作加入LoadLoad+LoadStore屏障（阻止下方读操作越过volatile读）。\n· 注意：volatile不保证原子性（如i++操作）。\n\n【代码说明】\n· 配置/注释说明：\n  - volatile禁止指令重排序示例\n  - 写变量让volatile修饰的变量在代码最后位置\n  - 读变量让volatile修饰的变量在代码最开始位置\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "多线程",
+    "code": "// volatile禁止指令重排序示例\n// 写变量让volatile修饰的变量在代码最后位置\n// 读变量让volatile修饰的变量在代码最开始位置\nvolatile boolean ready = false;\nvolatile int num = 0;"
+  },
+  {
+    "id": "exam_thread_012",
+    "question": "什么是CAS？ABA问题怎么解决？",
+    "summary": "关于「什么是CAS？ABA问题怎么解决？」的详细回答：\n\n【简要结论】\nCAS（Compare And Swap）：比较并交换，包含三个值V（内存值）、A（预期值）、B（新值），仅当V==A时将V更新为B，否则重试。是乐观锁的实现方式。底层调用Unsafe类的native方法，依赖CPU原子指令。ABA问题：线程1读取A，线程2改为B又改回A，线程1CAS成功但值已被修改过。解决方案：使用AtomicStampedReference，增加版本号/时间戳标识。\n\n【详细解释】\n· CAS（Compare And Swap）：比较并交换，包含三个值V（内存值）、A（预期值）、B（新值），仅当V==A时将V更新为B，否则重试。\n· 是乐观锁的实现方式。\n· 底层调用Unsafe类的native方法，依赖CPU原子指令。\n· ABA问题：线程1读取A，线程2改为B又改回A，线程1CAS成功但值已被修改过。\n· 解决方案：使用AtomicStampedReference，增加版本号/时间戳标识。\n\n【代码说明】\n· 配置/注释说明：\n  - CAS示例\n  - 解决ABA问题\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "多线程",
+    "code": "// CAS示例\nAtomicInteger atomicInt = new AtomicInteger(100);\nboolean success = atomicInt.compareAndSet(100, 101);\n\n// 解决ABA问题\nAtomicStampedReference<Integer> stampedRef = \n    new AtomicStampedReference<>(100, 0);\nstampedRef.compareAndSet(100, 101, 0, 1); // 带版本号"
+  },
+  {
+    "id": "exam_thread_013",
+    "question": "什么是AQS？",
+    "summary": "关于「什么是AQS？」的详细回答：\n\n【简要结论】\nAQS（AbstractQueuedSynchronizer）是JUC包下构建锁和同步器的基础框架。核心：1) state属性（volatile修饰）：0表示无锁，1表示有锁；2) FIFO双向等待队列：存储获取锁失败的线程；3) 条件变量：支持多个等待队列（类似Monitor的WaitSet）。通过CAS操作state保证原子性。常见实现：ReentrantLock、Semaphore、CountDownLatch。AQS支持公平锁（新线程排队等待）和非公平锁（新线程与队列线程共同抢锁）。\n\n【详细解释】\n· AQS（AbstractQueuedSynchronizer）是JUC包下构建锁和同步器的基础框架。\n· 核心：1) state属性（volatile修饰）：0表示无锁，1表示有锁；。\n· 2) FIFO双向等待队列：存储获取锁失败的线程；。\n· 3) 条件变量：支持多个等待队列（类似Monitor的WaitSet）。\n· 通过CAS操作state保证原子性。\n· 常见实现：ReentrantLock、Semaphore、CountDownLatch。\n· AQS支持公平锁（新线程排队等待）和非公平锁（新线程与队列线程共同抢锁）。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "多线程",
+    "code": ""
+  },
+  {
+    "id": "exam_thread_014",
+    "question": "ReentrantLock的实现原理？与synchronized的区别？",
+    "summary": "关于「ReentrantLock的实现原理？与synchronized的区别？」的详细回答：\n\n【简要结论】\nReentrantLock基于CAS+AQS实现，支持可重入、可中断、可超时、公平/非公平锁、多条件变量。与synchronized区别：1) 语法：synchronized是关键字，自动释放锁；Lock是接口，需手动unlock。2) 功能：Lock提供更多功能（中断、超时、公平锁、多条件）。3) 性能：无竞争时synchronized有偏向锁/轻量级锁优化；竞争激烈时Lock性能更好。4) 实现：synchronized基于Monitor（C++）；Lock基于AQS（Java）。\n\n【详细解释】\n· ReentrantLock基于CAS+AQS实现，支持可重入、可中断、可超时、公平/非公平锁、多条件变量。\n· 与synchronized区别：1) 语法：synchronized是关键字，自动释放锁；。\n· Lock是接口，需手动unlock。\n· 2) 功能：Lock提供更多功能（中断、超时、公平锁、多条件）。\n· 3) 性能：无竞争时synchronized有偏向锁/轻量级锁优化；。\n· 竞争激烈时Lock性能更好。\n· 4) 实现：synchronized基于Monitor（C++）；。\n· Lock基于AQS（Java）。\n\n【代码说明】\n· 配置/注释说明：\n  - ReentrantLock使用\n  - 业务逻辑\n  - 可中断锁\n  - 公平锁\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。\n\n完整代码示例见下方代码块。",
+    "category": "多线程",
+    "code": "// ReentrantLock使用\nReentrantLock lock = new ReentrantLock();\nlock.lock();\ntry {\n    // 业务逻辑\n} finally {\n    lock.unlock();\n}\n\n// 可中断锁\nlock.lockInterruptibly();\n\n// 公平锁\nReentrantLock fairLock = new ReentrantLock(true);"
+  },
+  {
+    "id": "exam_thread_015",
+    "question": "死锁产生的条件？如何诊断？",
+    "summary": "关于「死锁产生的条件？如何诊断？」的详细回答：\n\n【简要结论】\n死锁条件（同时满足）：互斥、请求与保持、不剥夺、循环等待。诊断方法：1) jps查看Java进程ID；2) jstack -l pid查看线程堆栈，搜索'Found one Java-level deadlock'定位死锁线程和代码行号。3) 可视化工具：jconsole、VisualVM的'线程'页签可检测死锁。预防：按固定顺序获取锁、使用tryLock限时获取、避免嵌套锁。\n\n【详细解释】\n· 死锁条件（同时满足）：互斥、请求与保持、不剥夺、循环等待。\n· 诊断方法：1) jps查看Java进程ID；。\n· 2) jstack -l pid查看线程堆栈，搜索'Found one Java-level deadlock'定位死锁线程和代码行号。\n· 3) 可视化工具：jconsole、VisualVM的'线程'页签可检测死锁。\n· 预防：按固定顺序获取锁、使用tryLock限时获取、避免嵌套锁。\n\n【代码说明】\n· 配置/注释说明：\n  - 死锁示例\n  - t1: 先锁A再锁B\n  - t2: 先锁B再锁A\n  - jps 查看进程ID\n  - jstack -l <pid> 查看死锁\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "多线程",
+    "code": "// 死锁示例\nObject A = new Object(); Object B = new Object();\n// t1: 先锁A再锁B\n// t2: 先锁B再锁A\n\n// 诊断\n// jps 查看进程ID\n// jstack -l <pid> 查看死锁"
+  },
+  {
+    "id": "exam_thread_016",
+    "question": "ConcurrentHashMap 1.7和1.8的区别？",
+    "summary": "关于「ConcurrentHashMap 1.7和1.8的区别？」的详细回答：\n\n【简要结论】\nJDK1.7：分段锁（Segment数组+HashEntry数组），每个Segment继承ReentrantLock，默认16个Segment不可扩容，HashEntry数组可扩容。先hash定位Segment，再hash定位HashEntry，获取Segment锁后操作。JDK1.8：数组+链表/红黑树，与HashMap结构一致。放弃Segment，采用CAS+synchronized：插入时用CAS初始化数组节点，冲突时用synchronized锁定链表头节点（红黑树根节点）。锁粒度更细，只锁冲突的链表/树头，不冲突则无锁，并发度更高。\n\n【详细解释】\n· JDK1.7：分段锁（Segment数组+HashEntry数组），每个Segment继承ReentrantLock，默认16个Segment不可扩容，HashEntry数组可扩容。\n· 先hash定位Segment，再hash定位HashEntry，获取Segment锁后操作。\n· JDK1.8：数组+链表/红黑树，与HashMap结构一致。\n· 放弃Segment，采用CAS+synchronized：插入时用CAS初始化数组节点，冲突时用synchronized锁定链表头节点（红黑树根节点）。\n· 锁粒度更细，只锁冲突的链表/树头，不冲突则无锁，并发度更高。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "多线程",
+    "code": ""
+  },
+  {
+    "id": "exam_thread_017",
+    "question": "线程池的核心参数有哪些？执行流程？",
+    "summary": "关于「线程池的核心参数有哪些？执行流程？」的详细回答：\n\n【简要结论】\n7个核心参数：corePoolSize（核心线程数）、maximumPoolSize（最大线程数=核心+救急线程）、keepAliveTime（救急线程存活时间）、unit（时间单位）、workQueue（阻塞队列）、threadFactory（线程工厂）、handler（拒绝策略）。执行流程：1) 提交任务，核心线程未满则创建新线程执行；2) 核心线程满，任务入队列；3) 队列满，创建救急线程（不超过最大线程数）；4) 全部满，执行拒绝策略。拒绝策略：AbortPolicy（抛异常，默认）、CallerRunsPolicy（调用者执行）、DiscardOldestPolicy（丢弃最老任务）、DiscardPolicy（静默丢弃）。\n\n【详细解释】\n· 7个核心参数：corePoolSize（核心线程数）、maximumPoolSize（最大线程数=核心+救急线程）、keepAliveTime（救急线程存活时间）、unit（时间单位）、workQueue（阻塞队列）、threadFactory（线程工厂）、handler（拒绝策略）。\n· 执行流程：1) 提交任务，核心线程未满则创建新线程执行；。\n· 2) 核心线程满，任务入队列；。\n· 3) 队列满，创建救急线程（不超过最大线程数）；。\n· 4) 全部满，执行拒绝策略。\n· 拒绝策略：AbortPolicy（抛异常，默认）、CallerRunsPolicy（调用者执行）、DiscardOldestPolicy（丢弃最老任务）、DiscardPolicy（静默丢弃）。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "多线程",
+    "code": "new ThreadPoolExecutor(\n    2,                      // corePoolSize\n    5,                      // maximumPoolSize\n    60L,                    // keepAliveTime\n    TimeUnit.SECONDS,       // unit\n    new LinkedBlockingQueue<>(100), // workQueue\n    Executors.defaultThreadFactory(), // threadFactory\n    new ThreadPoolExecutor.CallerRunsPolicy() // handler\n);"
+  },
+  {
+    "id": "exam_thread_018",
+    "question": "如何确定线程池的核心线程数？",
+    "summary": "关于「如何确定线程池的核心线程数？」的详细回答：\n\n【简要结论】\nCPU密集型任务（计算型）：corePoolSize = CPU核数 + 1，减少上下文切换。IO密集型任务（文件/网络操作）：corePoolSize = CPU核数 * 2 + 1，充分利用CPU等待IO的时间。混合任务：根据实际压测调整。高并发短任务：CPU核数+1；并发不高长任务：IO密集型公式。查看CPU核数：Runtime.getRuntime().availableProcessors()。\n\n【详细解释】\n· CPU密集型任务（计算型）：corePoolSize = CPU核数 + 1，减少上下文切换。\n· IO密集型任务（文件/网络操作）：corePoolSize = CPU核数 * 2 + 1，充分利用CPU等待IO的时间。\n· 混合任务：根据实际压测调整。\n· 高并发短任务：CPU核数+1；。\n· 并发不高长任务：IO密集型公式。\n· 查看CPU核数：Runtime.getRuntime().availableProcessors()。\n\n【代码说明】\n· 配置/注释说明：\n  - CPU密集型\n  - IO密集型\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "多线程",
+    "code": "int cpuNum = Runtime.getRuntime().availableProcessors();\n// CPU密集型\nint corePoolSize = cpuNum + 1;\n// IO密集型\nint corePoolSize = cpuNum * 2 + 1;"
+  },
+  {
+    "id": "exam_thread_019",
+    "question": "为什么不建议用Executors创建线程池？",
+    "summary": "关于「为什么不建议用Executors创建线程池？」的详细回答：\n\n【简要结论】\n阿里开发手册明确禁止。原因：1) newFixedThreadPool和newSingleThreadExecutor使用LinkedBlockingQueue，默认容量Integer.MAX_VALUE，可能堆积大量请求导致OOM。2) newCachedThreadPool和newScheduledThreadPool允许最大线程数为Integer.MAX_VALUE，可能创建大量线程导致OOM。推荐使用ThreadPoolExecutor手动指定参数，明确队列类型和容量、线程数量上限。\n\n【详细解释】\n· 阿里开发手册明确禁止。\n· 原因：1) newFixedThreadPool和newSingleThreadExecutor使用LinkedBlockingQueue，默认容量Integer.MAX_VALUE，可能堆积大量请求导致OOM。\n· 2) newCachedThreadPool和newScheduledThreadPool允许最大线程数为Integer.MAX_VALUE，可能创建大量线程导致OOM。\n· 推荐使用ThreadPoolExecutor手动指定参数，明确队列类型和容量、线程数量上限。\n\n【代码说明】\n· 配置/注释说明：\n  - 不推荐\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "多线程",
+    "code": "// 不推荐\nExecutorService pool = Executors.newFixedThreadPool(10); // 队列无界\n// 推荐\nnew ThreadPoolExecutor(10, 20, 60, TimeUnit.SECONDS, \n    new ArrayBlockingQueue<>(1000), // 有界队列\n    new ThreadFactoryBuilder().setNameFormat(\"pool-%d\").build(),\n    new ThreadPoolExecutor.CallerRunsPolicy());"
+  },
+  {
+    "id": "exam_thread_020",
+    "question": "ThreadLocal的原理和内存泄漏问题？",
+    "summary": "关于「ThreadLocal的原理和内存泄漏问题？」的详细回答：\n\n【简要结论】\n原理：每个Thread维护一个ThreadLocalMap（ThreadLocal的定制HashMap），key是ThreadLocal对象（弱引用），value是线程变量副本。set/get/remove操作都在当前线程的ThreadLocalMap中进行，实现线程隔离。内存泄漏：ThreadLocalMap的Entry继承WeakReference，key（ThreadLocal）是弱引用，GC时key被回收但value是强引用无法回收。若线程长期存活（如线程池），value一直累积导致内存泄漏。解决方案：使用完ThreadLocal后务必调用remove()。\n\n【详细解释】\n· 原理：每个Thread维护一个ThreadLocalMap（ThreadLocal的定制HashMap），key是ThreadLocal对象（弱引用），value是线程变量副本。\n· set/get/remove操作都在当前线程的ThreadLocalMap中进行，实现线程隔离。\n· 内存泄漏：ThreadLocalMap的Entry继承WeakReference，key（ThreadLocal）是弱引用，GC时key被回收但value是强引用无法回收。\n· 若线程长期存活（如线程池），value一直累积导致内存泄漏。\n· 解决方案：使用完ThreadLocal后务必调用remove()。\n\n【代码说明】\n· 配置/注释说明：\n  - 使用示例\n  - 线程池中使用ThreadLocal\n  - 任务执行前后remove，避免线程复用导致数据混乱\n  - 或用InheritableThreadLocal实现父子线程传递\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "多线程",
+    "code": "// 使用示例\nThreadLocal<String> tl = new ThreadLocal<>();\ntl.set(\"value\");\nString val = tl.get();\ntl.remove(); // 必须手动移除\n\n// 线程池中使用ThreadLocal\n// 任务执行前后remove，避免线程复用导致数据混乱\n// 或用InheritableThreadLocal实现父子线程传递"
+  },
+  {
+    "id": "exam_mq_004",
+    "question": "RabbitMQ如何保证消息不丢失？",
+    "summary": "关于「RabbitMQ如何保证消息不丢失？」的详细回答：\n\n【简要结论】\n三方面保障：1) 生产者确认（Publisher Confirm）：消息发送到Exchange/Queue后Broker返回ACK，失败则记录日志并重试。2) 消息持久化：Exchange、Queue、Message都设置durable=true，消息写入磁盘。3) 消费者手动ACK：消费成功后手动确认，失败则重试（设置重试次数），超过次数转入死信队列人工处理。\n\n【详细解释】\n· 三方面保障：1) 生产者确认（Publisher Confirm）：消息发送到Exchange/Queue后Broker返回ACK，失败则记录日志并重试。\n· 2) 消息持久化：Exchange、Queue、Message都设置durable=true，消息写入磁盘。\n· 3) 消费者手动ACK：消费成功后手动确认，失败则重试（设置重试次数），超过次数转入死信队列人工处理。\n\n【代码说明】\n· 配置/注释说明：\n  - 生产者确认\n  - 消费者手动ACK\n  - 处理消息\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "消息中间件",
+    "code": "// 生产者确认\nchannel.confirmSelect();\nchannel.basicPublish(exchange, routingKey, \n    MessageProperties.PERSISTENT_TEXT_PLAIN, msg.getBytes());\n// 消费者手动ACK\nchannel.basicConsume(queue, false, (consumerTag, delivery) -> {\n    // 处理消息\n    channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);\n}, consumerTag -> {});"
+  },
+  {
+    "id": "exam_mq_005",
+    "question": "RabbitMQ消息重复消费如何解决？",
+    "summary": "关于「RabbitMQ消息重复消费如何解决？」的详细回答：\n\n【简要结论】\n核心是保证幂等性。方案：1) 数据库唯一约束：插入操作利用唯一索引，重复消息插入失败。2) Redis分布式锁/setnx：消费前检查消息ID是否已处理，已处理则跳过。3) 业务状态机：根据业务状态判断，如订单已支付则不再处理支付消息。4) 数据库乐观锁：update时加版本号控制。\n\n【详细解释】\n· 核心是保证幂等性。\n· 方案：1) 数据库唯一约束：插入操作利用唯一索引，重复消息插入失败。\n· 2) Redis分布式锁/setnx：消费前检查消息ID是否已处理，已处理则跳过。\n· 3) 业务状态机：根据业务状态判断，如订单已支付则不再处理支付消息。\n· 4) 数据库乐观锁：update时加版本号控制。\n\n【代码说明】\n· 配置/注释说明：\n  - Redis幂等\n  - 处理消息\n  - 已处理，直接返回\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "消息中间件",
+    "code": "// Redis幂等\nString key = \"msg:id:\" + messageId;\nBoolean success = redisTemplate.opsForValue().setIfAbsent(key, \"1\", 24, TimeUnit.HOURS);\nif (Boolean.TRUE.equals(success)) {\n    // 处理消息\n} else {\n    // 已处理，直接返回\n}"
+  },
+  {
+    "id": "exam_mq_006",
+    "question": "RabbitMQ死信交换机和延迟队列？",
+    "summary": "关于「RabbitMQ死信交换机和延迟队列？」的详细回答：\n\n【简要结论】\n死信（DLX）：消息变为死信的三种情况：1) 消息被拒绝且不重入队；2) 消息过期（TTL）；3) 队列达到最大长度。死信交换机绑定死信队列，实现延迟功能。延迟队列实现：1) 给消息/队列设置TTL，过期后进入死信队列消费；2) 安装rabbitmq_delayed_message_exchange插件，声明x-delayed-message类型交换机，消息发送时设置x-delay头。\n\n【详细解释】\n· 死信（DLX）：消息变为死信的三种情况：1) 消息被拒绝且不重入队；。\n· 2) 消息过期（TTL）；。\n· 3) 队列达到最大长度。\n· 死信交换机绑定死信队列，实现延迟功能。\n· 延迟队列实现：1) 给消息/队列设置TTL，过期后进入死信队列消费；。\n· 2) 安装rabbitmq_delayed_message_exchange插件，声明x-delayed-message类型交换机，消息发送时设置x-delay头。\n\n【代码说明】\n· 配置/注释说明：\n  - 声明死信队列\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "消息中间件",
+    "code": "// 声明死信队列\nMap<String, Object> args = new HashMap<>();\nargs.put(\"x-dead-letter-exchange\", \"dlx.exchange\");\nargs.put(\"x-dead-letter-routing-key\", \"dlx.routing.key\");\nargs.put(\"x-message-ttl\", 10000); // 10秒过期\nchannel.queueDeclare(\"normal.queue\", true, false, false, args);"
+  },
+  {
+    "id": "exam_mq_007",
+    "question": "RabbitMQ消息堆积如何解决？",
+    "summary": "关于「RabbitMQ消息堆积如何解决？」的详细回答：\n\n【简要结论】\n1) 增加消费者数量：多消费者并行消费（Work Queues模式）。2) 提高单消费者消费能力：多线程消费、批量消费。3) 使用惰性队列（Lazy Queue）：消息直接存盘而非内存，支持数百万条消息堆积。4) 设置队列最大长度，超限丢弃或转入死信。5) 优化消费者代码，减少处理时间。\n\n【详细解释】\n· 1) 增加消费者数量：多消费者并行消费（Work Queues模式）。\n· 2) 提高单消费者消费能力：多线程消费、批量消费。\n· 3) 使用惰性队列（Lazy Queue）：消息直接存盘而非内存，支持数百万条消息堆积。\n· 4) 设置队列最大长度，超限丢弃或转入死信。\n· 5) 优化消费者代码，减少处理时间。\n\n【代码说明】\n· 配置/注释说明：\n  - 惰性队列\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "消息中间件",
+    "code": "// 惰性队列\nMap<String, Object> args = new HashMap<>();\nargs.put(\"x-queue-mode\", \"lazy\");\nchannel.queueDeclare(\"lazy.queue\", true, false, false, args);"
+  },
+  {
+    "id": "exam_mq_008",
+    "question": "RabbitMQ高可用机制？",
+    "summary": "关于「RabbitMQ高可用机制？」的详细回答：\n\n【简要结论】\n镜像队列模式：一主多从，主节点处理所有操作并同步给从节点。主宕机后从节点提升为主节点。仲裁队列（Quorum Queue）：基于Raft协议实现强一致性，自动选举leader，无需配置镜像，数据安全性更高，是RabbitMQ 3.8+推荐方案。\n\n【详细解释】\n· 镜像队列模式：一主多从，主节点处理所有操作并同步给从节点。\n· 主宕机后从节点提升为主节点。\n· 仲裁队列（Quorum Queue）：基于Raft协议实现强一致性，自动选举leader，无需配置镜像，数据安全性更高，是RabbitMQ 3.8+推荐方案。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "消息中间件",
+    "code": ""
+  },
+  {
+    "id": "exam_mq_009",
+    "question": "Kafka如何保证消息不丢失？",
+    "summary": "关于「Kafka如何保证消息不丢失？」的详细回答：\n\n【简要结论】\n1) 生产者：使用异步回调发送，设置retries重试；设置acks=all确保所有副本确认。2) Broker：多副本机制（replication.factor>=3），min.insync.replicas=2确保至少2个副本同步。3) 消费者：手动提交offset（enable.auto.commit=false），业务处理成功后commitSync()。\n\n【详细解释】\n· 1) 生产者：使用异步回调发送，设置retries重试；。\n· 设置acks=all确保所有副本确认。\n· 2) Broker：多副本机制（replication.factor>=3），min.insync.replicas=2确保至少2个副本同步。\n· 3) 消费者：手动提交offset（enable.auto.commit=false），业务处理成功后commitSync()。\n\n【代码说明】\n· 配置/注释说明：\n  - 生产者配置\n  - 消费者手动提交\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "消息中间件",
+    "code": "// 生产者配置\nprops.put(\"acks\", \"all\");\nprops.put(\"retries\", 3);\nprops.put(\"enable.idempotence\", true); // 幂等生产者\n\n// 消费者手动提交\nconsumer.commitSync();"
+  },
+  {
+    "id": "exam_mq_010",
+    "question": "Kafka如何保证消息顺序性？",
+    "summary": "关于「Kafka如何保证消息顺序性？」的详细回答：\n\n【简要结论】\nKafka默认不保证全局顺序，只保证分区有序。实现全局有序：1) 单分区：所有消息发送到同一个分区（指定partition=0或相同key）。2) 多分区有序：按业务key分区（如订单ID），相同订单的消息进入同一分区。注意：多消费者并行消费时，即使分区有序也无法保证消费顺序，需在消费者端按key排序或串行处理。\n\n【详细解释】\n· Kafka默认不保证全局顺序，只保证分区有序。\n· 实现全局有序：1) 单分区：所有消息发送到同一个分区（指定partition=0或相同key）。\n· 2) 多分区有序：按业务key分区（如订单ID），相同订单的消息进入同一分区。\n· 注意：多消费者并行消费时，即使分区有序也无法保证消费顺序，需在消费者端按key排序或串行处理。\n\n【代码说明】\n· 配置/注释说明：\n  - 指定key分区\n  - 相同orderId的消息进入同一分区\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "消息中间件",
+    "code": "// 指定key分区\nProducerRecord<String, String> record = \n    new ProducerRecord<>(\"topic\", orderId, message);\n// 相同orderId的消息进入同一分区"
+  },
+  {
+    "id": "exam_mq_011",
+    "question": "Kafka的ISR是什么？",
+    "summary": "关于「Kafka的ISR是什么？」的详细回答：\n\n【简要结论】\nISR（In-Sync Replicas）：与leader保持同步的follower副本集合。leader维护ISR列表，follower通过拉取leader数据保持同步，若follower滞后过多（replica.lag.time.max.ms）则被踢出ISR。写入时acks=all要求ISR中所有副本确认。leader故障时，优先从ISR中选举新leader（数据一致性高），若ISR为空则从OSR（Out-of-Sync Replicas）选举（可能丢数据）。\n\n【详细解释】\n· ISR（In-Sync Replicas）：与leader保持同步的follower副本集合。\n· leader维护ISR列表，follower通过拉取leader数据保持同步，若follower滞后过多（replica.lag.time.max.ms）则被踢出ISR。\n· 写入时acks=all要求ISR中所有副本确认。\n· leader故障时，优先从ISR中选举新leader（数据一致性高），若ISR为空则从OSR（Out-of-Sync Replicas）选举（可能丢数据）。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "消息中间件",
+    "code": ""
+  },
+  {
+    "id": "exam_mq_012",
+    "question": "Kafka高性能设计？",
+    "summary": "关于「Kafka高性能设计？」的详细回答：\n\n【简要结论】\n1) 顺序读写：日志文件追加写，磁盘顺序读写性能接近内存。2) 页缓存（Page Cache）：利用OS缓存，减少磁盘IO。3) 零拷贝：sendfile系统调用，数据直接从Page Cache发送到网卡，减少4次数据拷贝和2次上下文切换。4) 消息压缩：减少网络传输和磁盘占用。5) 批量发送：Producer批量缓存消息后发送，减少网络请求。6) 分区并行：多分区多消费者并行处理。\n\n【详细解释】\n· 1) 顺序读写：日志文件追加写，磁盘顺序读写性能接近内存。\n· 2) 页缓存（Page Cache）：利用OS缓存，减少磁盘IO。\n· 3) 零拷贝：sendfile系统调用，数据直接从Page Cache发送到网卡，减少4次数据拷贝和2次上下文切换。\n· 4) 消息压缩：减少网络传输和磁盘占用。\n· 5) 批量发送：Producer批量缓存消息后发送，减少网络请求。\n· 6) 分区并行：多分区多消费者并行处理。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "消息中间件",
+    "code": ""
+  },
+  {
+    "id": "exam_micro_001",
+    "question": "Spring Cloud 5大组件有哪些？",
+    "summary": "关于「Spring Cloud 5大组件有哪些？」的详细回答：\n\n【简要结论】\n早期：Eureka（服务注册中心）、Ribbon（客户端负载均衡）、Feign（声明式服务调用）、Hystrix（熔断器）、Zuul/Gateway（API网关）。Spring Cloud Alibaba：Nacos（注册中心+配置中心）、Ribbon（负载均衡）、Feign（服务调用）、Sentinel（服务保护）、Gateway（网关）。\n\n【详细解释】\n· 早期：Eureka（服务注册中心）、Ribbon（客户端负载均衡）、Feign（声明式服务调用）、Hystrix（熔断器）、Zuul/Gateway（API网关）。\n  - Eureka 是 Spring Cloud Netflix 默认注册中心，AP 模型，强调可用性。\n· Spring Cloud Alibaba：Nacos（注册中心+配置中心）、Ribbon（负载均衡）、Feign（服务调用）、Sentinel（服务保护）、Gateway（网关）。\n  - Nacos 同时支持注册发现与配置管理，是 Spring Cloud Alibaba 核心组件。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "微服务",
+    "code": ""
+  },
+  {
+    "id": "exam_micro_002",
+    "question": "Nacos与Eureka的区别？",
+    "summary": "关于「Nacos与Eureka的区别？」的详细回答：\n\n【简要结论】\n共同点：都支持服务注册发现、心跳检测。区别：1) 健康检测：Nacos支持服务端主动探测+客户端心跳；Eureka仅客户端心跳。2) 实例类型：Nacos区分临时实例（AP模式，心跳检测）和非临时实例（CP模式，服务端主动检测）；Eureka只有临时实例（AP模式）。3) 服务推送：Nacos支持服务列表变更主动推送给消费者；Eureka依赖消费者定时拉取。4) 功能：Nacos同时是配置中心，Eureka仅注册中心。\n\n【详细解释】\n· 共同点：都支持服务注册发现、心跳检测。\n· 区别：1) 健康检测：Nacos支持服务端主动探测+客户端心跳；。\n  - Nacos 同时支持注册发现与配置管理，是 Spring Cloud Alibaba 核心组件。\n· Eureka仅客户端心跳。\n  - Eureka 是 Spring Cloud Netflix 默认注册中心，AP 模型，强调可用性。\n· 2) 实例类型：Nacos区分临时实例（AP模式，心跳检测）和非临时实例（CP模式，服务端主动检测）；。\n  - Nacos 同时支持注册发现与配置管理，是 Spring Cloud Alibaba 核心组件。\n· Eureka只有临时实例（AP模式）。\n  - Eureka 是 Spring Cloud Netflix 默认注册中心，AP 模型，强调可用性。\n· 3) 服务推送：Nacos支持服务列表变更主动推送给消费者；。\n  - Nacos 同时支持注册发现与配置管理，是 Spring Cloud Alibaba 核心组件。\n· Eureka依赖消费者定时拉取。\n  - Eureka 是 Spring Cloud Netflix 默认注册中心，AP 模型，强调可用性。\n· 4) 功能：Nacos同时是配置中心，Eureka仅注册中心。\n  - Nacos 同时支持注册发现与配置管理，是 Spring Cloud Alibaba 核心组件。\n  - Eureka 是 Spring Cloud Netflix 默认注册中心，AP 模型，强调可用性。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "微服务",
+    "code": ""
+  },
+  {
+    "id": "exam_micro_003",
+    "question": "Ribbon负载均衡策略有哪些？",
+    "summary": "关于「Ribbon负载均衡策略有哪些？」的详细回答：\n\n【简要结论】\nRoundRobinRule：轮询（默认）。WeightedResponseTimeRule：根据响应时间加权，响应慢的权重低。RandomRule：随机。ZoneAvoidanceRule：区域感知，优先选择同区域可用服务器。BestAvailableRule：选择并发请求最少的服务器。AvailabilityFilteringRule：过滤掉故障/高并发服务器后轮询。RetryRule：对选定的策略重试。\n\n【详细解释】\n· RoundRobinRule：轮询（默认）。\n· WeightedResponseTimeRule：根据响应时间加权，响应慢的权重低。\n· RandomRule：随机。\n· ZoneAvoidanceRule：区域感知，优先选择同区域可用服务器。\n· BestAvailableRule：选择并发请求最少的服务器。\n· AvailabilityFilteringRule：过滤掉故障/高并发服务器后轮询。\n· RetryRule：对选定的策略重试。\n\n【代码说明】\n· 配置/注释说明：\n  - 自定义负载均衡\n  - 特定服务配置\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "微服务",
+    "code": "// 自定义负载均衡\n@Bean\npublic IRule myRule() {\n    return new RandomRule();\n}\n\n// 特定服务配置\n<service-name>.ribbon.NFLoadBalancerRuleClassName=\n    com.netflix.loadbalancer.RandomRule"
+  },
+  {
+    "id": "exam_micro_004",
+    "question": "什么是服务雪崩？如何解决？",
+    "summary": "关于「什么是服务雪崩？如何解决？」的详细回答：\n\n【简要结论】\n服务雪崩：一个服务故障导致调用链上多个服务相继失败。解决：1) 服务熔断：失败率达到阈值后熔断器打开，后续请求快速失败，一段时间后半开试探。2) 服务降级：非核心功能关闭或简化，保障核心功能可用。3) 服务限流：控制请求速率，防止系统过载。4) 隔离：线程池隔离/信号量隔离，防止故障扩散。\n\n【详细解释】\n· 服务雪崩：一个服务故障导致调用链上多个服务相继失败。\n· 解决：1) 服务熔断：失败率达到阈值后熔断器打开，后续请求快速失败，一段时间后半开试探。\n· 2) 服务降级：非核心功能关闭或简化，保障核心功能可用。\n· 3) 服务限流：控制请求速率，防止系统过载。\n· 4) 隔离：线程池隔离/信号量隔离，防止故障扩散。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "微服务",
+    "code": ""
+  },
+  {
+    "id": "exam_micro_005",
+    "question": "限流常见算法有哪些？",
+    "summary": "关于「限流常见算法有哪些？」的详细回答：\n\n【简要结论】\n漏桶算法：请求像水流入桶，以固定速率流出，桶满则溢出（拒绝请求）。特点：平滑突发流量，速率固定。令牌桶算法：以固定速率生成令牌放入桶，请求需获取令牌才能执行，桶满则丢弃令牌。特点：允许一定突发流量，更灵活。计数器算法：固定时间窗口计数，超过阈值则限流。简单但有临界问题（窗口边界突发）。滑动窗口算法：将窗口细分，平滑计数器临界问题。\n\n【详细解释】\n· 漏桶算法：请求像水流入桶，以固定速率流出，桶满则溢出（拒绝请求）。\n· 特点：平滑突发流量，速率固定。\n· 令牌桶算法：以固定速率生成令牌放入桶，请求需获取令牌才能执行，桶满则丢弃令牌。\n· 特点：允许一定突发流量，更灵活。\n· 计数器算法：固定时间窗口计数，超过阈值则限流。\n· 简单但有临界问题（窗口边界突发）。\n· 滑动窗口算法：将窗口细分，平滑计数器临界问题。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "微服务",
+    "code": ""
+  },
+  {
+    "id": "exam_micro_006",
+    "question": "CAP理论和BASE理论？",
+    "summary": "关于「CAP理论和BASE理论？」的详细回答：\n\n【简要结论】\nCAP：一致性（Consistency，所有节点数据一致）、可用性（Availability，每个请求都有响应）、分区容错性（Partition tolerance，网络分区后系统仍能运行）。三者不可兼得，分布式系统必须保证P，在C和A之间取舍。BASE：Basically Available（基本可用，允许部分损失）、Soft state（软状态，允许中间状态）、Eventually consistent（最终一致性，不保证实时一致）。是AP方案的延伸，通过牺牲强一致性换取高可用。\n\n【详细解释】\n· CAP：一致性（Consistency，所有节点数据一致）、可用性（Availability，每个请求都有响应）、分区容错性（Partition tolerance，网络分区后系统仍能运行）。\n· 三者不可兼得，分布式系统必须保证P，在C和A之间取舍。\n· BASE：Basically Available（基本可用，允许部分损失）、Soft state（软状态，允许中间状态）、Eventually consistent（最终一致性，不保证实时一致）。\n· 是AP方案的延伸，通过牺牲强一致性换取高可用。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "微服务",
+    "code": ""
+  },
+  {
+    "id": "exam_micro_007",
+    "question": "分布式事务解决方案？",
+    "summary": "关于「分布式事务解决方案？」的详细回答：\n\n【简要结论】\nSeata AT模式：自动补偿型，业务无侵入。一阶段执行业务SQL并记录undo_log；二阶段成功则删除undo_log，失败则根据undo_log回滚。TCC：Try-Confirm-Cancel，业务侵入性强，需实现三个接口。Saga：长事务拆分，每个本地事务有对应的补偿操作。MQ最终一致性：本地事务+发送消息，消费者处理。最大努力通知：如支付回调，多次通知直到成功。\n\n【详细解释】\n· Seata AT模式：自动补偿型，业务无侵入。\n· 一阶段执行业务SQL并记录undo_log；。\n· 二阶段成功则删除undo_log，失败则根据undo_log回滚。\n· TCC：Try-Confirm-Cancel，业务侵入性强，需实现三个接口。\n· Saga：长事务拆分，每个本地事务有对应的补偿操作。\n· MQ最终一致性：本地事务+发送消息，消费者处理。\n· 最大努力通知：如支付回调，多次通知直到成功。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "微服务",
+    "code": ""
+  },
+  {
+    "id": "exam_micro_008",
+    "question": "分布式接口幂等性如何设计？",
+    "summary": "关于「分布式接口幂等性如何设计？」的详细回答：\n\n【简要结论】\n方案：1) Token机制：客户端先获取Token存入Redis，请求时携带Token，服务端校验Token存在则删除并处理（Redis删除是原子操作），不存在则重复请求。2) 数据库唯一索引：如订单号唯一，重复插入失败。3) 分布式锁：setnx加锁，key为业务唯一标识。4) 状态机幂等：根据业务状态判断，如订单已支付则不再处理支付请求。\n\n【详细解释】\n· 方案：1) Token机制：客户端先获取Token存入Redis，请求时携带Token，服务端校验Token存在则删除并处理（Redis删除是原子操作），不存在则重复请求。\n· 2) 数据库唯一索引：如订单号唯一，重复插入失败。\n· 3) 分布式锁：setnx加锁，key为业务唯一标识。\n· 4) 状态机幂等：根据业务状态判断，如订单已支付则不再处理支付请求。\n\n【代码说明】\n· 配置/注释说明：\n  - Token幂等\n  - 首次请求，处理业务\n  - 重复请求，直接返回\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "微服务",
+    "code": "// Token幂等\nString token = request.getHeader(\"idempotent-token\");\nString key = \"idempotent:\" + token;\nBoolean success = redisTemplate.delete(key); // 原子删除\nif (Boolean.TRUE.equals(success)) {\n    // 首次请求，处理业务\n} else {\n    // 重复请求，直接返回\n    return Result.ok();\n}"
+  },
+  {
+    "id": "exam_micro_009",
+    "question": "xxl-job路由策略和任务失败处理？",
+    "summary": "关于「xxl-job路由策略和任务失败处理？」的详细回答：\n\n【简要结论】\n路由策略：轮询、故障转移、分片广播、第一个、最后一个、随机、一致性Hash。任务失败处理：1) 故障转移：执行器集群环境下，失败时自动切换到其他可用实例。2) 重试：设置重试次数和重试间隔。3) 告警：失败时发送邮件/短信通知。大数据量任务：分片广播，多个实例并行执行，每个实例根据分片参数处理部分数据。\n\n【详细解释】\n· 路由策略：轮询、故障转移、分片广播、第一个、最后一个、随机、一致性Hash。\n· 任务失败处理：1) 故障转移：执行器集群环境下，失败时自动切换到其他可用实例。\n· 2) 重试：设置重试次数和重试间隔。\n· 3) 告警：失败时发送邮件/短信通知。\n· 大数据量任务：分片广播，多个实例并行执行，每个实例根据分片参数处理部分数据。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "微服务",
+    "code": ""
+  },
+  {
+    "id": "exam_pattern_001",
+    "question": "工厂模式（简单工厂、工厂方法、抽象工厂）？",
+    "summary": "关于「工厂模式（简单工厂、工厂方法、抽象工厂）？」的详细回答：\n\n【简要结论】\n简单工厂：一个工厂类根据参数创建不同产品，违反开闭原则（新增产品需修改工厂）。工厂方法：定义创建对象的接口，由子类决定实例化哪个类，符合开闭原则，但每增加一个产品需增加一个工厂类。抽象工厂：超级工厂创建其他工厂，生产多等级多族产品。如电器工厂生产电视、洗衣机、空调；华为工厂和小米工厂是不同产品族。适用：需要创建一系列相互关联或依赖的对象。\n\n【详细解释】\n· 简单工厂：一个工厂类根据参数创建不同产品，违反开闭原则（新增产品需修改工厂）。\n· 工厂方法：定义创建对象的接口，由子类决定实例化哪个类，符合开闭原则，但每增加一个产品需增加一个工厂类。\n· 抽象工厂：超级工厂创建其他工厂，生产多等级多族产品。\n· 如电器工厂生产电视、洗衣机、空调；。\n· 华为工厂和小米工厂是不同产品族。\n· 适用：需要创建一系列相互关联或依赖的对象。\n\n【代码说明】\n· 配置/注释说明：\n  - 工厂方法\n  - 抽象工厂\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "设计模式",
+    "code": "// 工厂方法\npublic interface CoffeeFactory { Coffee createCoffee(); }\npublic class LatteFactory implements CoffeeFactory {\n    public Coffee createCoffee() { return new LatteCoffee(); }\n}\n// 抽象工厂\npublic interface DessertFactory {\n    Coffee createCoffee();\n    Dessert createDessert();\n}\npublic class AmericanFactory implements DessertFactory {\n    public Coffee createCoffee() { return new AmericanCoffee(); }\n    public Dessert createDessert() { return new MatchaMousse(); }\n}"
+  },
+  {
+    "id": "exam_pattern_002",
+    "question": "策略模式？",
+    "summary": "关于「策略模式？」的详细回答：\n\n【简要结论】\n定义一系列算法，将每个算法封装起来，使它们可以互相替换，算法变化不影响使用算法的客户。角色：抽象策略（接口/抽象类）、具体策略（算法实现）、环境类（持有策略引用，供客户端调用）。应用场景：1) 多种登录方式（账号/短信/微信/QQ）；2) 多种支付方式（支付宝/微信/银行卡）；3) 订单促销策略（满减/折扣/积分）；4) 只要有冗长的if-else/switch分支判断都可以考虑策略模式优化。常与工厂模式结合使用（工厂创建策略实例）。\n\n【详细解释】\n· 定义一系列算法，将每个算法封装起来，使它们可以互相替换，算法变化不影响使用算法的客户。\n· 角色：抽象策略（接口/抽象类）、具体策略（算法实现）、环境类（持有策略引用，供客户端调用）。\n· 应用场景：1) 多种登录方式（账号/短信/微信/QQ）；。\n· 2) 多种支付方式（支付宝/微信/银行卡）；。\n· 3) 订单促销策略（满减/折扣/积分）；。\n· 4) 只要有冗长的if-else/switch分支判断都可以考虑策略模式优化。\n· 常与工厂模式结合使用（工厂创建策略实例）。\n\n【代码说明】\n· 配置/注释说明：\n  - 策略接口\n  - 具体策略\n  - 环境类（工厂+策略）\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "设计模式",
+    "code": "// 策略接口\npublic interface UserGranter { LoginResp login(LoginReq req); }\n// 具体策略\n@Component public class AccountGranter implements UserGranter { ... }\n@Component public class SmsGranter implements UserGranter { ... }\n// 环境类（工厂+策略）\n@Component public class UserLoginFactory {\n    private Map<String, UserGranter> granterPool;\n    public UserGranter getGranter(String type) {\n        return granterPool.get(type);\n    }\n}"
+  },
+  {
+    "id": "exam_pattern_003",
+    "question": "责任链模式？",
+    "summary": "关于「责任链模式？」的详细回答：\n\n【简要结论】\n将请求的发送者和接收者解耦，多个对象都有机会处理请求，将这些对象连成一条链，请求沿链传递直到有对象处理。角色：抽象处理者（定义处理接口+后继引用）、具体处理者（实现处理方法，能处理则处理，不能则传给后继）、客户类（创建链并提交请求）。应用场景：1) 内容审核（视频/文章：机审→人工初审→人工复审）；2) 订单处理（校验→补全信息→计算金额→落库）；3) SpringMVC拦截器链、Filter过滤器链。优点：降低耦合、增强扩展性、符合单一职责。缺点：不能保证请求一定被处理、长链影响性能。\n\n【详细解释】\n· 将请求的发送者和接收者解耦，多个对象都有机会处理请求，将这些对象连成一条链，请求沿链传递直到有对象处理。\n· 角色：抽象处理者（定义处理接口+后继引用）、具体处理者（实现处理方法，能处理则处理，不能则传给后继）、客户类（创建链并提交请求）。\n· 应用场景：1) 内容审核（视频/文章：机审→人工初审→人工复审）；。\n· 2) 订单处理（校验→补全信息→计算金额→落库）；。\n· 3) SpringMVC拦截器链、Filter过滤器链。\n· 优点：降低耦合、增强扩展性、符合单一职责。\n· 缺点：不能保证请求一定被处理、长链影响性能。\n\n【代码说明】\n· 配置/注释说明：\n  - 抽象处理者\n  - 具体处理者\n  - 组装链\n  - ... 继续组装\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "设计模式",
+    "code": "// 抽象处理者\npublic abstract class Handler {\n    protected Handler next;\n    public void setNext(Handler next) { this.next = next; }\n    public abstract void process(OrderInfo order);\n}\n// 具体处理者\npublic class OrderValidition extends Handler {\n    public void process(OrderInfo order) {\n        System.out.println(\"校验订单\");\n        if (next != null) next.process(order);\n    }\n}\n// 组装链\nHandler chain = new OrderValidition();\nchain.setNext(new OrderFill());\n// ... 继续组装\nchain.process(order);"
+  },
+  {
+    "id": "exam_pattern_004",
+    "question": "单例模式（双重校验锁）？",
+    "summary": "关于「单例模式（双重校验锁）？」的详细回答：\n\n【简要结论】\n确保一个类只有一个实例，并提供一个全局访问点。双重校验锁（DCL）：1) 第一次检查（无锁）：避免不必要的同步；2) synchronized加锁：保证线程安全；3) 第二次检查（有锁）：防止多个线程同时通过第一次检查后创建多个实例。volatile修饰：禁止指令重排序，防止半初始化对象被其他线程使用（new操作非原子：分配内存→初始化→引用赋值，重排序后可能先赋值再初始化）。\n\n【详细解释】\n· 确保一个类只有一个实例，并提供一个全局访问点。\n· 双重校验锁（DCL）：1) 第一次检查（无锁）：避免不必要的同步；。\n· 2) synchronized加锁：保证线程安全；。\n· 3) 第二次检查（有锁）：防止多个线程同时通过第一次检查后创建多个实例。\n· volatile修饰：禁止指令重排序，防止半初始化对象被其他线程使用（new操作非原子：分配内存→初始化→引用赋值，重排序后可能先赋值再初始化）。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "设计模式",
+    "code": "public class Singleton {\n    private static volatile Singleton instance;\n    private Singleton() {}\n    public static Singleton getInstance() {\n        if (instance == null) { // 第一次检查\n            synchronized (Singleton.class) {\n                if (instance == null) { // 第二次检查\n                    instance = new Singleton();\n                }\n            }\n        }\n        return instance;\n    }\n}"
+  },
+  {
+    "id": "exam_pattern_005",
+    "question": "适配器模式？",
+    "summary": "关于「适配器模式？」的详细回答：\n\n【简要结论】\n将一个类的接口转换成客户希望的另一个接口，使原本因接口不兼容而不能一起工作的类可以协同工作。角色：目标接口（客户期望的接口）、适配器（实现目标接口，持有被适配者引用）、被适配者（需要适配的类）。应用场景：1) 旧系统接口适配新系统；2) 第三方SDK接口统一封装；3) Java IO中的InputStreamReader（字节流→字符流适配器）。\n\n【详细解释】\n· 将一个类的接口转换成客户希望的另一个接口，使原本因接口不兼容而不能一起工作的类可以协同工作。\n· 角色：目标接口（客户期望的接口）、适配器（实现目标接口，持有被适配者引用）、被适配者（需要适配的类）。\n· 应用场景：1) 旧系统接口适配新系统；。\n· 2) 第三方SDK接口统一封装；。\n· 3) Java IO中的InputStreamReader（字节流→字符流适配器）。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "设计模式",
+    "code": ""
+  },
+  {
+    "id": "exam_interview_001",
+    "question": "输入URL到页面显示发生了什么？",
+    "summary": "关于「输入URL到页面显示发生了什么？」的详细回答：\n\n【简要结论】\n1) DNS解析：浏览器缓存→OS缓存→hosts文件→DNS服务器递归查询，获取IP地址。2) TCP连接：三次握手建立连接（SYN→SYN+ACK→ACK）。3) TLS/SSL握手（HTTPS）：客户端Hello→服务端Hello+证书→密钥交换→加密通信。4) 发送HTTP请求：构建请求行、请求头、请求体。5) 服务端处理：Nginx反向代理→网关→微服务处理→数据库查询→返回响应。6) 浏览器渲染：解析HTML构建DOM树→解析CSS构建CSSOM→合并为Render Tree→Layout布局→Paint绘制→Composite合成。\n\n【详细解释】\n· 1) DNS解析：浏览器缓存→OS缓存→hosts文件→DNS服务器递归查询，获取IP地址。\n· 2) TCP连接：三次握手建立连接（SYN→SYN+ACK→ACK）。\n· 3) TLS/SSL握手（HTTPS）：客户端Hello→服务端Hello+证书→密钥交换→加密通信。\n· 4) 发送HTTP请求：构建请求行、请求头、请求体。\n· 5) 服务端处理：Nginx反向代理→网关→微服务处理→数据库查询→返回响应。\n· 6) 浏览器渲染：解析HTML构建DOM树→解析CSS构建CSSOM→合并为Render Tree→Layout布局→Paint绘制→Composite合成。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "计算机基础",
+    "code": ""
+  },
+  {
+    "id": "exam_interview_002",
+    "question": "TCP三次握手和四次挥手？",
+    "summary": "关于「TCP三次握手和四次挥手？」的详细回答：\n\n【简要结论】\n三次握手：1) 客户端发送SYN（seq=x）进入SYN_SENT；2) 服务端回复SYN+ACK（seq=y, ack=x+1）进入SYN_RECV；3) 客户端回复ACK（ack=y+1）进入ESTABLISHED。目的：同步双方序列号，确认收发能力正常，防止历史连接初始化。四次挥手：1) 主动方发送FIN（seq=u）进入FIN_WAIT_1；2) 被动方回复ACK（ack=u+1）进入CLOSE_WAIT；3) 被动方发送FIN（seq=w）进入LAST_ACK；4) 主动方回复ACK（ack=w+1）进入TIME_WAIT（2MSL后关闭）。TIME_WAIT作用：确保最后一个ACK到达、防止旧连接数据包影响新连接。\n\n【详细解释】\n· 三次握手：1) 客户端发送SYN（seq=x）进入SYN_SENT；。\n· 2) 服务端回复SYN+ACK（seq=y, ack=x+1）进入SYN_RECV；。\n· 3) 客户端回复ACK（ack=y+1）进入ESTABLISHED。\n· 目的：同步双方序列号，确认收发能力正常，防止历史连接初始化。\n· 四次挥手：1) 主动方发送FIN（seq=u）进入FIN_WAIT_1；。\n· 2) 被动方回复ACK（ack=u+1）进入CLOSE_WAIT；。\n· 3) 被动方发送FIN（seq=w）进入LAST_ACK；。\n· 4) 主动方回复ACK（ack=w+1）进入TIME_WAIT（2MSL后关闭）。\n· TIME_WAIT作用：确保最后一个ACK到达、防止旧连接数据包影响新连接。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "计算机基础",
+    "code": ""
+  },
+  {
+    "id": "exam_interview_003",
+    "question": "HTTP和HTTPS的区别？HTTPS建立过程？",
+    "summary": "关于「HTTP和HTTPS的区别？HTTPS建立过程？」的详细回答：\n\n【简要结论】\n区别：1) HTTPS=HTTP+SSL/TLS，端口443；2) HTTPS通过证书认证服务器身份，加密传输防窃听篡改；3) HTTP无状态明文传输。HTTPS建立：1) TCP三次握手；2) 客户端发送ClientHello（支持的加密套件、随机数）；3) 服务端回复ServerHello+Certificate（证书）+ServerKeyExchange+ServerHelloDone；4) 客户端验证证书，生成预主密钥，用服务端公钥加密发送；5) 双方生成会话密钥，后续通信使用对称加密。\n\n【详细解释】\n· 区别：1) HTTPS=HTTP+SSL/TLS，端口443；。\n· 2) HTTPS通过证书认证服务器身份，加密传输防窃听篡改；。\n· 3) HTTP无状态明文传输。\n· HTTPS建立：1) TCP三次握手；。\n· 2) 客户端发送ClientHello（支持的加密套件、随机数）；。\n· 3) 服务端回复ServerHello+Certificate（证书）+ServerKeyExchange+ServerHelloDone；。\n· 4) 客户端验证证书，生成预主密钥，用服务端公钥加密发送；。\n· 5) 双方生成会话密钥，后续通信：通常采用 对称加密。\n  - 对称加密：在 5) 双方生成会话密钥，后续通信 体系中承担服务治理或通信支撑作用。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "计算机基础",
+    "code": ""
+  },
+  {
+    "id": "exam_interview_004",
+    "question": "零拷贝（Zero Copy）原理？",
+    "summary": "关于「零拷贝（Zero Copy）原理？」的详细回答：\n\n【简要结论】\n传统IO：磁盘→内核缓冲区→用户缓冲区→Socket缓冲区→网卡，4次拷贝4次上下文切换。零拷贝（sendfile）：磁盘→内核缓冲区→网卡（DMA拷贝），只需2次拷贝2次上下文切换，数据不经过用户空间。Java中：FileChannel.transferTo()实现零拷贝。Kafka、Nginx大量使用零拷贝提升性能。\n\n【详细解释】\n· 传统IO：磁盘→内核缓冲区→用户缓冲区→Socket缓冲区→网卡，4次拷贝4次上下文切换。\n· 零拷贝（sendfile）：磁盘→内核缓冲区→网卡（DMA拷贝），只需2次拷贝2次上下文切换，数据不经过用户空间。\n· Java中：FileChannel.transferTo()实现零拷贝。\n· Kafka、Nginx大量使用零拷贝提升性能。\n\n【代码说明】\n· 配置/注释说明：\n  - Java零拷贝\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "计算机基础",
+    "code": "// Java零拷贝\nFileChannel sourceChannel = new FileInputStream(\"file\").getChannel();\nSocketChannel socketChannel = SocketChannel.open();\nsourceChannel.transferTo(0, sourceChannel.size(), socketChannel);"
+  },
+  {
+    "id": "exam_interview_005",
+    "question": "用户态和内核态？什么时候切换？",
+    "summary": "关于「用户态和内核态？什么时候切换？」的详细回答：\n\n【简要结论】\n用户态：运行用户程序，只能访问受限资源。内核态：运行OS内核代码，可访问所有资源。切换场景：1) 系统调用（如read/write/open）；2) 中断（硬件中断、时钟中断）；3) 异常（缺页异常、除零异常）。切换开销：保存/恢复CPU寄存器、切换页表、刷新TLB等。减少切换：零拷贝、IO多路复用、线程池。\n\n【详细解释】\n· 用户态：运行用户程序，只能访问受限资源。\n· 内核态：运行OS内核代码，可访问所有资源。\n· 切换场景：1) 系统调用（如read/write/open）；。\n· 2) 中断（硬件中断、时钟中断）；。\n· 3) 异常（缺页异常、除零异常）。\n· 切换开销：保存/恢复CPU寄存器、切换页表、刷新TLB等。\n· 减少切换：零拷贝、IO多路复用、线程池。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "计算机基础",
+    "code": ""
+  },
+  {
+    "id": "exam_interview_006",
+    "question": "进程间通信（IPC）方式有哪些？",
+    "summary": "关于「进程间通信（IPC）方式有哪些？」的详细回答：\n\n【简要结论】\n1) 管道（Pipe）：半双工，父子进程间通信。2) 命名管道（FIFO）：无关进程间通信。3) 消息队列：消息的链表，有格式标识。4) 共享内存：最快IPC，多个进程映射同一块物理内存，需配合信号量同步。5) 信号量（Semaphore）：计数器，控制多个进程访问共享资源。6) 信号（Signal）：异步通知机制。7) Socket：网络通信，可跨主机。8) 内存映射（mmap）：文件映射到内存，进程共享。\n\n【详细解释】\n· 1) 管道（Pipe）：半双工，父子进程间通信。\n· 2) 命名管道（FIFO）：无关进程间通信。\n· 3) 消息队列：消息的链表，有格式标识。\n· 4) 共享内存：最快IPC，多个进程映射同一块物理内存，需配合信号量同步。\n· 5) 信号量（Semaphore）：计数器，控制多个进程访问共享资源。\n· 6) 信号（Signal）：异步通知机制。\n· 7) Socket：网络通信，可跨主机。\n· 8) 内存映射（mmap）：文件映射到内存，进程共享。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "计算机基础",
+    "code": ""
+  },
+  {
+    "id": "exam_interview_007",
+    "question": "git reset和git revert的区别？git rebase的使用场景？",
+    "summary": "关于「git reset和git revert的区别？git rebase的使用场景？」的详细回答：\n\n【简要结论】\nreset：回退到指定版本，丢弃之后的提交（--soft保留工作区和暂存区，--mixed保留工作区丢弃暂存区，--hard全部丢弃）。会修改历史，不适合已推送到远程的提交。revert：创建一个新的提交来撤销某次提交的修改，保留历史记录，适合公共分支。rebase：将当前分支的提交'嫁接'到另一分支最新提交之后，形成线性历史。使用场景：本地分支整理提交（合并多个commit）、feature分支同步主分支最新代码（避免merge产生分叉）。注意：不要对公共分支执行rebase。\n\n【详细解释】\n· reset：回退到指定版本，丢弃之后的提交（--soft保留工作区和暂存区，--mixed保留工作区丢弃暂存区，--hard全部丢弃）。\n· 会修改历史，不适合已推送到远程的提交。\n· revert：创建一个新的提交来撤销某次提交的修改，保留历史记录，适合公共分支。\n· rebase：将当前分支的提交'嫁接'到另一分支最新提交之后，形成线性历史。\n· 使用场景：本地分支整理提交（合并多个commit）、feature分支同步主分支最新代码（避免merge产生分叉）\n· 注意：不要对公共分支执行rebase。\n\n【代码说明】\n· 配置/注释说明：\n  - reset回退\n  - revert撤销\n  - rebase整理\n  - feature同步main\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。\n\n完整代码示例见下方代码块。",
+    "category": "工具",
+    "code": "// reset回退\ngit reset --hard HEAD~1\n// revert撤销\ngit revert <commit-id>\n// rebase整理\ngit rebase -i HEAD~3  // 交互式整理最近3个commit\n// feature同步main\ngit checkout feature\ngit rebase main"
+  }
+]

@@ -1,0 +1,177 @@
+[
+  {
+    "id": "flutter_kb_028",
+    "question": "Flutter中如何集成和使用Dio网络请求库？",
+    "summary": "关于「Flutter中如何集成和使用Dio网络请求库？」的详细回答：\n\n【简要结论】\n在pubspec.yaml中添加dio依赖，使用Dio().get()发送GET请求，通过then和catchError处理响应和错误。\n\n【详细解释】\n· 在pubspec.yaml中添加dio依赖，使用Dio().get()发送GET请求，通过then和catchError处理响应和错误。\n\n【代码说明】\n· 配置/注释说明：\n  - 简单GET请求示例\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "网络请求",
+    "code": "import 'package:dio/dio.dart';\n\nvoid main(List<String> args) {\n  runApp(MainPage());\n  // 简单GET请求示例\n  Dio().get('https://geek.itheima.net/v1_0/channels').then((value) {\n    print(value.data);\n  }).catchError((error) {\n    print(error);\n  });\n}"
+  },
+  {
+    "id": "flutter_kb_029",
+    "question": "Flutter中路由传参如何实现？",
+    "summary": "关于「Flutter中路由传参如何实现？」的详细回答：\n\n【简要结论】\n使用Navigator.pushNamed的arguments参数传递数据，在目标页面通过ModalRoute.of(context)?.settings.arguments获取。\n\n【详细解释】\n· 使用Navigator.pushNamed的arguments参数传递数据，在目标页面通过ModalRoute.of(context)?.settings.arguments获取。\n\n【代码说明】\n· 配置/注释说明：\n  - 列表页跳转并传参\n  - 详情页接收参数\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "路由导航",
+    "code": "// 列表页跳转并传参\nGestureDetector(\n  onTap: (){\n    Navigator.pushNamed(context, '/detail', arguments: index);\n  },\n  child: Container(\n    margin: EdgeInsets.all(5),\n    padding: EdgeInsets.all(5),\n    decoration: BoxDecoration(\n      color: const Color.fromARGB(255, 52, 140, 255),\n      borderRadius: BorderRadius.circular(5),\n    ),\n    child: Text('列表项$index'),\n  ),\n)\n\n// 详情页接收参数\nclass _DetailMessageState extends State<DetailMessage> {\n  int? indexMsg;\n  @override\n  void initState() {\n    super.initState();\n    Future.microtask((){\n      indexMsg = ModalRoute.of(context)?.settings.arguments as int?;\n      print(indexMsg);\n      setState(() {});\n    });\n  }\n}"
+  },
+  {
+    "id": "flutter_kb_030",
+    "question": "Flutter中Future.microtask的作用是什么？",
+    "summary": "关于「Flutter中Future.microtask的作用是什么？」的详细回答：\n\n【简要结论】\nFuture.microtask将任务添加到微任务队列，在当前同步代码执行完毕后、事件循环开始前执行。常用于在build之前获取路由参数。\n\n【详细解释】\n· Future.microtask将任务添加到微任务队列，在当前同步代码执行完毕后、事件循环开始前执行。\n· 常用于在build之前获取路由参数。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "异步编程",
+    "code": "@override\nvoid initState() {\n  super.initState();\n  Future.microtask((){\n    indexMsg = ModalRoute.of(context)?.settings.arguments as int?;\n    print(indexMsg);\n    setState(() {});\n  });\n}"
+  },
+  {
+    "id": "flutter_kb_031",
+    "question": "Flutter中GestureDetector如何监听点击事件？",
+    "summary": "关于「Flutter中GestureDetector如何监听点击事件？」的详细回答：\n\n【简要结论】\nGestureDetector是基础手势检测器，通过onTap、onLongPress等回调监听各种手势，无水波纹效果。\n\n【详细解释】\n· GestureDetector是基础手势检测器，通过onTap、onLongPress等回调监听各种手势，无水波纹效果。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "手势交互",
+    "code": "GestureDetector(\n  onTap: (){\n    Navigator.pushNamed(context, '/detail', arguments: index);\n  },\n  child: Container(\n    margin: EdgeInsets.all(5),\n    padding: EdgeInsets.all(5),\n    decoration: BoxDecoration(\n      color: const Color.fromARGB(255, 52, 140, 255),\n      borderRadius: BorderRadius.circular(5),\n    ),\n    child: Text('列表项$index'),\n  ),\n)"
+  },
+  {
+    "id": "flutter_kb_032",
+    "question": "Flutter中如何使用Dio封装网络请求工具类？",
+    "summary": "关于「Flutter中如何使用Dio封装网络请求工具类？」的详细回答：\n\n【简要结论】\n创建Dio工具类，在构造函数中配置baseUrl、超时时间，添加拦截器处理请求/响应/错误，封装get方法便于调用。\n\n【详细解释】\n· 创建Dio工具类，在构造函数中配置baseUrl、超时时间，添加拦截器处理请求/响应/错误，封装get方法便于调用。\n\n【代码说明】\n· 配置/注释说明：\n  - 拦截器\n  - 使用工具类\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "网络请求",
+    "code": "class DioUtile {\n  final Dio dio = Dio();\n  DioUtile(){\n   dio.options\n   ..baseUrl = 'https://geek.itheima.net/v1_0/'\n   ..connectTimeout = Duration(seconds: 10)\n   ..sendTimeout = Duration(seconds: 10)\n   ..receiveTimeout = Duration(seconds: 10);\n   addInterceptors();\n  }\n  // 拦截器\n  void addInterceptors(){\n    dio.interceptors.add(InterceptorsWrapper(\n      onRequest: (options, handler) {\n        handler.next(options);\n      },\n      onResponse: (response, handler) {\n        if(response.statusCode! >= 200 && response.statusCode! < 300){\n          handler.next(response);\n          return;\n        } else {\n          handler.reject(\n            DioException(\n              requestOptions: response.requestOptions,\n              response: response,\n              message: response.data?['message']?.toString() ?? '请求失败',\n            ),\n          );\n        }\n      },\n      onError: (error, handler) {\n        handler.next(error);\n      },\n    ));\n  }\n  Future<Response<dynamic>> get(String url, {Map<String,dynamic>? queryMap}) async {\n    return await dio.get(url, queryParameters: queryMap);\n  } \n}\n\n// 使用工具类\nvoid getChannel() async {\n  try {\n    DioUtile dioUtil = DioUtile();\n    Response<dynamic> response = await dioUtil.get('channels');\n    Map<String,dynamic> data = response.data as Map<String,dynamic>;\n    List channels = data['data']['channels'] as List;\n    channelsList = channels.cast<Map<String,dynamic>>() as List<Map<String,dynamic>>;\n    setState(() {});\n  } catch (e) {\n    print('请求失败: $e');\n  }\n}"
+  },
+  {
+    "id": "flutter_kb_033",
+    "question": "Dio拦截器中如何统一处理HTTP响应？",
+    "summary": "关于「Dio拦截器中如何统一处理HTTP响应？」的详细回答：\n\n【简要结论】\n在onResponse中判断statusCode，200-299表示成功调用handler.next继续，其他状态码调用handler.reject抛出错误。\n\n【详细解释】\n· 在onResponse中判断statusCode，200-299表示成功调用handler.next继续，其他状态码调用handler.reject抛出错误。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "网络请求",
+    "code": "onResponse: (response, handler) {\n  if(response.statusCode! >= 200 && response.statusCode! < 300){\n    handler.next(response);\n    return;\n  } else {\n    handler.reject(\n            DioException(\n              requestOptions: response.requestOptions,\n              response: response,\n              message: response.data?['message']?.toString() ?? '请求失败',\n            ),\n          );\n  }\n}"
+  },
+  {
+    "id": "flutter_kb_034",
+    "question": "Flutter中CustomScrollView和Sliver组件如何使用？",
+    "summary": "关于「Flutter中CustomScrollView和Sliver组件如何使用？」的详细回答：\n\n【简要结论】\nCustomScrollView作为容器，内部使用SliverToBoxAdapter嵌入普通组件，SliverPersistentHeader实现粘性头部，SliverList构建可滚动列表。\n\n【详细解释】\n· CustomScrollView作为容器，内部使用SliverToBoxAdapter嵌入普通组件，SliverPersistentHeader实现粘性头部，SliverList构建可滚动列表。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "滚动组件",
+    "code": "CustomScrollView(\n  slivers: [\n    SliverToBoxAdapter(\n      child: Container(\n        height: 400,\n        color: Colors.red,\n        alignment: Alignment.center,\n        child: PageView.builder(\n          itemCount: 3,\n          itemBuilder: (context,index){\n            return Container(\n              height: 400,\n              color: Colors.red,\n              alignment: Alignment.center,\n              child: Text('我是第${index+1}个', style: TextStyle(color: Colors.white, fontSize: 60)),\n            );\n          },\n        ),\n      ),\n    ),\n    SliverToBoxAdapter(child: SizedBox(height: 20)),\n    SliverPersistentHeader(\n      delegate: _StickyCategory(),\n      pinned: true,\n    ),\n    SliverToBoxAdapter(child: SizedBox(height: 20)),\n    SliverList.separated(\n      itemCount: 30,\n      itemBuilder: (context,index){\n        return Container(\n          height: 100,\n          alignment: Alignment.center,\n          color: const Color.fromARGB(141, 36, 39, 214),\n          child: Text('我是第${index+1}个', style: TextStyle(color: Colors.white, fontSize: 20)),\n        );\n      },\n      separatorBuilder: (context,index){\n        return SizedBox(height: 20);\n      },\n    )\n  ],\n)"
+  },
+  {
+    "id": "flutter_kb_035",
+    "question": "Flutter中如何自定义SliverPersistentHeaderDelegate实现粘性头部？",
+    "summary": "关于「Flutter中如何自定义SliverPersistentHeaderDelegate实现粘性头部？」的详细回答：\n\n【简要结论】\n继承SliverPersistentHeaderDelegate，重写build方法构建头部Widget，设置minExtent和maxExtent控制高度范围。\n\n【详细解释】\n· 继承SliverPersistentHeaderDelegate，重写build方法构建头部Widget，设置minExtent和maxExtent控制高度范围。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "滚动组件",
+    "code": "class _StickyCategory extends SliverPersistentHeaderDelegate {\n  @override\n  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {\n    return Container(\n      color: const Color.fromARGB(255, 255, 255, 255),\n      child: ListView.builder(\n        itemCount: 30,\n        scrollDirection: Axis.horizontal,\n        itemBuilder: (context,index){\n          return Container(\n            margin: EdgeInsets.symmetric(vertical: 0, horizontal: 10),\n            alignment: Alignment.center,\n            color: const Color.fromARGB(141, 36, 39, 214),\n            child: Text('我是第${index+1}个', style: TextStyle(color: Colors.white, fontSize: 20)),\n          );\n        }\n      )\n    );\n  }\n  @override\n  double get maxExtent => 80;\n  @override\n  double get minExtent => 60;\n  @override\n  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {\n    return false;\n  }\n}"
+  },
+  {
+    "id": "flutter_kb_036",
+    "question": "Flutter中GridView有几种创建方式？",
+    "summary": "关于「Flutter中GridView有几种创建方式？」的详细回答：\n\n【简要结论】\n有四种：GridView.count（固定列数）、GridView.extent（固定最大宽度）、GridView.builder（动态构建）、GridView.custom（自定义）。\n\n【详细解释】\n· 有四种：GridView.count（固定列数）、GridView.extent（固定最大宽度）、GridView.builder（动态构建）、GridView.custom（自定义）。\n\n【代码说明】\n· 配置/注释说明：\n  - 1. GridView.count - 固定列数\n  - 2. GridView.extent - 固定最大宽度\n  - 3. GridView.builder - 动态构建\n  - 4. SliverGridDelegateWithMaxCrossAxisExtent - 响应式\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "滚动组件",
+    "code": "// 1. GridView.count - 固定列数\nGridView.count(\n  crossAxisCount: 3,\n  mainAxisSpacing: 20,\n  crossAxisSpacing: 20,\n  scrollDirection: Axis.horizontal,\n  children: List.generate(100, (index) => Container(\n    alignment: Alignment.center,\n    width: double.infinity,\n    height: 200,\n    color: const Color.fromARGB(141, 36, 39, 214),\n    child: Text('我是第${index+1}个', style: TextStyle(color: Colors.white, fontSize: 20)),\n  )),\n)\n\n// 2. GridView.extent - 固定最大宽度\nGridView.extent(\n  maxCrossAxisExtent: 100,\n  mainAxisSpacing: 20,\n  crossAxisSpacing: 20,\n  scrollDirection: Axis.horizontal,\n  children: List.generate(100, (index) => Container(...)),\n)\n\n// 3. GridView.builder - 动态构建\nGridView.builder(\n  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(\n    crossAxisCount: 3,\n    mainAxisSpacing: 20,\n    crossAxisSpacing: 20,\n    childAspectRatio: 1.0,\n  ),\n  itemCount: 100,\n  itemBuilder: (context,index) => Container(...),\n)\n\n// 4. SliverGridDelegateWithMaxCrossAxisExtent - 响应式\nGridView.builder(\n  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(\n    maxCrossAxisExtent: 100,\n    mainAxisSpacing: 20,\n    crossAxisSpacing: 20,\n    childAspectRatio: 1.0,\n  ),\n  itemCount: 100,\n  itemBuilder: (context,index) => Container(...),\n)"
+  },
+  {
+    "id": "flutter_kb_037",
+    "question": "Flutter中SliverGridDelegateWithMaxCrossAxisExtent的作用？",
+    "summary": "关于「Flutter中SliverGridDelegateWithMaxCrossAxisExtent的作用？」的详细回答：\n\n【简要结论】\n控制GridView中每个子项的最大宽度，根据屏幕宽度自动计算列数，实现响应式网格布局。\n\n【详细解释】\n· 控制GridView中每个子项的最大宽度，根据屏幕宽度自动计算列数，实现响应式网格布局。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "滚动组件",
+    "code": "gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(\n  maxCrossAxisExtent: 100,  // 每个子项最大宽度\n  mainAxisSpacing: 20,\n  crossAxisSpacing: 20,\n  childAspectRatio: 1.0,\n)"
+  },
+  {
+    "id": "flutter_kb_038",
+    "question": "Flutter中ListView的几种创建方式？",
+    "summary": "关于「Flutter中ListView的几种创建方式？」的详细回答：\n\n【简要结论】\n有四种：ListView（直接构造）、ListView.builder（动态构建）、ListView.separated（带分割线）、ListView.custom（自定义）。\n\n【详细解释】\n· 有四种：ListView（直接构造）、ListView.builder（动态构建）、ListView.separated（带分割线）、ListView.custom（自定义）。\n\n【代码说明】\n· 配置/注释说明：\n  - 1. ListView - 直接构造\n  - 2. ListView.builder - 动态构建\n  - 3. ListView.separated - 带分割线\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "滚动组件",
+    "code": "// 1. ListView - 直接构造\nListView(\n  padding: EdgeInsets.all(20),\n  children: List.generate(10, (index){\n    return Container(\n      margin: EdgeInsets.only(top: 20),\n      alignment: Alignment.center,\n      width: double.infinity,\n      height: 200,\n      color: const Color.fromARGB(255, 64, 13, 158),\n      child: Text('我是第${index+1}个', style: TextStyle(color: Colors.white, fontSize: 20)),\n    );\n  }),\n)\n\n// 2. ListView.builder - 动态构建\nListView.builder(\n  itemCount: 100,\n  padding: EdgeInsets.all(20),\n  itemBuilder: (context,index){\n    return Container(\n      margin: EdgeInsets.only(top: 20),\n      alignment: Alignment.center,\n      width: double.infinity,\n      height: 200,\n      color: const Color.fromARGB(141, 36, 39, 214),\n      child: Text('我是第${index+1}个', style: TextStyle(color: Colors.white, fontSize: 20)),\n    );\n  },\n)\n\n// 3. ListView.separated - 带分割线\nListView.separated(\n  itemBuilder: (context,index){\n    return Container(\n      alignment: Alignment.center,\n      width: double.infinity,\n      height: 200,\n      color: const Color.fromARGB(141, 36, 39, 214),\n      child: Text('我是第${index+1}个', style: TextStyle(color: Colors.white, fontSize: 20)),\n    );\n  },\n  separatorBuilder: (context,index){\n    return SizedBox(height: 20);\n  },\n  itemCount: 100\n)"
+  },
+  {
+    "id": "flutter_kb_039",
+    "question": "Flutter中ScrollController如何控制滚动位置？",
+    "summary": "关于「Flutter中ScrollController如何控制滚动位置？」的详细回答：\n\n【简要结论】\nScrollController提供jumpTo立即跳转和animateTo带动画滚动，通过position.maxScrollExtent获取最大滚动距离。\n\n【详细解释】\n· ScrollController提供jumpTo立即跳转和animateTo带动画滚动，通过position.maxScrollExtent获取最大滚动距离。\n\n【代码说明】\n· 配置/注释说明：\n  - 跳转到顶部（无动画）\n  - 带动画滚动到顶部\n  - 跳转到底部\n  - 带动画滚动到底部\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "滚动控制",
+    "code": "ScrollController _scrollController = ScrollController();\n\n// 跳转到顶部（无动画）\n_scrollController.jumpTo(0);\n\n// 带动画滚动到顶部\n_scrollController.animateTo(\n  0,\n  duration: Duration(seconds: 1),\n  curve: Curves.easeIn\n);\n\n// 跳转到底部\n_scrollController.jumpTo(_scrollController.position.maxScrollExtent);\n\n// 带动画滚动到底部\n_scrollController.animateTo(\n  _scrollController.position.maxScrollExtent,\n  duration: Duration(seconds: 1),\n  curve: Curves.easeIn\n);"
+  },
+  {
+    "id": "flutter_kb_040",
+    "question": "Flutter中如何实现回到顶部/底部功能？",
+    "summary": "关于「Flutter中如何实现回到顶部/底部功能？」的详细回答：\n\n【简要结论】\n使用ScrollController控制滚动位置，通过Positioned将按钮定位在屏幕角落，点击时调用animateTo或jumpTo方法。\n\n【详细解释】\n· 使用ScrollController控制滚动位置，通过Positioned将按钮定位在屏幕角落，点击时调用animateTo或jumpTo方法。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "滚动控制",
+    "code": "Stack(\n  children: [\n    SingleChildScrollView(\n      controller: _scrollController,\n      child: Column(\n        children: List.generate(10, (index){\n          return Container(\n            alignment: Alignment.center,\n            margin: EdgeInsets.symmetric(vertical: 20),\n            width: double.infinity,\n            height: 200,\n            color: const Color.fromARGB(255, 64, 13, 158),\n            child: Text('我是第${index+1}个', style: TextStyle(color: Colors.white, fontSize: 20)),\n          );\n        }),\n      ),\n    ),\n    Positioned(\n      right: 0,\n      top: 0,\n      child: GestureDetector(\n        onTap: () {\n          _scrollController.animateTo(\n            0,\n            duration: Duration(seconds: 1),\n            curve: Curves.easeIn\n          );\n        },\n        child: Container(\n          padding: EdgeInsets.all(20),\n          width: 100,\n          height: 100,\n          alignment: Alignment.center,\n          margin: EdgeInsets.symmetric(vertical: 20),\n          decoration: BoxDecoration(\n            borderRadius: BorderRadius.circular(50),\n            color: Colors.blue,\n          ),\n          child: Text('去顶部', style: TextStyle(color: Colors.white, fontSize: 15)),\n        ),\n      )\n    ),\n    Positioned(\n      right: 0,\n      bottom: 0,\n      child: GestureDetector(\n        onTap: () {\n          _scrollController.animateTo(\n            _scrollController.position.maxScrollExtent,\n            duration: Duration(seconds: 1),\n            curve: Curves.easeIn\n          );\n        },\n        child: Container(\n          padding: EdgeInsets.all(20),\n          width: 100,\n          height: 100,\n          alignment: Alignment.center,\n          margin: EdgeInsets.symmetric(vertical: 20),\n          decoration: BoxDecoration(\n            borderRadius: BorderRadius.circular(50),\n            color: Colors.blue,\n          ),\n          child: Text('去底部', style: TextStyle(color: Colors.white, fontSize: 15)),\n        ),\n      )\n    )\n  ],\n)"
+  },
+  {
+    "id": "flutter_kb_041",
+    "question": "Flutter中TextField如何获取输入内容？",
+    "summary": "关于「Flutter中TextField如何获取输入内容？」的详细回答：\n\n【简要结论】\n使用TextEditingController控制输入，通过controller.text获取内容。onChanged监听实时输入，onSubmitted监听提交事件。\n\n【详细解释】\n· 使用TextEditingController控制输入，通过controller.text获取内容。\n· onChanged监听实时输入，onSubmitted监听提交事件。\n\n【代码说明】\n· 配置/注释说明：\n  - 获取输入内容\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "表单输入",
+    "code": "TextEditingController _usernameController = TextEditingController();\nTextEditingController _passwordController = TextEditingController();\n\nTextField(\n  controller: _usernameController,\n  onChanged: (value){\n    print(value);  // 实时输入\n  },\n  onSubmitted: (value){\n    print(value);  // 提交时\n  },\n  decoration: InputDecoration(\n    contentPadding: EdgeInsets.only(left: 20),\n    fillColor: const Color.fromARGB(255, 247, 243, 30),\n    filled: true,\n    border: OutlineInputBorder(\n      borderSide: BorderSide.none,\n      gapPadding: 10,\n      borderRadius: BorderRadius.circular(25),\n    ),\n    labelText: '请输入',\n  ),\n)\n\nTextField(\n  controller: _passwordController,\n  obscureText: true,  // 密码模式\n  decoration: InputDecoration(\n    contentPadding: EdgeInsets.only(left: 20),\n    fillColor: const Color.fromARGB(255, 247, 243, 30),\n    filled: true,\n    border: OutlineInputBorder(\n      borderSide: BorderSide.none,\n      gapPadding: 10,\n      borderRadius: BorderRadius.circular(25),\n    ),\n    labelText: '请输入密码',\n  ),\n)\n\n// 获取输入内容\nprint(_usernameController.text);\nprint(_passwordController.text);"
+  },
+  {
+    "id": "flutter_kb_042",
+    "question": "Flutter中TextButton如何自定义样式？",
+    "summary": "关于「Flutter中TextButton如何自定义样式？」的详细回答：\n\n【简要结论】\n使用Container包裹TextButton并设置decoration，或在TextButton的style属性中使用ButtonStyle进行定制。\n\n【详细解释】\n· 使用Container包裹TextButton并设置decoration，或在TextButton的style属性中使用ButtonStyle进行定制。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "基础组件",
+    "code": "Container(\n  width: double.infinity,\n  decoration: BoxDecoration(\n    borderRadius: BorderRadius.circular(25),\n    color: Colors.blue,\n  ),\n  child: TextButton(\n    onPressed: (){\n      print('登录');\n      print(_usernameController.text);\n      print(_passwordController.text);\n    },\n    child: Text('登录')\n  ),\n)"
+  },
+  {
+    "id": "flutter_kb_043",
+    "question": "Flutter中Text.rich如何实现富文本？",
+    "summary": "关于「Flutter中Text.rich如何实现富文本？」的详细回答：\n\n【简要结论】\n使用Text.rich配合TextSpan，每个TextSpan可以独立设置样式，通过children属性组合多个文本片段。\n\n【详细解释】\n· 使用Text.rich配合TextSpan，每个TextSpan可以独立设置样式，通过children属性组合多个文本片段。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "基础组件",
+    "code": "Text.rich(\n  TextSpan(\n    text: 'Hello World ',\n    style: TextStyle(fontSize: 20, color: Colors.red),\n    children: [\n      TextSpan(\n        text: 'Flutter',\n        style: TextStyle(fontSize: 20, color: Colors.green),\n      ),\n    ],\n  )\n)"
+  },
+  {
+    "id": "flutter_kb_044",
+    "question": "Flutter中Flex和Expanded如何实现比例布局？",
+    "summary": "关于「Flutter中Flex和Expanded如何实现比例布局？」的详细回答：\n\n【简要结论】\nFlex是弹性布局容器，Expanded组件通过flex属性控制所占比例，flex值越大占空间越多。\n\n【详细解释】\n· Flex是弹性布局容器，Expanded组件通过flex属性控制所占比例，flex值越大占空间越多。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "布局组件",
+    "code": "Flex(\n  direction: Axis.vertical,\n  children: [\n    Expanded(\n      flex: 1,\n      child: Container(\n        width: 200,\n        height: 200,\n        color: Colors.red,\n      ),\n    ),\n    Expanded(\n      flex: 2,\n      child: Container(\n        width: 200,\n        height: 200,\n        color: Colors.blue,\n      ),\n    ),\n    Expanded(\n      child: Container(\n        width: 200,\n        height: 200,\n        color: Colors.green,\n      ),\n    ),\n  ],\n)"
+  },
+  {
+    "id": "flutter_kb_045",
+    "question": "Flutter中Wrap组件如何实现流式布局？",
+    "summary": "关于「Flutter中Wrap组件如何实现流式布局？」的详细回答：\n\n【简要结论】\nWrap组件自动换行排列子Widget，spacing控制主轴间距，runSpacing控制交叉轴间距，direction控制方向。\n\n【详细解释】\n· Wrap组件自动换行排列子Widget，spacing控制主轴间距，runSpacing控制交叉轴间距，direction控制方向。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "布局组件",
+    "code": "Wrap(\n  alignment: WrapAlignment.center,\n  spacing: 10,\n  runSpacing: 10,\n  direction: Axis.horizontal,\n  children: List.generate(10, (index){\n    return Container(\n      width: 200,\n      height: 200,\n      color: Colors.red,\n    );\n  }),\n)"
+  },
+  {
+    "id": "flutter_kb_046",
+    "question": "Flutter中Positioned如何实现绝对定位？",
+    "summary": "关于「Flutter中Positioned如何实现绝对定位？」的详细回答：\n\n【简要结论】\nPositioned在Stack内部使用，通过top、bottom、left、right精确控制子Widget位置。\n\n【详细解释】\n· Positioned在Stack内部使用，通过top、bottom、left、right精确控制子Widget位置。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "布局组件",
+    "code": "Stack(\n  alignment: Alignment.center,\n  children: [\n    Container(\n      width: double.infinity,\n      height: double.infinity,\n      color: Colors.red,\n    ),\n    Container(\n      width: 100,\n      height: 100,\n      color: const Color.fromARGB(255, 27, 25, 165),\n    ),\n    Positioned(\n      top: 0,\n      right: 0,\n      left: 0,\n      child: Container(\n        width: 100,\n        height: 100,\n        color: Colors.green,\n      ),\n    ),\n  ],\n)"
+  },
+  {
+    "id": "flutter_kb_047",
+    "question": "Flutter中如何给Container添加阴影和变换？",
+    "summary": "关于「Flutter中如何给Container添加阴影和变换？」的详细回答：\n\n【简要结论】\n使用BoxDecoration的boxShadow添加阴影，transform属性配合Matrix4进行旋转变换。\n\n【详细解释】\n· 使用BoxDecoration的boxShadow添加阴影，transform属性配合Matrix4进行旋转变换。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "样式装饰",
+    "code": "Container(\n  width: 200,\n  height: 200,\n  margin: EdgeInsets.all(20),\n  alignment: Alignment.center,\n  decoration: BoxDecoration(\n    color: Colors.red,\n    borderRadius: BorderRadius.circular(10),\n    border: Border.all(color: const Color.fromARGB(255, 245, 241, 15), width: 2),\n    boxShadow: [\n      BoxShadow(\n        color: Colors.black.withOpacity(0.5),\n        spreadRadius: 5,\n        blurRadius: 10,\n        offset: Offset(0, 5),\n      ),\n    ],\n  ),\n  transform: Matrix4.rotationZ(0.05),\n  child: Text('Flutter 组件初始体验', style: TextStyle(color: Colors.white, fontSize: 20)),\n)"
+  },
+  {
+    "id": "flutter_kb_048",
+    "question": "Flutter中StatefulWidget的生命周期有哪些阶段？",
+    "summary": "关于「Flutter中StatefulWidget的生命周期有哪些阶段？」的详细回答：\n\n【简要结论】\n分为创建阶段（createState、initState、build）、更新阶段（didUpdateWidget、build）、销毁阶段（dispose）。\n\n【详细解释】\n· 分为创建阶段（createState、initState、build）、更新阶段（didUpdateWidget、build）、销毁阶段（dispose）。\n\n【代码说明】\n· 配置/注释说明：\n  - 有状态组件的生命周期\n  - 创建阶段：createState → initState → build\n  - 更新阶段：didUpdateWidget → build（当父组件重建时触发）\n  - 销毁阶段：dispose\n  - 初始化数据\n  - 释放资源\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "生命周期",
+    "code": "// 有状态组件的生命周期\n// 创建阶段：createState → initState → build\n// 更新阶段：didUpdateWidget → build（当父组件重建时触发）\n// 销毁阶段：dispose\n\nclass _MainPageState extends State<MainPage> {\n  int data = 0;\n  \n  @override\n  void initState() {\n    super.initState();\n    // 初始化数据\n  }\n  \n  @override\n  void dispose() {\n    // 释放资源\n    super.dispose();\n  }\n  \n  @override\n  Widget build(BuildContext context) {\n    // 构建UI\n    return Container();\n  }\n}"
+  },
+  {
+    "id": "flutter_kb_049",
+    "question": "Flutter中setState的作用是什么？",
+    "summary": "关于「Flutter中setState的作用是什么？」的详细回答：\n\n【简要结论】\nsetState通知Flutter框架状态已改变，触发build方法重新构建UI，实现界面更新。\n\n【详细解释】\n· setState通知Flutter框架状态已改变，触发build方法重新构建UI，实现界面更新。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "状态管理",
+    "code": "int data = 0;\n\nTextButton(\n  onPressed: (){\n    setState(() {\n      data++;\n    });\n  },\n  child: Text('+')\n),\nText('$data'),\nTextButton(\n  onPressed: (){\n    setState(() {\n      data--;\n    });\n  },\n  child: Text('-')\n)"
+  },
+  {
+    "id": "flutter_kb_050",
+    "question": "Flutter中BottomNavigationBar如何配置底部导航？",
+    "summary": "关于「Flutter中BottomNavigationBar如何配置底部导航？」的详细回答：\n\n【简要结论】\n使用BottomNavigationBar组件，items定义导航项，currentIndex控制选中状态，onTap处理点击切换。\n\n【详细解释】\n· 使用BottomNavigationBar组件，items定义导航项，currentIndex控制选中状态，onTap处理点击切换。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "布局组件",
+    "code": "bottomNavigationBar: BottomNavigationBar(\n  backgroundColor: const Color.fromARGB(255, 41, 197, 236),\n  items: [\n    BottomNavigationBarItem(\n      icon: Icon(Icons.home),\n      label: '首页',\n    ),\n    BottomNavigationBarItem(\n      icon: Icon(Icons.search),\n      label: '搜索',\n    ),\n    BottomNavigationBarItem(\n      icon: Icon(Icons.person),\n      label: '个人',\n    ),\n  ],\n)"
+  },
+  {
+    "id": "flutter_kb_051",
+    "question": "Flutter中Image.asset如何加载本地图片？",
+    "summary": "关于「Flutter中Image.asset如何加载本地图片？」的详细回答：\n\n【简要结论】\n使用Image.asset加载本地图片，需要先在pubspec.yaml中声明assets路径。fit属性控制图片填充方式。\n\n【详细解释】\n· 使用Image.asset加载本地图片，需要先在pubspec.yaml中声明assets路径。\n· fit属性控制图片填充方式。\n\n【代码说明】\n· 配置/注释说明：\n  - 加载本地图片\n  - fit: BoxFit.contain,  // 保持比例完整显示\n  - fit: BoxFit.cover,    // 覆盖容器可能裁剪\n  - fit: BoxFit.fill,     // 拉伸填满\n  - fit: BoxFit.fitWidth, // 宽度适配\n  - fit: BoxFit.fitHeight, // 高度适配\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "资源管理",
+    "code": "// 加载本地图片\nImage.asset(\n  'assets/images/1.jpg',\n  width: 200,\n  height: 200,\n  // fit: BoxFit.contain,  // 保持比例完整显示\n  // fit: BoxFit.cover,    // 覆盖容器可能裁剪\n  // fit: BoxFit.fill,     // 拉伸填满\n  // fit: BoxFit.fitWidth, // 宽度适配\n  // fit: BoxFit.fitHeight, // 高度适配\n)"
+  },
+  {
+    "id": "flutter_kb_052",
+    "question": "Flutter中StatefulWidget子组件如何接收父组件参数？",
+    "summary": "关于「Flutter中StatefulWidget子组件如何接收父组件参数？」的详细回答：\n\n【简要结论】\n在StatefulWidget中定义final字段接收参数，在State中通过widget.字段名访问。required标记表示必须传参。\n\n【详细解释】\n· 在StatefulWidget中定义final字段接收参数，在State中通过widget.字段名访问。\n  - final 表示引用不可重新绑定，常用于运行期才能确定的常量。\n· required标记表示必须传参。\n\n【代码说明】\n· 配置/注释说明：\n  - 父组件传递参数\n  - 子组件StatefulWidget定义\n  - 子组件State中访问参数\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "组件通信",
+    "code": "// 父组件传递参数\nChild(title: '李三')\n\n// 子组件StatefulWidget定义\nclass Child extends StatefulWidget {\n  final String? title;\n  const Child({super.key, required this.title});  // required必须传参\n\n  @override\n  _ChildState createState() => _ChildState();\n}\n\n// 子组件State中访问参数\nclass _ChildState extends State<Child> {\n  @override\n  Widget build(BuildContext context) {\n    return Container(\n      child: Text('我是子组件${widget.title}'),  // 使用widget.访问\n    );\n  }\n}"
+  }
+]

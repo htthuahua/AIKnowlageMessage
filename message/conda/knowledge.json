@@ -1,0 +1,367 @@
+[
+  {
+    "id": "conda_kb_001",
+    "question": "MMPose 人体姿态估计（通用检测）的命令是什么？",
+    "summary": "关于「MMPose 人体姿态估计（通用检测）的命令是什么？」的详细回答：\n\n【简要结论】\n使用 HRNet 模型进行通用人体 2D 关键点检测，支持热力图可视化。\n\n【详细解释】\n· 使用 HRNet 模型进行通用人体 2D 关键点检测，支持热力图可视化。\n\n【补充信息】\n· 模型：HRNet-W48\n· 数据集：COCO\n· 输入尺寸：256x192\n· 特性：热力图绘制, 结果保存, 实时显示\n· 适用场景：单张图片人体关键点检测\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "人体姿态估计",
+    "code": "python demo/image_demo.py tests/data/coco/000000000785.jpg configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w48_8xb32-210e_coco-256x192.py https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth --out-file vis_results.jpg --show --draw-heatmap",
+    "details": {
+      "model": "HRNet-W48",
+      "dataset": "COCO",
+      "input_size": "256x192",
+      "features": [
+        "热力图绘制",
+        "结果保存",
+        "实时显示"
+      ],
+      "use_case": "单张图片人体关键点检测"
+    }
+  },
+  {
+    "id": "conda_kb_002",
+    "question": "MMPose 人体姿态估计（专用检测器）的命令是什么？",
+    "summary": "关于「MMPose 人体姿态估计（专用检测器）的命令是什么？」的详细回答：\n\n【简要结论】\n使用 RTMPose + RTMDet 专用人体检测器进行更精准的人体姿态估计。\n\n【详细解释】\n· 使用 RTMPose + RTMDet 专用人体检测器进行更精准的人体姿态估计。\n\n【补充信息】\n· 检测器：RTMDet-M (COCO-Person)\n· 姿态模型：RTMPose-M (Body8)\n· 输入尺寸：256x192\n· 特性：专用人体检测, SimCC 坐标回归, 批量输出\n· 适用场景：需要高精度人体检测的场景\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "人体姿态估计",
+    "code": "python demo/topdown_demo_with_mmdet.py demo/mmdetection_cfg/rtmdet_m_640-8xb32_coco-person.py https://download.openmmlab.com/mmpose/v1/projects/rtmpose/rtmdet_m_8xb32-100e_coco-obj365-person-235e8209.pth configs/body_2d_keypoint/rtmpose/body8/rtmpose-m_8xb256-420e_body8-256x192.py https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-body7_pt-body7_420e-256x192-e48f03d0_20230504.pth --input tests/data/coco/000000000785.jpg --show --draw-heatmap --output-root vis_results/",
+    "details": {
+      "detector": "RTMDet-M (COCO-Person)",
+      "pose_model": "RTMPose-M (Body8)",
+      "input_size": "256x192",
+      "features": [
+        "专用人体检测",
+        "SimCC 坐标回归",
+        "批量输出"
+      ],
+      "use_case": "需要高精度人体检测的场景"
+    }
+  },
+  {
+    "id": "conda_kb_003",
+    "question": "MMPose 全身姿态估计（通用检测）的命令是什么？",
+    "summary": "关于「MMPose 全身姿态估计（通用检测）的命令是什么？」的详细回答：\n\n【简要结论】\n使用 VIPNAS 模型进行全身（包含面部、手部）2D 关键点检测。\n\n【详细解释】\n· 使用 VIPNAS 模型进行全身（包含面部、手部）2D 关键点检测。\n\n【补充信息】\n· 模型：VIPNAS-Res50\n· 数据集：COCO-WholeBody\n· 输入尺寸：256x192\n· 关键点数量：133\n· 特性：全身关键点, DARK 后处理\n· 适用场景：需要面部+手部+身体完整关键点的场景\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "全身姿态估计",
+    "code": "python demo/image_demo.py tests/data/coco/000000000785.jpg configs/wholebody_2d_keypoint/topdown_heatmap/coco-wholebody/td-hm_vipnas-res50_dark-8xb64-210e_coco-wholebody-256x192.py https://download.openmmlab.com/mmpose/top_down/vipnas/vipnas_res50_wholebody_256x192_dark-67c0ce35_20211112.pth --out-file vis_results.jpg",
+    "details": {
+      "model": "VIPNAS-Res50",
+      "dataset": "COCO-WholeBody",
+      "input_size": "256x192",
+      "keypoints_count": 133,
+      "features": [
+        "全身关键点",
+        "DARK 后处理"
+      ],
+      "use_case": "需要面部+手部+身体完整关键点的场景"
+    }
+  },
+  {
+    "id": "conda_kb_004",
+    "question": "MMPose 全身姿态估计（专用检测器）的命令是什么？",
+    "summary": "关于「MMPose 全身姿态估计（专用检测器）的命令是什么？」的详细回答：\n\n【简要结论】\n使用 HRNet-W48 + RTMDet 进行高分辨率全身姿态估计。\n\n【详细解释】\n· 使用 HRNet-W48 + RTMDet 进行高分辨率全身姿态估计。\n\n【补充信息】\n· 检测器：RTMDet-M\n· 姿态模型：HRNet-W48\n· 输入尺寸：384x288\n· 特性：高分辨率, DARK 后处理, 全身133点\n· 适用场景：高精度全身姿态估计\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "全身姿态估计",
+    "code": "python demo/topdown_demo_with_mmdet.py demo/mmdetection_cfg/rtmdet_m_640-8xb32_coco-person.py https://download.openmmlab.com/mmpose/v1/projects/rtmpose/rtmdet_m_8xb32-100e_coco-obj365-person-235e8209.pth configs/wholebody_2d_keypoint/topdown_heatmap/coco-wholebody/td-hm_hrnet-w48_dark-8xb32-210e_coco-wholebody-384x288.py https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w48_coco_wholebody_384x288_dark-f5726563_20200918.pth --input tests/data/coco/000000196141.jpg --output-root vis_results/ --show",
+    "details": {
+      "detector": "RTMDet-M",
+      "pose_model": "HRNet-W48",
+      "input_size": "384x288",
+      "features": [
+        "高分辨率",
+        "DARK 后处理",
+        "全身133点"
+      ],
+      "use_case": "高精度全身姿态估计"
+    }
+  },
+  {
+    "id": "conda_kb_005",
+    "question": "MMPose 3D 人体姿态估计（视频）的命令是什么？",
+    "summary": "关于「MMPose 3D 人体姿态估计（视频）的命令是什么？」的详细回答：\n\n【简要结论】\n使用 VideoPose3D 从 2D 关键点提升为 3D 人体姿态，支持视频输入。\n\n【详细解释】\n· 使用 VideoPose3D 从 2D 关键点提升为 3D 人体姿态，支持视频输入。\n\n【补充信息】\n· pipeline：RTMDet 检测, RTMPose 2D, VideoPose3D 提升\n· 检测器：RTMDet-M\n· pose2d_model：RTMPose-M\n· pose3d_model：VideoPose3D-TCN (243帧)\n· 数据集：Human3.6M\n· 特性：视频输入, 时序建模, 保存预测结果\n· 适用场景：从视频生成 3D 人体骨架\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "3D人体姿态",
+    "code": "python demo/body3d_pose_lifter_demo.py demo/mmdetection_cfg/rtmdet_m_640-8xb32_coco-person.py https://download.openmmlab.com/mmpose/v1/projects/rtmpose/rtmdet_m_8xb32-100e_coco-obj365-person-235e8209.pth configs/body_2d_keypoint/rtmpose/body8/rtmpose-m_8xb256-420e_body8-256x192.py https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-body7_pt-body7_420e-256x192-e48f03d0_20230504.pth configs/body_3d_keypoint/video_pose_lift/h36m/video-pose-lift_tcn-243frm-supv-cpn-ft_8xb128-200e_h36m.py https://download.openmmlab.com/mmpose/body3d/videopose/videopose_h36m_243frames_fullconv_supervised_cpn_ft-88f5abbb_20210527.pth --input demo/resources/yh.mp4 --output-root vis_results --save-predictions",
+    "details": {
+      "pipeline": [
+        "RTMDet 检测",
+        "RTMPose 2D",
+        "VideoPose3D 提升"
+      ],
+      "detector": "RTMDet-M",
+      "pose2d_model": "RTMPose-M",
+      "pose3d_model": "VideoPose3D-TCN (243帧)",
+      "dataset": "Human3.6M",
+      "features": [
+        "视频输入",
+        "时序建模",
+        "保存预测结果"
+      ],
+      "use_case": "从视频生成 3D 人体骨架"
+    }
+  },
+  {
+    "id": "conda_kb_006",
+    "question": "MMPose 动物姿态估计（猫）的命令是什么？",
+    "summary": "关于「MMPose 动物姿态估计（猫）的命令是什么？」的详细回答：\n\n【简要结论】\n检测猫的关键点，使用 AnimalPose 数据集训练的 HRNet 模型。\n\n【详细解释】\n· 检测猫的关键点，使用 AnimalPose 数据集训练的 HRNet 模型。\n\n【补充信息】\n· animal：猫 (cat)\n· coco_category_id：15\n· 检测器：RTMDet-M (COCO)\n· 姿态模型：HRNet-W32\n· 数据集：AnimalPose\n· 输入尺寸：256x256\n· 特性：热力图, COCO 检测器\n· 适用场景：静态图片猫姿态检测\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "动物姿态估计",
+    "code": "python demo/topdown_demo_with_mmdet.py demo/mmdetection_cfg/rtmdet_m_8xb32-300e_coco.py https://download.openmmlab.com/mmdetection/v3.0/rtmdet/rtmdet_m_8xb32-300e_coco/rtmdet_m_8xb32-300e_coco_20220719_112220-229f527c.pth configs/animal_2d_keypoint/topdown_heatmap/animalpose/td-hm_hrnet-w32_8xb64-210e_animalpose-256x256.py https://download.openmmlab.com/mmpose/animal/hrnet/hrnet_w32_animalpose_256x256-1aa7f075_20210426.pth --input tests/data/animalpose/ca110.jpeg --show --draw-heatmap --det-cat-id=15",
+    "details": {
+      "animal": "猫 (cat)",
+      "coco_category_id": 15,
+      "detector": "RTMDet-M (COCO)",
+      "pose_model": "HRNet-W32",
+      "dataset": "AnimalPose",
+      "input_size": "256x256",
+      "features": [
+        "热力图",
+        "COCO 检测器"
+      ],
+      "use_case": "静态图片猫姿态检测"
+    }
+  },
+  {
+    "id": "conda_kb_007",
+    "question": "MMPose 动物姿态估计（狗）视频处理的命令是什么？",
+    "summary": "关于「MMPose 动物姿态估计（狗）视频处理的命令是什么？」的详细回答：\n\n【简要结论】\n检测狗的关键点，支持视频输入并保存结果。\n\n【详细解释】\n· 检测狗的关键点，支持视频输入并保存结果。\n\n【补充信息】\n· animal：狗 (dog)\n· coco_category_id：16\n· 检测器：RTMDet-M (COCO)\n· 姿态模型：HRNet-W32\n· 数据集：AnimalPose\n· 输入尺寸：256x256\n· 特性：视频输入, 热力图, 批量输出\n· 适用场景：视频狗姿态跟踪\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "动物姿态估计",
+    "code": "python demo/topdown_demo_with_mmdet.py demo/mmdetection_cfg/rtmdet_m_8xb32-300e_coco.py https://download.openmmlab.com/mmdetection/v3.0/rtmdet/rtmdet_m_8xb32-300e_coco/rtmdet_m_8xb32-300e_coco_20220719_112220-229f527c.pth configs/animal_2d_keypoint/topdown_heatmap/animalpose/td-hm_hrnet-w32_8xb64-210e_animalpose-256x256.py https://download.openmmlab.com/mmpose/animal/hrnet/hrnet_w32_animalpose_256x256-1aa7f075_20210426.pth --input demo/resources/demo_dog.mp4 --output-root vis_results --draw-heatmap --det-cat-id=16",
+    "details": {
+      "animal": "狗 (dog)",
+      "coco_category_id": 16,
+      "detector": "RTMDet-M (COCO)",
+      "pose_model": "HRNet-W32",
+      "dataset": "AnimalPose",
+      "input_size": "256x256",
+      "features": [
+        "视频输入",
+        "热力图",
+        "批量输出"
+      ],
+      "use_case": "视频狗姿态跟踪"
+    }
+  },
+  {
+    "id": "conda_kb_008",
+    "question": "MMPose 面部关键点检测的命令是什么？",
+    "summary": "关于「MMPose 面部关键点检测的命令是什么？」的详细回答：\n\n【简要结论】\n使用 RTMPose 进行面部 106 个关键点检测，支持热力图可视化。\n\n【详细解释】\n· 使用 RTMPose 进行面部 106 个关键点检测，支持热力图可视化。\n\n【补充信息】\n· 检测器：YOLOX-S (Face)\n· 姿态模型：RTMPose-M (Face6)\n· 关键点数量：106\n· 数据集：COFW / WFLW\n· 输入尺寸：256x256\n· 特性：SimCC 回归, 热力图\n· 适用场景：静态图片面部关键点检测\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "面部关键点",
+    "code": "python demo/topdown_demo_with_mmdet.py demo/mmdetection_cfg/yolox-s_8xb8-300e_coco-face.py https://download.openmmlab.com/mmpose/mmdet_pretrained/yolo-x_8xb8-300e_coco-face_13274d7c.pth configs/face_2d_keypoint/rtmpose/face6/rtmpose-m_8xb256-120e_face6-256x256.py https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-face6_pt-in1k_120e-256x256-72a37400_20230529.pth --input tests/data/cofw/001766.jpg --show --draw-heatmap",
+    "details": {
+      "detector": "YOLOX-S (Face)",
+      "pose_model": "RTMPose-M (Face6)",
+      "keypoints_count": 106,
+      "dataset": "COFW / WFLW",
+      "input_size": "256x256",
+      "features": [
+        "SimCC 回归",
+        "热力图"
+      ],
+      "use_case": "静态图片面部关键点检测"
+    }
+  },
+  {
+    "id": "conda_kb_009",
+    "question": "MMPose 面部关键点视频检测的命令是什么？",
+    "summary": "关于「MMPose 面部关键点视频检测的命令是什么？」的详细回答：\n\n【简要结论】\n对视频进行面部关键点跟踪，可调整关键点半径。\n\n【详细解释】\n· 对视频进行面部关键点跟踪，可调整关键点半径。\n\n【补充信息】\n· 检测器：YOLOX-S (Face)\n· 姿态模型：RTMPose-M (Face6)\n· 关键点数量：106\n· 输入尺寸：256x256\n· 特性：视频输入, 半径可调, 批量输出\n· 适用场景：视频面部关键点跟踪\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "面部关键点",
+    "code": "python demo/topdown_demo_with_mmdet.py demo/mmdetection_cfg/yolox-s_8xb8-300e_coco-face.py https://download.openmmlab.com/mmpose/mmdet_pretrained/yolo-x_8xb8-300e_coco-face_13274d7c.pth configs/face_2d_keypoint/rtmpose/face6/rtmpose-m_8xb256-120e_face6-256x256.py https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-face6_pt-in1k_120e-256x256-72a37400_20230529.pth --input demo/resources/demo_face.mp4 --show --output-root vis_results --radius 1",
+    "details": {
+      "detector": "YOLOX-S (Face)",
+      "pose_model": "RTMPose-M (Face6)",
+      "keypoints_count": 106,
+      "input_size": "256x256",
+      "features": [
+        "视频输入",
+        "半径可调",
+        "批量输出"
+      ],
+      "use_case": "视频面部关键点跟踪"
+    }
+  },
+  {
+    "id": "conda_kb_010",
+    "question": "MMPose 手部关键点检测的命令是什么？",
+    "summary": "关于「MMPose 手部关键点检测的命令是什么？」的详细回答：\n\n【简要结论】\n使用专用手部检测器进行 21 个手部关键点检测。\n\n【详细解释】\n· 使用专用手部检测器进行 21 个手部关键点检测。\n\n【补充信息】\n· 检测器：RTMDet-Nano (Hand)\n· 姿态模型：RTMPose-M (Hand5)\n· 关键点数量：21\n· 数据集：OneHand10K / COCO-Hand\n· 输入尺寸：256x256\n· 特性：专用手部检测, 热力图\n· 适用场景：静态图片手部姿态检测\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "手部关键点",
+    "code": "python demo/topdown_demo_with_mmdet.py demo/mmdetection_cfg/rtmdet_nano_320-8xb32_hand.py https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmdet_nano_8xb32-300e_hand-267f9c8f.pth configs/hand_2d_keypoint/rtmpose/hand5/rtmpose-m_8xb256-210e_hand5-256x256.py https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-hand5_pt-aic-coco_210e-256x256-74fb594_20230320.pth --input tests/data/onehand10k/9.jpg --show --draw-heatmap",
+    "details": {
+      "detector": "RTMDet-Nano (Hand)",
+      "pose_model": "RTMPose-M (Hand5)",
+      "keypoints_count": 21,
+      "dataset": "OneHand10K / COCO-Hand",
+      "input_size": "256x256",
+      "features": [
+        "专用手部检测",
+        "热力图"
+      ],
+      "use_case": "静态图片手部姿态检测"
+    }
+  },
+  {
+    "id": "conda_kb_011",
+    "question": "MMPose 手部关键点视频检测的命令是什么？",
+    "summary": "关于「MMPose 手部关键点视频检测的命令是什么？」的详细回答：\n\n【简要结论】\n对视频进行手部关键点跟踪，支持低置信度阈值过滤。\n\n【详细解释】\n· 对视频进行手部关键点跟踪，支持低置信度阈值过滤。\n\n【补充信息】\n· 检测器：RTMDet-Nano (Hand)\n· 姿态模型：RTMPose-M (Hand5)\n· 关键点数量：21\n· 输入尺寸：256x256\n· threshold：0.1\n· 特性：视频输入, 低阈值过滤, 批量输出\n· 适用场景：视频手部姿态跟踪\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "手部关键点",
+    "code": "python demo/topdown_demo_with_mmdet.py demo/mmdetection_cfg/rtmdet_nano_320-8xb32_hand.py https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmdet_nano_8xb32-300e_hand-267f9c8f.pth configs/hand_2d_keypoint/rtmpose/hand5/rtmpose-m_8xb256-210e_hand5-256x256.py https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-hand5_pt-aic-coco_210e-256x256-74fb594_20230320.pth --input demo/resources/demo_hand.mp4 --show --output-root vis_results --kpt-thr 0.1",
+    "details": {
+      "detector": "RTMDet-Nano (Hand)",
+      "pose_model": "RTMPose-M (Hand5)",
+      "keypoints_count": 21,
+      "input_size": "256x256",
+      "threshold": 0.1,
+      "features": [
+        "视频输入",
+        "低阈值过滤",
+        "批量输出"
+      ],
+      "use_case": "视频手部姿态跟踪"
+    }
+  },
+  {
+    "id": "conda_kb_012",
+    "question": "MMPose 统一推理接口（Inferencer）的基本用法是什么？",
+    "summary": "关于「MMPose 统一推理接口（Inferencer）的基本用法是什么？」的详细回答：\n\n【简要结论】\n使用 MMPoseInferencer 进行简化的统一推理，支持自动模型选择。\n\n【详细解释】\n· 使用 MMPoseInferencer 进行简化的统一推理，支持自动模型选择。\n\n【补充信息】\n· api：MMPoseInferencer\n· model_alias：human\n· 特性：自动模型下载, 统一接口, 结果生成器\n· 适用场景：快速原型开发和简化调用\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "推理接口",
+    "code": "from mmpose.apis import MMPoseInferencer\n\nimg_path = 'tests/data/coco/000000000785.jpg'\ninferencer = MMPoseInferencer('human')\nresult_generator = inferencer(img_path, show=True)\nresult = next(result_generator)",
+    "details": {
+      "api": "MMPoseInferencer",
+      "model_alias": "human",
+      "features": [
+        "自动模型下载",
+        "统一接口",
+        "结果生成器"
+      ],
+      "use_case": "快速原型开发和简化调用"
+    }
+  },
+  {
+    "id": "conda_kb_013",
+    "question": "MMPose 3D 手部演示的命令是什么？",
+    "summary": "关于「MMPose 3D 手部演示的命令是什么？」的详细回答：\n\n【简要结论】\n使用 Inferencer 进行 3D 手部关键点检测（效果一般）。\n\n【详细解释】\n· 使用 Inferencer 进行 3D 手部关键点检测（效果一般）。\n\n【补充信息】\n· 模型：hand3d\n· 数据集：InterHand2.6M\n· 特性：3D 关键点, 自动可视化\n· 备注：文档标注效果不太好\n· 适用场景：3D 手部姿态估计实验\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "3D手部",
+    "code": "python demo/inferencer_demo.py tests/data/interhand2.6m/image29590.jpg --pose3d hand3d --vis-out-dir vis_results/hand3d --show",
+    "details": {
+      "model": "hand3d",
+      "dataset": "InterHand2.6M",
+      "features": [
+        "3D 关键点",
+        "自动可视化"
+      ],
+      "note": "文档标注效果不太好",
+      "use_case": "3D 手部姿态估计实验"
+    }
+  },
+  {
+    "id": "conda_kb_014",
+    "question": "MMPose 3D 人体演示（Inferencer）的命令是什么？",
+    "summary": "关于「MMPose 3D 人体演示（Inferencer）的命令是什么？」的详细回答：\n\n【简要结论】\n使用 Inferencer 进行 3D 人体关键点检测（效果一般）。\n\n【详细解释】\n· 使用 Inferencer 进行 3D 人体关键点检测（效果一般）。\n\n【补充信息】\n· 模型：human3d\n· 特性：3D 关键点, 自动可视化\n· 备注：文档标注效果不太好\n· 适用场景：3D 人体姿态估计实验\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "3D人体姿态",
+    "code": "python demo/inferencer_demo.py tests/data/coco/000000000785.jpg --pose3d human3d --vis-out-dir vis_results/human3d --show",
+    "details": {
+      "model": "human3d",
+      "features": [
+        "3D 关键点",
+        "自动可视化"
+      ],
+      "note": "文档标注效果不太好",
+      "use_case": "3D 人体姿态估计实验"
+    }
+  },
+  {
+    "id": "conda_kb_015",
+    "question": "MMPose 摄像头实时演示的命令是什么？",
+    "summary": "关于「MMPose 摄像头实时演示的命令是什么？」的详细回答：\n\n【简要结论】\n使用 Inferencer 进行摄像头实时人体姿态估计。\n\n【详细解释】\n· 使用 Inferencer 进行摄像头实时人体姿态估计。\n\n【补充信息】\n· input：webcam\n· 模型：human (2D)\n· 特性：实时推理, 摄像头输入\n· 适用场景：实时人体姿态检测演示\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "实时演示",
+    "code": "python demo/inferencer_demo.py webcam --pose2d 'human'",
+    "details": {
+      "input": "webcam",
+      "model": "human (2D)",
+      "features": [
+        "实时推理",
+        "摄像头输入"
+      ],
+      "use_case": "实时人体姿态检测演示"
+    }
+  },
+  {
+    "id": "conda_kb_016",
+    "question": "MMPose 项目如何安装和配置环境？",
+    "summary": "关于「MMPose 项目如何安装和配置环境？」的详细回答：\n\n【简要结论】\n使用 Conda 创建 openmmlab 环境，安装 PyTorch 和 MMPose 相关依赖。\n\n【详细解释】\n· 使用 Conda 创建 openmmlab 环境，安装 PyTorch 和 MMPose 相关依赖。\n\n【补充信息】\n· python_version：3.8\n· pytorch_version：2.0.1\n· cuda_version：11.8\n· key_packages：mmengine, mmcv, mmdet, mmpose\n· package_manager：openmim\n· 备注：修改源代码位置后需重新运行 pip install -v -e .\n\n【代码说明】\n· 配置/注释说明：\n  - 1. 创建环境\n  - 2. 安装 PyTorch\n  - 3. 安装基础库\n  - 4. 克隆并安装项目\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "环境安装",
+    "code": "# 1. 创建环境\nconda create --name openmmlab python=3.8 -y\nconda activate openmmlab\n\n# 2. 安装 PyTorch\nconda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.8 -c pytorch -c nvidia\n\n# 3. 安装基础库\npip install fsspec\npip install -U openmim\nmim install mmengine\nmim install \"mmcv<2.2.0\"\nmim install \"mmdet<3.3.0\"\nmim install mmpose\n\n# 4. 克隆并安装项目\ngit clone https://github.com/open-mmlab/mmpose.git\ncd mmpose\npip install -v -e .",
+    "details": {
+      "python_version": "3.8",
+      "pytorch_version": "2.0.1",
+      "cuda_version": "11.8",
+      "key_packages": [
+        "mmengine",
+        "mmcv",
+        "mmdet",
+        "mmpose"
+      ],
+      "package_manager": "openmim",
+      "note": "修改源代码位置后需重新运行 pip install -v -e ."
+    }
+  },
+  {
+    "id": "conda_kb_017",
+    "question": "MMAction2 动作识别如何安装和验证？",
+    "summary": "关于「MMAction2 动作识别如何安装和验证？」的详细回答：\n\n【简要结论】\n安装 MMAction2 并运行 TSN 模型进行动作识别验证。\n\n【详细解释】\n· 安装 MMAction2 并运行 TSN 模型进行动作识别验证。\n\n【补充信息】\n· 模型：TSN-R50\n· 数据集：Kinetics400\n· input：视频\n· 输出：前5个动作标签及分数\n· 备注：需要翻墙下载，也可直接解压压缩包\n\n【代码说明】\n· 配置/注释说明：\n  - 下载源码\n  - 下载权重\n  - 验证推理\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "动作识别",
+    "code": "# 下载源码\ngit clone https://github.com/open-mmlab/mmaction2.git\ncd mmaction2\npip install -v -e .\n\n# 下载权重\nmim download mmaction2 --config tsn_imagenet-pretrained-r50_8xb32-1x1x8-100e_kinetics400-rgb --dest .\n\n# 验证推理\npython demo/demo.py tsn_imagenet-pretrained-r50_8xb32-1x1x8-100e_kinetics400-rgb.py tsn_imagenet-pretrained-r50_8xb32-1x1x8-100e_kinetics400-rgb_20220906-2692d16c.pth demo/demo.mp4 tools/data/kinetics/label_map_k400.txt",
+    "details": {
+      "model": "TSN-R50",
+      "dataset": "Kinetics400",
+      "input": "视频",
+      "output": "前5个动作标签及分数",
+      "note": "需要翻墙下载，也可直接解压压缩包"
+    }
+  },
+  {
+    "id": "conda_kb_018",
+    "question": "AI 行为分析系统的整体架构和流程是什么？",
+    "summary": "关于「AI 行为分析系统的整体架构和流程是什么？」的详细回答：\n\n【简要结论】\n基于 PyQt5 + MMPose + MMAction2 的 AI 行为分析系统，包含视频上传、3D姿态生成、动作评分、质量分析等模块。\n\n【详细解释】\n· 基于 PyQt5 + MMPose + MMAction2 的 AI 行为分析系统，包含视频上传、3D姿态生成、动作评分、质量分析等模块。\n\n【补充信息】\n· framework：PyQt5\n· ai_backends：MMPose, MMAction2\n· pipeline：1. 用户上传视频 → data/video, 2. 生成3D关键点 → peopleJson/{视频名}/, 3. 动作识别评分 → result/, 4. 动作质量分析 → quality_analysis.json, 5. 界面展示结果\n· 备注：打包后需将 _internal/data 复制到 dist 目录\n\n【代码说明】\n· 配置/注释说明：\n  - 项目结构\n  - 程序启动入口\n  - 主窗口和业务逻辑\n  - 3D姿态生成服务\n  - JSON骨架数据加载\n  - 动作质量分析\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "系统架构",
+    "code": "# 项目结构\nAI行为分析系统\n├── main.py                 # 程序启动入口\n├── standalone_app.py       # 主窗口和业务逻辑\n├── inference_service.py    # 3D姿态生成服务\n├── data_loader.py          # JSON骨架数据加载\n├── analyze_action_quality.py  # 动作质量分析\n├── evaluation_task.py      # 动作评估任务\n├── center_panel.py         # 中心面板（视频+骨架）\n├── left_panel.py           # 左侧面板（监测数据）\n├── right_panel.py          # 右侧面板（项目信息）\n├── video_player.py         # 视频播放器\n├── skeleton_canvas.py      # 骨架画布\n└── standalone_styles.py    # UI样式",
+    "details": {
+      "framework": "PyQt5",
+      "ai_backends": [
+        "MMPose",
+        "MMAction2"
+      ],
+      "pipeline": [
+        "1. 用户上传视频 → data/video",
+        "2. 生成3D关键点 → peopleJson/{视频名}/",
+        "3. 动作识别评分 → result/",
+        "4. 动作质量分析 → quality_analysis.json",
+        "5. 界面展示结果"
+      ],
+      "note": "打包后需将 _internal/data 复制到 dist 目录"
+    }
+  },
+  {
+    "id": "conda_kb_019",
+    "question": "COCO 数据集中常见动物类别的检测 ID 是什么？",
+    "summary": "关于「COCO 数据集中常见动物类别的检测 ID 是什么？」的详细回答：\n\n【简要结论】\nCOCO 数据集包含80个类别，其中常见动物类别的索引编号。\n\n【详细解释】\n· COCO 数据集包含80个类别，其中常见动物类别的索引编号。\n\n【补充信息】\n· 数据集：COCO\n· total_classes：80\n· usage：--det-cat-id 参数指定检测类别\n· example：--det-cat-id=15 检测猫，--det-cat-id=16 检测狗\n\n【代码说明】\n· 配置/注释说明：\n  - COCO 常见动物类别 ID\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "数据集",
+    "code": "# COCO 常见动物类别 ID\n14: 鸟 (bird)\n15: 猫 (cat)\n16: 狗 (dog)\n17: 马 (horse)\n18: 绵羊 (sheep)\n19: 牛 (cow)\n20: 大象 (elephant)\n21: 熊 (bear)\n22: 斑马 (zebra)\n23: 长颈鹿 (giraffe)",
+    "details": {
+      "dataset": "COCO",
+      "total_classes": 80,
+      "usage": "--det-cat-id 参数指定检测类别",
+      "example": "--det-cat-id=15 检测猫，--det-cat-id=16 检测狗"
+    }
+  },
+  {
+    "id": "conda_kb_020",
+    "question": "Anaconda 环境管理常用命令有哪些？",
+    "summary": "关于「Anaconda 环境管理常用命令有哪些？」的详细回答：\n\n【简要结论】\nConda 环境创建、激活、删除及包管理的基础命令。\n\n【详细解释】\n· Conda 环境创建、激活、删除及包管理的基础命令。\n\n【补充信息】\n· tool：Conda\n· 特性：环境隔离, 包管理, 跨平台\n· recommendation：使用 environment.yml 导出完整环境信息\n\n【代码说明】\n· 配置/注释说明：\n  - 环境管理\n  - 查看所有环境\n  - 创建环境\n  - 激活环境\n  - 退出环境\n  - 删除环境\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "环境管理",
+    "code": "# 环境管理\nconda env list                          # 查看所有环境\nconda create -n AI_study python=3.6     # 创建环境\nconda activate AI_study                 # 激活环境\nconda deactivate                        # 退出环境\nconda remove -n AI_study --all          # 删除环境\n\n# 包管理\nconda list                              # 列出已安装包\nconda install package_name              # 安装包\nconda remove package_name               # 删除包\nconda update --all                      # 更新所有包\n\n# 导入导出\nconda env export > environment.yml      # 导出环境\nconda env create -f environment.yml     # 从文件创建环境\n\n# 添加清华镜像\nconda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/\nconda config --set show_channel_urls yes",
+    "details": {
+      "tool": "Conda",
+      "features": [
+        "环境隔离",
+        "包管理",
+        "跨平台"
+      ],
+      "recommendation": "使用 environment.yml 导出完整环境信息"
+    }
+  }
+]

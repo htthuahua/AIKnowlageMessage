@@ -1,0 +1,191 @@
+[
+  {
+    "id": "flutter_kb_001",
+    "question": "Flutter应用的入口函数是什么？",
+    "summary": "关于「Flutter应用的入口函数是什么？」的详细回答：\n\n【简要结论】\nFlutter应用使用main()函数作为入口，通过runApp()方法启动应用，传入根Widget。\n\n【详细解释】\n· Flutter应用使用main()函数作为入口，通过runApp()方法启动应用，传入根Widget。\n  - Flutter 开发建议先掌握 Widget 树、状态管理和路由三要素。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Flutter基础",
+    "code": "import 'package:flutter/cupertino.dart';\nimport 'package:flutter/material.dart';\nimport 'route/index.dart';\n\nvoid main(List<String> args) {\n  runApp(getRouteWidget());\n}"
+  },
+  {
+    "id": "flutter_kb_002",
+    "question": "Flutter中如何配置路由？",
+    "summary": "关于「Flutter中如何配置路由？」的详细回答：\n\n【简要结论】\n使用MaterialApp的initialRoute设置初始路由，routes属性配置路由映射表，key为路径字符串，value为WidgetBuilder函数。\n\n【详细解释】\n· 使用MaterialApp的initialRoute设置初始路由，routes属性配置路由映射表，key为路径字符串，value为WidgetBuilder函数。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "路由导航",
+    "code": "import 'package:flutter/material.dart';\nimport 'package:testdemon1/page/main/index.dart';\nimport 'package:testdemon1/page/login/index.dart';\n\nWidget getRouteWidget() {\n  return MaterialApp(\n    initialRoute: '/',\n    routes: getRoutes(),\n  );\n}\nMap<String, Widget Function(BuildContext)> getRoutes() {\n  return {\n    '/': (context) => MainPage(),\n    '/login': (context) => LoginPage(),\n  };\n}"
+  },
+  {
+    "id": "flutter_kb_003",
+    "question": "Flutter中如何创建有状态Widget？",
+    "summary": "关于「Flutter中如何创建有状态Widget？」的详细回答：\n\n【简要结论】\n继承StatefulWidget并重写createState()方法返回State对象。State类中管理可变状态，通过setState()触发UI更新。\n\n【详细解释】\n· 继承StatefulWidget并重写createState()方法返回State对象。\n· State类中管理可变状态，通过setState()触发UI更新。\n\n【代码说明】\n· 配置/注释说明：\n  - ...状态管理代码\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Widget基础",
+    "code": "class MainPage extends StatefulWidget {\n  const MainPage({Key? key}) : super(key: key);\n\n  @override\n  State<MainPage> createState() => _MainPageState();\n}\n\nclass _MainPageState extends State<MainPage> {\n  int _currentIndex = 0;\n  // ...状态管理代码\n}"
+  },
+  {
+    "id": "flutter_kb_004",
+    "question": "Flutter中BottomNavigationBar如何实现底部导航？",
+    "summary": "关于「Flutter中BottomNavigationBar如何实现底部导航？」的详细回答：\n\n【简要结论】\n使用BottomNavigationBar组件，通过items属性配置导航项，currentIndex控制选中项，onTap处理点击事件。配合IndexedStack或PageView切换页面内容。\n\n【详细解释】\n· 使用BottomNavigationBar组件，通过items属性配置导航项，currentIndex控制选中项，onTap处理点击事件。\n· 配合IndexedStack或PageView切换页面内容。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "布局组件",
+    "code": "bottomNavigationBar: BottomNavigationBar(\n  currentIndex: _currentIndex,\n  onTap: (index) {\n    if (index == 3) {\n      Navigator.pushNamed(context, '/login');\n    } else {\n      setState(() {\n        _currentIndex = index;\n      });\n    }\n  },\n  type: BottomNavigationBarType.fixed,\n  selectedItemColor: Colors.black,\n  unselectedItemColor: Colors.grey,\n  items: _items,\n),"
+  },
+  {
+    "id": "flutter_kb_005",
+    "question": "Flutter中IndexedStack的作用是什么？",
+    "summary": "关于「Flutter中IndexedStack的作用是什么？」的详细回答：\n\n【简要结论】\nIndexedStack只显示指定索引的子Widget，其他子Widget保持状态但不可见。适合与BottomNavigationBar配合使用，避免页面重建。\n\n【详细解释】\n· IndexedStack只显示指定索引的子Widget，其他子Widget保持状态但不可见。\n· 适合与BottomNavigationBar配合使用，避免页面重建。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "布局组件",
+    "code": "final List<Widget> _pages = [\n  HomePage(),\n  CartPage(),\n  MyPage(),\n  const Center(child: Text('请先登录')),\n];\n\nbody: IndexedStack(\n  index: _currentIndex,\n  children: _pages,\n),"
+  },
+  {
+    "id": "flutter_kb_006",
+    "question": "Flutter中如何进行页面跳转？",
+    "summary": "关于「Flutter中如何进行页面跳转？」的详细回答：\n\n【简要结论】\n使用Navigator.pushNamed(context, routeName)进行命名路由跳转，配合push()和pop()进行普通路由跳转和返回。\n\n【详细解释】\n· 使用Navigator.pushNamed(context, routeName)进行命名路由跳转，配合push()和pop()进行普通路由跳转和返回。\n\n【代码说明】\n· 配置/注释说明：\n  - 跳转到登录页\n  - 登录成功后返回\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "路由导航",
+    "code": "// 跳转到登录页\nif (index == 3) {\n  Navigator.pushNamed(context, '/login');\n}\n\n// 登录成功后返回\nNavigator.pop(context);"
+  },
+  {
+    "id": "flutter_kb_007",
+    "question": "Flutter中TextFormField如何实现表单验证？",
+    "summary": "关于「Flutter中TextFormField如何实现表单验证？」的详细回答：\n\n【简要结论】\n使用TextEditingController控制输入内容，配合Form和GlobalKey<FormState>管理表单状态。通过自定义验证函数实现输入校验。\n\n【详细解释】\n· 使用TextEditingController控制输入内容，配合Form和GlobalKey<FormState>管理表单状态。\n· 通过自定义验证函数实现输入校验。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "表单输入",
+    "code": "final _formKey = GlobalKey<FormState>();\nfinal _phoneController = TextEditingController();\nfinal _passwordController = TextEditingController();\n\nbool _validatePhone(String phone) {\n  final phoneRegex = RegExp(r'^1[3-9]\\d{9}$');\n  if (phone.isEmpty) {\n    _phoneError = '请输入手机号';\n    return false;\n  } else if (!phoneRegex.hasMatch(phone)) {\n    _phoneError = '请输入正确的手机号';\n    return false;\n  }\n  _phoneError = null;\n  return true;\n}"
+  },
+  {
+    "id": "flutter_kb_008",
+    "question": "Dart中如何定义正则表达式进行手机号验证？",
+    "summary": "关于「Dart中如何定义正则表达式进行手机号验证？」的详细回答：\n\n【简要结论】\n使用RegExp类定义正则表达式，r'^1[3-9]\\d{9}$'表示以1开头，第二位3-9，后面9位数字，共11位手机号。\n\n【详细解释】\n· 使用RegExp类定义正则表达式，r'^1[3-9]\\d{9}$'表示以1开头，第二位3-9，后面9位数字，共11位手机号。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Dart语法",
+    "code": "final phoneRegex = RegExp(r'^1[3-9]\\d{9}$');\nif (!phoneRegex.hasMatch(phone)) {\n  _phoneError = '请输入正确的手机号';\n  return false;\n}"
+  },
+  {
+    "id": "flutter_kb_009",
+    "question": "Flutter中如何显示加载状态？",
+    "summary": "关于「Flutter中如何显示加载状态？」的详细回答：\n\n【简要结论】\n通过bool变量控制加载状态，使用CircularProgressIndicator显示加载动画，同时禁用按钮防止重复提交。\n\n【详细解释】\n· 通过bool变量控制加载状态，使用CircularProgressIndicator显示加载动画，同时禁用按钮防止重复提交。\n\n【代码说明】\n· 配置/注释说明：\n  - 登录时设置加载状态\n  - 按钮显示加载动画\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "状态管理",
+    "code": "bool _isLoading = false;\n\n// 登录时设置加载状态\nsetState(() {\n  _isLoading = true;\n});\n\n// 按钮显示加载动画\nchild: _isLoading\n  ? Row(\n      mainAxisAlignment: MainAxisAlignment.center,\n      children: [\n        SizedBox(\n          width: 20,\n          height: 20,\n          child: CircularProgressIndicator(\n            strokeWidth: 2,\n            color: Colors.white,\n          ),\n        ),\n        SizedBox(width: 10),\n        Text('登录中...'),\n      ],\n    )\n  : Text('登录'),"
+  },
+  {
+    "id": "flutter_kb_010",
+    "question": "Flutter中如何显示SnackBar提示？",
+    "summary": "关于「Flutter中如何显示SnackBar提示？」的详细回答：\n\n【简要结论】\n通过ScaffoldMessenger.of(context).showSnackBar()显示底部提示条，用于展示操作结果反馈。\n\n【详细解释】\n· 通过ScaffoldMessenger.of(context).showSnackBar()显示底部提示条，用于展示操作结果反馈。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "交互反馈",
+    "code": "ScaffoldMessenger.of(context).showSnackBar(\n  SnackBar(content: Text('登录成功')),\n);"
+  },
+  {
+    "id": "flutter_kb_011",
+    "question": "Flutter中如何实现密码显示/隐藏切换？",
+    "summary": "关于「Flutter中如何实现密码显示/隐藏切换？」的详细回答：\n\n【简要结论】\n使用bool变量控制TextFormField的obscureText属性，配合IconButton切换图标和状态。\n\n【详细解释】\n· 使用bool变量控制TextFormField的obscureText属性，配合IconButton切换图标和状态。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "表单输入",
+    "code": "bool _obscurePassword = true;\n\nTextFormField(\n  controller: _passwordController,\n  obscureText: _obscurePassword,\n  decoration: InputDecoration(\n    suffixIcon: IconButton(\n      icon: Icon(\n        _obscurePassword ? Icons.visibility_off : Icons.visibility,\n        color: Color(0xFFCCCCCC),\n      ),\n      onPressed: () {\n        setState(() {\n          _obscurePassword = !_obscurePassword;\n        });\n      },\n    ),\n  ),\n)"
+  },
+  {
+    "id": "flutter_kb_012",
+    "question": "Flutter中Container如何实现圆角和阴影？",
+    "summary": "关于「Flutter中Container如何实现圆角和阴影？」的详细回答：\n\n【简要结论】\n使用BoxDecoration配合borderRadius设置圆角，boxShadow设置阴影效果，可以组合多个阴影。\n\n【详细解释】\n· 使用BoxDecoration配合borderRadius设置圆角，boxShadow设置阴影效果，可以组合多个阴影。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "样式装饰",
+    "code": "Container(\n  decoration: BoxDecoration(\n    color: Colors.white,\n    borderRadius: BorderRadius.circular(16),\n    boxShadow: [\n      BoxShadow(\n        color: Colors.black.withOpacity(0.06),\n        spreadRadius: 2,\n        blurRadius: 10,\n      ),\n    ],\n  ),\n)"
+  },
+  {
+    "id": "flutter_kb_013",
+    "question": "Flutter中LinearGradient如何实现渐变色？",
+    "summary": "关于「Flutter中LinearGradient如何实现渐变色？」的详细回答：\n\n【简要结论】\n使用LinearGradient定义线性渐变，colors设置颜色列表，begin和end控制渐变方向，stops控制颜色位置。\n\n【详细解释】\n· 使用LinearGradient定义线性渐变，colors设置颜色列表，begin和end控制渐变方向，stops控制颜色位置。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "样式装饰",
+    "code": "Container(\n  decoration: BoxDecoration(\n    gradient: LinearGradient(\n      colors: [Color(0xFFE94560), Color(0xFFFF6B35), Color(0xFFFF9F43)],\n      begin: Alignment.topLeft,\n      end: Alignment.bottomRight,\n      stops: [0.0, 0.5, 1.0],\n    ),\n  ),\n)"
+  },
+  {
+    "id": "flutter_kb_014",
+    "question": "Flutter中PageView如何实现轮播图？",
+    "summary": "关于「Flutter中PageView如何实现轮播图？」的详细回答：\n\n【简要结论】\n使用PageView.builder创建可滑动页面，配合PageController控制页面切换，onPageChanged监听页面变化更新指示器。\n\n【详细解释】\n· 使用PageView.builder创建可滑动页面，配合PageController控制页面切换，onPageChanged监听页面变化更新指示器。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "滚动组件",
+    "code": "PageView.builder(\n  controller: _pageController,\n  scrollDirection: Axis.horizontal,\n  itemCount: bannerImages.length,\n  onPageChanged: (index) {\n    setState(() {\n      _currentBannerIndex = index;\n    });\n  },\n  itemBuilder: (context, index) {\n    return ClipRRect(\n      borderRadius: BorderRadius.circular(12),\n      child: Image.asset(\n        bannerImages[index],\n        fit: BoxFit.cover,\n        width: double.infinity,\n      ),\n    );\n  },\n)"
+  },
+  {
+    "id": "flutter_kb_015",
+    "question": "Flutter中如何创建网格布局？",
+    "summary": "关于「Flutter中如何创建网格布局？」的详细回答：\n\n【简要结论】\n使用GridView.builder创建动态网格，SliverGridDelegateWithFixedCrossAxisCount设置列数，shrinkWrap:true配合NeverScrollableScrollPhysics在滚动视图中使用。\n\n【详细解释】\n· 使用GridView.builder创建动态网格，SliverGridDelegateWithFixedCrossAxisCount设置列数，shrinkWrap:true配合NeverScrollableScrollPhysics在滚动视图中使用。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "滚动组件",
+    "code": "GridView.builder(\n  shrinkWrap: true,\n  physics: NeverScrollableScrollPhysics(),\n  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(\n    crossAxisCount: 4,\n    childAspectRatio: 1,\n  ),\n  itemCount: categories.length,\n  itemBuilder: (context, index) {\n    return Column(\n      children: [\n        Container(\n          width: 60,\n          height: 60,\n          decoration: BoxDecoration(\n            color: Color(0xFFFFF5F5),\n            borderRadius: BorderRadius.circular(12),\n          ),\n          child: ClipRRect(\n            borderRadius: BorderRadius.circular(12),\n            child: Image.asset(\n              categories[index]['image'],\n              fit: BoxFit.cover,\n            ),\n          ),\n        ),\n        SizedBox(height: 8),\n        Text(categories[index]['name'], style: TextStyle(fontSize: 12)),\n      ],\n    );\n  },\n)"
+  },
+  {
+    "id": "flutter_kb_016",
+    "question": "Flutter中如何实现商品卡片样式？",
+    "summary": "关于「Flutter中如何实现商品卡片样式？」的详细回答：\n\n【简要结论】\n使用Container配合BoxDecoration实现卡片背景，Column布局图片和文字，Expanded填充图片区域，实现统一高度。\n\n【详细解释】\n· 使用Container配合BoxDecoration实现卡片背景，Column布局图片和文字，Expanded填充图片区域，实现统一高度。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "布局组件",
+    "code": "Widget _buildProductCard(Map<String, dynamic> product) {\n  return Container(\n    decoration: BoxDecoration(\n      color: Colors.white,\n      borderRadius: BorderRadius.circular(12),\n      boxShadow: [\n        BoxShadow(\n          color: Colors.grey.withOpacity(0.1),\n          spreadRadius: 1,\n          blurRadius: 3,\n          offset: Offset(0, 2),\n        ),\n      ],\n    ),\n    child: Column(\n      crossAxisAlignment: CrossAxisAlignment.start,\n      children: [\n        Expanded(\n          child: ClipRRect(\n            borderRadius: BorderRadius.only(\n              topLeft: Radius.circular(12),\n              topRight: Radius.circular(12),\n            ),\n            child: Image.asset(\n              product['image'],\n              fit: BoxFit.cover,\n              width: double.infinity,\n            ),\n          ),\n        ),\n        Padding(\n          padding: EdgeInsets.all(8),\n          child: Column(\n            crossAxisAlignment: CrossAxisAlignment.start,\n            children: [\n              Text(\n                product['name'],\n                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),\n                maxLines: 1,\n                overflow: TextOverflow.ellipsis,\n              ),\n              SizedBox(height: 4),\n              Text(\n                product['sales'],\n                style: TextStyle(fontSize: 12, color: Colors.grey),\n              ),\n              SizedBox(height: 8),\n              Row(\n                children: [\n                  Text(\n                    '¥${product['price']}',\n                    style: TextStyle(\n                      fontSize: 16,\n                      fontWeight: FontWeight.bold,\n                      color: Colors.red,\n                    ),\n                  ),\n                  SizedBox(width: 8),\n                  Text(\n                    '¥${product['originalPrice']}',\n                    style: TextStyle(\n                      fontSize: 12,\n                      color: Colors.grey,\n                      decoration: TextDecoration.lineThrough,\n                    ),\n                  ),\n                ],\n              ),\n            ],\n          ),\n        ),\n      ],\n    ),\n  );\n}"
+  },
+  {
+    "id": "flutter_kb_017",
+    "question": "Flutter中Stack和Positioned如何实现叠加布局？",
+    "summary": "关于「Flutter中Stack和Positioned如何实现叠加布局？」的详细回答：\n\n【简要结论】\nStack允许子Widget重叠，Positioned控制子Widget在Stack中的位置，通过top、bottom、left、right定位。\n\n【详细解释】\n· Stack允许子Widget重叠，Positioned控制子Widget在Stack中的位置，通过top、bottom、left、right定位。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "布局组件",
+    "code": "Stack(\n  children: [\n    PageView.builder(...),\n    Positioned(\n      bottom: 12,\n      left: 0,\n      right: 0,\n      child: Row(\n        mainAxisAlignment: MainAxisAlignment.center,\n        children: bannerImages.asMap().entries.map((entry) {\n          return Container(\n            width: 8,\n            height: 8,\n            margin: EdgeInsets.symmetric(horizontal: 4),\n            decoration: BoxDecoration(\n              shape: BoxShape.circle,\n              color: _currentBannerIndex == entry.key ? Colors.white : Colors.white.withOpacity(0.5),\n            ),\n          );\n        }).toList(),\n      ),\n    ),\n  ],\n)"
+  },
+  {
+    "id": "flutter_kb_018",
+    "question": "Flutter中如何管理页面状态和生命周期？",
+    "summary": "关于「Flutter中如何管理页面状态和生命周期？」的详细回答：\n\n【简要结论】\n在State类中管理状态，使用setState触发重建。重写initState进行初始化，dispose释放资源如控制器。\n\n【详细解释】\n· 在State类中管理状态，使用setState触发重建。\n· 重写initState进行初始化，dispose释放资源如控制器。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "生命周期",
+    "code": "@override\nvoid initState() {\n  super.initState();\n  _pageController = PageController(initialPage: 0);\n}\n\n@override\nvoid dispose() {\n  _phoneController.dispose();\n  _passwordController.dispose();\n  _pageController?.dispose();\n  super.dispose();\n}"
+  },
+  {
+    "id": "flutter_kb_019",
+    "question": "Flutter中如何实现异步操作和延时？",
+    "summary": "关于「Flutter中如何实现异步操作和延时？」的详细回答：\n\n【简要结论】\n使用Future.delayed实现延时操作，配合async/await处理异步逻辑。在实际开发中可替换为网络请求。\n\n【详细解释】\n· 使用Future.delayed实现延时操作，配合async/await处理异步逻辑。\n· 在实际开发中可替换为网络请求。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "异步编程",
+    "code": "void _performLogin() async {\n  setState(() {\n    _isLoading = true;\n  });\n\n  await Future.delayed(Duration(seconds: 2));\n\n  if (_phoneController.text == '13800138000' && _passwordController.text == '123456') {\n    ScaffoldMessenger.of(context).showSnackBar(\n      SnackBar(content: Text('登录成功')),\n    );\n    Navigator.pop(context);\n  } else {\n    setState(() {\n      _passwordError = '手机号或密码错误';\n    });\n  }\n\n  setState(() {\n    _isLoading = false;\n  });\n}"
+  },
+  {
+    "id": "flutter_kb_020",
+    "question": "Flutter中如何创建自定义列表项？",
+    "summary": "关于「Flutter中如何创建自定义列表项？」的详细回答：\n\n【简要结论】\n使用ListView.builder或Column配合children创建列表，使用InkWell实现点击效果，自定义每个项的布局。\n\n【详细解释】\n· 使用ListView.builder或Column配合children创建列表，使用InkWell实现点击效果，自定义每个项的布局。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "列表展示",
+    "code": "Column(\n  children: menuItems.asMap().entries.map((entry) {\n    return InkWell(\n      onTap: () {},\n      borderRadius: BorderRadius.circular(20),\n      child: Container(\n        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),\n        child: Row(\n          children: [\n            Container(\n              width: 40,\n              height: 40,\n              decoration: BoxDecoration(\n                color: entry.value['bgColor'],\n                borderRadius: BorderRadius.circular(12),\n              ),\n              child: Icon(\n                entry.value['icon'],\n                color: Color(0xFFE94560),\n                size: 20,\n              ),\n            ),\n            SizedBox(width: 14),\n            Expanded(\n              child: Text(\n                entry.value['name'],\n                style: TextStyle(\n                  fontSize: 15,\n                  color: Color(0xFF333333),\n                  fontWeight: FontWeight.w500,\n                ),\n              ),\n            ),\n            if (entry.value['count'].isNotEmpty)\n              Container(\n                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),\n                decoration: BoxDecoration(\n                  color: Color(0xFFF5F5F5),\n                  borderRadius: BorderRadius.circular(20),\n                ),\n                child: Text(\n                  entry.value['count'],\n                  style: TextStyle(\n                    fontSize: 12,\n                    color: Color(0xFF999999),\n                  ),\n                ),\n              ),\n            SizedBox(width: 8),\n            Icon(\n              Icons.arrow_forward_ios,\n              size: 16,\n              color: Color(0xFFCCCCCC),\n            ),\n          ],\n        ),\n      ),\n    );\n  }).toList(),\n)"
+  },
+  {
+    "id": "flutter_kb_021",
+    "question": "Flutter中如何设置状态栏样式？",
+    "summary": "关于「Flutter中如何设置状态栏样式？」的详细回答：\n\n【简要结论】\n通过AppBar的backgroundColor和foregroundColor控制状态栏颜色，设置elevation:0去除阴影。\n\n【详细解释】\n· 通过AppBar的backgroundColor和foregroundColor控制状态栏颜色，设置elevation:0去除阴影。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "样式装饰",
+    "code": "appBar: AppBar(\n  title: Text('登录'),\n  backgroundColor: Colors.white,\n  foregroundColor: Colors.black,\n  elevation: 0,\n)"
+  },
+  {
+    "id": "flutter_kb_022",
+    "question": "Flutter中如何实现圆角头像？",
+    "summary": "关于「Flutter中如何实现圆角头像？」的详细回答：\n\n【简要结论】\n使用Container配合BoxDecoration设置borderRadius: BorderRadius.circular(半径)，或使用ClipRRect裁剪图片。\n\n【详细解释】\n· 使用Container配合BoxDecoration设置borderRadius: BorderRadius.circular(半径)，或使用ClipRRect裁剪图片。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "样式装饰",
+    "code": "Container(\n  width: 85,\n  height: 85,\n  decoration: BoxDecoration(\n    color: Colors.white,\n    borderRadius: BorderRadius.circular(42.5),\n    boxShadow: [\n      BoxShadow(\n        color: Colors.black.withOpacity(0.15),\n        spreadRadius: 4,\n        blurRadius: 10,\n        offset: Offset(0, 4),\n      ),\n    ],\n    border: Border.all(\n      color: Colors.white.withOpacity(0.5),\n      width: 3,\n    ),\n  ),\n  child: ClipRRect(\n    borderRadius: BorderRadius.circular(40),\n    child: Image.asset(\n      'lib/assist/人物.png',\n      fit: BoxFit.cover,\n    ),\n  ),\n)"
+  },
+  {
+    "id": "flutter_kb_023",
+    "question": "Flutter中如何显示数量角标？",
+    "summary": "关于「Flutter中如何显示数量角标？」的详细回答：\n\n【简要结论】\n使用Stack叠加Positioned定位，在Icon或Widget右上角显示带数字的圆形Container。\n\n【详细解释】\n· 使用Stack叠加Positioned定位，在Icon或Widget右上角显示带数字的圆形Container。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "交互反馈",
+    "code": "Stack(\n  alignment: Alignment.center,\n  children: [\n    Icon(\n      entry.value['icon'],\n      color: entry.value['color'],\n      size: 26,\n    ),\n    if (entry.value['count'] > 0)\n      Positioned(\n        top: 4,\n        right: 4,\n        child: Container(\n          width: 18,\n          height: 18,\n          decoration: BoxDecoration(\n            color: Colors.red,\n            borderRadius: BorderRadius.circular(9),\n            boxShadow: [\n              BoxShadow(\n                color: Colors.red.withOpacity(0.5),\n                spreadRadius: 2,\n                blurRadius: 4,\n              ),\n            ],\n          ),\n          child: Center(\n            child: Text(\n              entry.value['count'].toString(),\n              style: TextStyle(\n                fontSize: 11,\n                fontWeight: FontWeight.bold,\n                color: Colors.white,\n              ),\n            ),\n          ),\n        ),\n      ),\n  ],\n)"
+  },
+  {
+    "id": "flutter_kb_024",
+    "question": "Flutter中如何实现文本溢出省略号？",
+    "summary": "关于「Flutter中如何实现文本溢出省略号？」的详细回答：\n\n【简要结论】\n使用Text组件的maxLines和overflow属性，overflow: TextOverflow.ellipsis在文本超出时显示省略号。\n\n【详细解释】\n· 使用Text组件的maxLines和overflow属性，overflow: TextOverflow.ellipsis在文本超出时显示省略号。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "基础组件",
+    "code": "Text(\n  product['name'],\n  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),\n  maxLines: 1,\n  overflow: TextOverflow.ellipsis,\n)"
+  },
+  {
+    "id": "flutter_kb_025",
+    "question": "Flutter中如何导入和使用本地图片资源？",
+    "summary": "关于「Flutter中如何导入和使用本地图片资源？」的详细回答：\n\n【简要结论】\n在pubspec.yaml中声明assets路径，使用Image.asset('路径')加载图片。路径从项目根目录开始。\n\n【详细解释】\n· 在pubspec.yaml中声明assets路径，使用Image.asset('路径')加载图片。\n· 路径从项目根目录开始。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "资源管理",
+    "code": "Image.asset(\n  'lib/assist/人物.png',\n  fit: BoxFit.cover,\n  width: double.infinity,\n)"
+  },
+  {
+    "id": "flutter_kb_026",
+    "question": "Flutter中ElevatedButton如何自定义样式？",
+    "summary": "关于「Flutter中ElevatedButton如何自定义样式？」的详细回答：\n\n【简要结论】\n使用ElevatedButton.styleFrom设置背景色、前景色、圆角、阴影等样式，通过shape设置圆角形状。\n\n【详细解释】\n· 使用ElevatedButton.styleFrom设置背景色、前景色、圆角、阴影等样式，通过shape设置圆角形状。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "基础组件",
+    "code": "ElevatedButton(\n  onPressed: _isLoading ? null : _submitForm,\n  style: ElevatedButton.styleFrom(\n    backgroundColor: Color(0xFFE94560),\n    foregroundColor: Colors.white,\n    shape: RoundedRectangleBorder(\n      borderRadius: BorderRadius.circular(24),\n    ),\n    elevation: 0,\n  ),\n  child: Text('登录'),\n)"
+  },
+  {
+    "id": "flutter_kb_027",
+    "question": "Dart中如何定义Map类型数据？",
+    "summary": "关于「Dart中如何定义Map类型数据？」的详细回答：\n\n【简要结论】\n使用Map<String, dynamic>定义键值对集合，键为String类型，值可为任意类型。常用于配置数据和列表项。\n\n【详细解释】\n· 使用Map<String, dynamic>定义键值对集合，键为String类型，值可为任意类型。\n· 常用于配置数据和列表项。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Dart语法",
+    "code": "List<Map<String, dynamic>> orderStatus = [\n  {'name': '待付款', 'count': 2, 'icon': Icons.payment, 'color': Colors.orange},\n  {'name': '待发货', 'count': 1, 'icon': Icons.local_shipping, 'color': Colors.blue},\n  {'name': '待收货', 'count': 3, 'icon': Icons.check_circle, 'color': Colors.green},\n  {'name': '待评价', 'count': 5, 'icon': Icons.rate_review, 'color': Colors.purple},\n];"
+  }
+]

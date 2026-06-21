@@ -1,0 +1,324 @@
+[
+  {
+    "id": "exam_mysql_001",
+    "question": "MySQL中如何定位慢查询？",
+    "summary": "关于「MySQL中如何定位慢查询？」的详细回答：\n\n【简要结论】\n1) 通过运维监控系统（如Skywalking）查看接口耗时和具体SQL执行时间；2) 开启MySQL慢查询日志，在配置文件中设置long_query_time阈值（如2秒），超过该时间的SQL会自动记录到慢查询日志文件中。\n\n【详细解释】\n· 1) 通过运维监控系统（如Skywalking）查看接口耗时和具体SQL执行时间；。\n· 2) 开启MySQL慢查询日志，在配置文件中设置long_query_time阈值（如2秒），超过该时间的SQL会自动记录到慢查询日志文件中。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "MySQL",
+    "code": "-- 查看慢查询日志是否开启\nSHOW VARIABLES LIKE 'slow_query_log';\nSHOW VARIABLES LIKE 'long_query_time';\n-- 开启慢查询日志\nSET GLOBAL slow_query_log = 'ON';\nSET GLOBAL long_query_time = 2;"
+  },
+  {
+    "id": "exam_mysql_002",
+    "question": "SQL执行很慢，如何分析优化？",
+    "summary": "关于「SQL执行很慢，如何分析优化？」的详细回答：\n\n【简要结论】\n使用EXPLAIN命令分析SQL执行计划：1) 通过key和key_len检查是否命中索引、索引是否有效；2) 通过type字段判断是否有优化空间（避免ALL全表扫描、index全索引扫描）；3) 通过extra判断是否出现回表（Using index condition/Using where），出现回表可尝试添加覆盖索引或修改返回字段优化。\n\n【详细解释】\n· 使用EXPLAIN命令分析SQL执行计划：1) 通过key和key_len检查是否命中索引、索引是否有效；。\n· 2) 通过type字段判断是否有优化空间（避免ALL全表扫描、index全索引扫描）；。\n· 3) 通过extra判断是否出现回表（Using index condition/Using where），出现回表可尝试添加覆盖索引或修改返回字段优化。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "MySQL",
+    "code": "EXPLAIN SELECT * FROM user WHERE name = '张三';\n-- 重点关注：type（访问类型）、key（使用的索引）、rows（扫描行数）、Extra（额外信息）"
+  },
+  {
+    "id": "exam_mysql_003",
+    "question": "什么是索引？索引的作用是什么？",
+    "summary": "关于「什么是索引？索引的作用是什么？」的详细回答：\n\n【简要结论】\n索引是帮助MySQL高效获取数据的数据结构。主要作用：1) 提高数据检索效率，降低数据库I/O成本；2) 索引列可以对数据进行排序，降低数据排序成本，减少CPU消耗。\n\n【详细解释】\n· 索引是帮助MySQL高效获取数据的数据结构。\n· 主要作用：1) 提高数据检索效率，降低数据库I/O成本；。\n· 2) 索引列可以对数据进行排序，降低数据排序成本，减少CPU消耗。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "MySQL",
+    "code": ""
+  },
+  {
+    "id": "exam_mysql_004",
+    "question": "索引的底层数据结构是什么？为什么选择B+树？",
+    "summary": "关于「索引的底层数据结构是什么？为什么选择B+树？」的详细回答：\n\n【简要结论】\nInnoDB默认使用B+树作为索引存储结构。选择原因：1) B+树节点可以有更多子节点，路径更短，磁盘I/O次数更少；2) 非叶子节点只存储键值和指针，叶子节点存储数据，磁盘读写代价更低；3) B+树叶子节点形成双向链表，适合范围查询和顺序扫描。\n\n【详细解释】\n· InnoDB默认使用B+树作为索引存储结构。\n· 选择原因：1) B+树节点可以有更多子节点，路径更短，磁盘I/O次数更少；。\n· 2) 非叶子节点只存储键值和指针，叶子节点存储数据，磁盘读写代价更低；。\n· 3) B+树叶子节点形成双向链表，适合范围查询和顺序扫描。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "MySQL",
+    "code": ""
+  },
+  {
+    "id": "exam_mysql_005",
+    "question": "B树和B+树的区别是什么？",
+    "summary": "关于「B树和B+树的区别是什么？」的详细回答：\n\n【简要结论】\n1) 数据存储位置：B树非叶子节点和叶子节点都存放数据，B+树所有数据只出现在叶子节点，查询效率更稳定（每次查询都到叶子节点，时间复杂度固定为O(log n)）；2) 范围查询：B+树叶子节点形成双向链表，范围查询只需遍历叶子节点链表，效率更高；B树需要中序遍历，效率较低。\n\n【详细解释】\n· 1) 数据存储位置：B树非叶子节点和叶子节点都存放数据，B+树所有数据只出现在叶子节点，查询效率更稳定（每次查询都到叶子节点，时间复杂度固定为O(log n)）；。\n· 2) 范围查询：B+树叶子节点形成双向链表，范围查询只需遍历叶子节点链表，效率更高；。\n· B树需要中序遍历，效率较低。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "MySQL",
+    "code": ""
+  },
+  {
+    "id": "exam_mysql_006",
+    "question": "什么是聚簇索引和非聚簇索引？",
+    "summary": "关于「什么是聚簇索引和非聚簇索引？」的详细回答：\n\n【简要结论】\n聚簇索引：数据与索引放在一起，B+树叶子节点保存整行数据。一个表只能有一个聚簇索引，通常由主键构成（没有主键则选唯一非空索引，再没有则隐式创建6字节的row_id）。非聚簇索引（二级索引）：数据与索引分开存储，B+树叶子节点保存的是主键值，通过主键值回表查询整行数据。一个表可以有多个非聚簇索引。\n\n【详细解释】\n· 聚簇索引：数据与索引放在一起，B+树叶子节点保存整行数据。\n· 一个表只能有一个聚簇索引，通常由主键构成（没有主键则选唯一非空索引，再没有则隐式创建6字节的row_id）。\n· 非聚簇索引（二级索引）：数据与索引分开存储，B+树叶子节点保存的是主键值，通过主键值回表查询整行数据。\n· 一个表可以有多个非聚簇索引。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "MySQL",
+    "code": ""
+  },
+  {
+    "id": "exam_mysql_007",
+    "question": "什么是回表查询？如何避免？",
+    "summary": "关于「什么是回表查询？如何避免？」的详细回答：\n\n【简要结论】\n回表查询：通过二级索引找到对应的主键值，再通过主键值查询聚簇索引获取整行数据的过程。避免方法：使用覆盖索引，即SELECT查询返回的列全部能在索引中找到，无需回表。例如查询的字段正好是索引字段或联合索引包含的字段。\n\n【详细解释】\n· 回表查询：通过二级索引找到对应的主键值，再通过主键值查询聚簇索引获取整行数据的过程。\n· 避免方法：使用覆盖索引，即SELECT查询返回的列全部能在索引中找到，无需回表。\n· 例如查询的字段正好是索引字段或联合索引包含的字段。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "MySQL",
+    "code": "-- 回表示例：name是二级索引，查询了*需要回表查聚簇索引\nSELECT * FROM user WHERE name = '张三';\n-- 覆盖索引：只查name和id（id是主键，name索引包含id）\nSELECT id, name FROM user WHERE name = '张三';"
+  },
+  {
+    "id": "exam_mysql_008",
+    "question": "什么是覆盖索引？",
+    "summary": "关于「什么是覆盖索引？」的详细回答：\n\n【简要结论】\n覆盖索引指SELECT查询中返回的所有列都能在索引中找到，无需回表查询聚簇索引。使用覆盖索引可以减少对主键索引的查询次数，显著提高查询性能。判断方法：EXPLAIN的Extra字段显示Using index。\n\n【详细解释】\n· 覆盖索引指SELECT查询中返回的所有列都能在索引中找到，无需回表查询聚簇索引。\n· 使用覆盖索引可以减少对主键索引的查询次数，显著提高查询性能。\n· 判断方法：EXPLAIN的Extra字段显示Using index。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "MySQL",
+    "code": "-- 联合索引(name, age)，以下查询使用覆盖索引\nSELECT name, age FROM user WHERE name = '张三';\n-- EXPLAIN Extra显示 Using index 即使用了覆盖索引"
+  },
+  {
+    "id": "exam_mysql_009",
+    "question": "MySQL超大分页怎么处理？",
+    "summary": "关于「MySQL超大分页怎么处理？」的详细回答：\n\n【简要结论】\n超大分页（如LIMIT 1000000, 10）效率低，因为需要排序并扫描大量数据。优化方案：使用覆盖索引+子查询。先通过覆盖索引查询ID字段进行分页，再根据ID列表查询完整数据。因为查询ID时使用覆盖索引，无需回表，效率大幅提升。\n\n【详细解释】\n· 超大分页（如LIMIT 1000000, 10）效率低，因为需要排序并扫描大量数据。\n· 优化方案：使用覆盖索引+子查询。\n· 先通过覆盖索引查询ID字段进行分页，再根据ID列表查询完整数据。\n· 因为查询ID时使用覆盖索引，无需回表，效率大幅提升。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "MySQL",
+    "code": "-- 低效写法\nSELECT * FROM user ORDER BY id LIMIT 1000000, 10;\n-- 优化写法：先查ID（覆盖索引），再关联查完整数据\nSELECT * FROM user u\nINNER JOIN (\n    SELECT id FROM user ORDER BY id LIMIT 1000000, 10\n) tmp ON u.id = tmp.id;"
+  },
+  {
+    "id": "exam_mysql_010",
+    "question": "索引创建原则有哪些？",
+    "summary": "关于「索引创建原则有哪些？」的详细回答：\n\n【简要结论】\n1) 数据量超10万考虑建索引；2) 选择查询频繁的字段（WHERE条件、ORDER BY、GROUP BY字段）；3) 尽量使用联合索引覆盖SQL返回值；4) 区分度低的字段放联合索引后面；5) 长字段使用前缀索引；6) 控制索引数量（影响插入/更新性能）；7) 避免对频繁更新的字段建索引。\n\n【详细解释】\n· 1) 数据量超10万考虑建索引；。\n· 2) 选择查询频繁的字段（WHERE条件、ORDER BY、GROUP BY字段）；。\n· 3) 尽量使用联合索引覆盖SQL返回值；。\n· 4) 区分度低的字段放联合索引后面；。\n· 5) 长字段使用前缀索引；。\n· 6) 控制索引数量（影响插入/更新性能）；。\n· 7) 避免对频繁更新的字段建索引。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "MySQL",
+    "code": "-- 前缀索引示例\nCREATE INDEX idx_email ON user(email(6));\n-- 联合索引（区分度高的放前面）\nCREATE INDEX idx_name_age ON user(name, age);"
+  },
+  {
+    "id": "exam_mysql_011",
+    "question": "什么情况下索引会失效？",
+    "summary": "关于「什么情况下索引会失效？」的详细回答：\n\n【简要结论】\n1) 违反最左前缀原则（联合索引未从最左列开始）；2) 模糊查询%在前（如LIKE '%abc'）；3) 索引字段上进行运算或函数操作；4) 索引字段发生隐式类型转换；5) 联合索引中间使用范围查询（>,<,BETWEEN），导致右边列索引失效；6) 使用OR条件且部分字段无索引；7) 全表扫描比索引快时（数据量小）。\n\n【详细解释】\n· 1) 违反最左前缀原则（联合索引未从最左列开始）；。\n· 2) 模糊查询%在前（如LIKE '%abc'）；。\n· 3) 索引字段上进行运算或函数操作；。\n· 4) 索引字段发生隐式类型转换；。\n· 5) 联合索引中间使用范围查询（>,<,BETWEEN），导致右边列索引失效；。\n· 6) 使用OR条件且部分字段无索引；。\n· 7) 全表扫描比索引快时（数据量小）。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "MySQL",
+    "code": "-- 索引失效示例\nSELECT * FROM user WHERE LEFT(name, 1) = '张'; -- 函数操作失效\nSELECT * FROM user WHERE age + 1 = 20; -- 运算失效\nSELECT * FROM user WHERE name LIKE '%三'; -- 前模糊失效\n-- 联合索引(a,b,c)，以下b和c的索引失效\nSELECT * FROM user WHERE a = 1 AND b > 10 AND c = 3;"
+  },
+  {
+    "id": "exam_mysql_012",
+    "question": "SQL优化经验有哪些？",
+    "summary": "关于「SQL优化经验有哪些？」的详细回答：\n\n【简要结论】\n1) 建表优化：选择合适字段类型（数值选TINYINT/INT/BIGINT，字符串选CHAR/VARCHAR/TEXT）；2) 索引优化：遵循创建原则，避免失效场景；3) SQL语句优化：避免SELECT *，用UNION ALL代替UNION，关联查询用INNER JOIN，小表作驱动表；4) 架构优化：主从复制+读写分离，分库分表。\n\n【详细解释】\n· 1) 建表优化：选择合适字段类型（数值选TINYINT/INT/BIGINT，字符串选CHAR/VARCHAR/TEXT）；。\n· 2) 索引优化：遵循创建原则，避免失效场景；。\n· 3) SQL语句优化：避免SELECT *，用UNION ALL代替UNION，关联查询用INNER JOIN，小表作驱动表；。\n· 4) 架构优化：主从复制+读写分离，分库分表。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "MySQL",
+    "code": "-- UNION ALL不去重，性能优于UNION\nSELECT name FROM user_a\nUNION ALL\nSELECT name FROM user_b;\n-- INNER JOIN性能优于LEFT JOIN，小表驱动大表\nSELECT * FROM small_table s\nINNER JOIN big_table b ON s.id = b.sid;"
+  },
+  {
+    "id": "exam_mysql_013",
+    "question": "事务的ACID特性是什么？",
+    "summary": "关于「事务的ACID特性是什么？」的详细回答：\n\n【简要结论】\nA（Atomicity原子性）：事务是不可分割的最小单位，要么全部成功，要么全部失败回滚。C（Consistency一致性）：事务执行前后，数据库从一个一致性状态变为另一个一致性状态，数据完整性约束不被破坏。I（Isolation隔离性）：多个事务并发执行时，一个事务的执行不应影响其他事务。D（Durability持久性）：事务一旦提交，对数据的修改就是永久性的，即使系统故障也不会丢失。\n\n【详细解释】\n· A（Atomicity原子性）：事务是不可分割的最小单位，要么全部成功，要么全部失败回滚。\n· C（Consistency一致性）：事务执行前后，数据库从一个一致性状态变为另一个一致性状态，数据完整性约束不被破坏。\n· I（Isolation隔离性）：多个事务并发执行时，一个事务的执行不应影响其他事务。\n· D（Durability持久性）：事务一旦提交，对数据的修改就是永久性的，即使系统故障也不会丢失。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "MySQL",
+    "code": ""
+  },
+  {
+    "id": "exam_mysql_014",
+    "question": "并发事务带来哪些问题？如何解决？",
+    "summary": "关于「并发事务带来哪些问题？如何解决？」的详细回答：\n\n【简要结论】\n脏读：读到其他事务未提交的数据。不可重复读：同一事务内多次读取同一数据，由于其他事务修改导致结果不一致。幻读：同一事务内多次查询，由于其他事务插入/删除导致结果集行数不一致。解决：通过事务隔离级别。MySQL默认REPEATABLE READ（可重复读），通过MVCC+锁解决脏读和不可重复读，通过间隙锁解决幻读。\n\n【详细解释】\n· 脏读：读到其他事务未提交的数据。\n· 不可重复读：同一事务内多次读取同一数据，由于其他事务修改导致结果不一致。\n· 幻读：同一事务内多次查询，由于其他事务插入/删除导致结果集行数不一致。\n· 解决：通过事务隔离级别。\n· MySQL默认REPEATABLE READ（可重复读），通过MVCC+锁解决脏读和不可重复读，通过间隙锁解决幻读。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "MySQL",
+    "code": "-- 查看隔离级别\nSELECT @@transaction_isolation;\n-- 设置隔离级别\nSET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;"
+  },
+  {
+    "id": "exam_mysql_015",
+    "question": "undo log和redo log的区别？",
+    "summary": "关于「undo log和redo log的区别？」的详细回答：\n\n【简要结论】\nredo log（重做日志）：记录数据页的物理变化（如某页某偏移量修改为某值），用于服务宕机后恢复数据，保证事务持久性。特点是顺序写、循环写、固定大小。undo log（回滚日志）：记录逻辑日志（如插入对应删除、修改对应反向修改），用于事务回滚和MVCC版本链，保证事务原子性和一致性。\n\n【详细解释】\n· redo log（重做日志）：记录数据页的物理变化（如某页某偏移量修改为某值），用于服务宕机后恢复数据，保证事务持久性。\n· 特点是顺序写、循环写、固定大小。\n· undo log（回滚日志）：记录逻辑日志（如插入对应删除、修改对应反向修改），用于事务回滚和MVCC版本链，保证事务原子性和一致性。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "MySQL",
+    "code": ""
+  },
+  {
+    "id": "exam_mysql_016",
+    "question": "MVCC多版本并发控制是如何实现的？",
+    "summary": "关于「MVCC多版本并发控制是如何实现的？」的详细回答：\n\n【简要结论】\nMVCC通过维护数据多个版本实现读写不阻塞。实现依赖：1) 隐藏字段：trx_id（最近修改事务ID）、roll_pointer（回滚指针）；2) undo log：记录历史版本数据，通过roll_pointer形成版本链；3) read view（读视图）：事务快照，包含活跃事务ID列表、最小活跃ID、最大事务ID等，决定事务能看到哪个版本的数据。RC（读已提交）每次查询生成新read view，RR（可重复读）事务开始时生成read view。\n\n【详细解释】\n· MVCC通过维护数据多个版本实现读写不阻塞。\n· 实现依赖：1) 隐藏字段：trx_id（最近修改事务ID）、roll_pointer（回滚指针）；。\n· 2) undo log：记录历史版本数据，通过roll_pointer形成版本链；。\n· 3) read view（读视图）：事务快照，包含活跃事务ID列表、最小活跃ID、最大事务ID等，决定事务能看到哪个版本的数据。\n· RC（读已提交）每次查询生成新read view，RR（可重复读）事务开始时生成read view。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "MySQL",
+    "code": ""
+  },
+  {
+    "id": "exam_mysql_017",
+    "question": "MySQL主从同步原理是什么？",
+    "summary": "关于「MySQL主从同步原理是什么？」的详细回答：\n\n【简要结论】\n基于二进制日志Binlog实现：1) 主库事务提交时，将数据变更记录到Binlog；2) 从库IO线程读取主库Binlog，写入本地中继日志Relay Log；3) 从库SQL线程重放Relay Log中的事件，将变更应用到自己的数据。同步方式：异步复制（默认）、半同步复制（至少一个从库确认）、全同步复制。\n\n【详细解释】\n· 基于二进制日志Binlog实现：1) 主库事务提交时，将数据变更记录到Binlog；。\n· 2) 从库IO线程读取主库Binlog，写入本地中继日志Relay Log；。\n· 3) 从库SQL线程重放Relay Log中的事件，将变更应用到自己的数据。\n· 同步方式：异步复制（默认）、半同步复制（至少一个从库确认）、全同步复制。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "MySQL",
+    "code": ""
+  },
+  {
+    "id": "exam_mysql_018",
+    "question": "分库分表了解吗？垂直拆分和水平拆分的区别？",
+    "summary": "关于「分库分表了解吗？垂直拆分和水平拆分的区别？」的详细回答：\n\n【简要结论】\n垂直拆分：按业务拆分，不同微服务对应不同数据库（如用户库、订单库），解决单库数据量过大和并发压力。水平拆分：同一表的数据按规则分散到多个库/表（如按ID取模、按时间范围），解决单表数据量过大（如超1000万）。常用中间件：MyCat、ShardingSphere。水平拆分后需处理跨库JOIN、分布式事务、全局ID等问题。\n\n【详细解释】\n· 垂直拆分：按业务拆分，不同微服务对应不同数据库（如用户库、订单库），解决单库数据量过大和并发压力。\n· 水平拆分：同一表的数据按规则分散到多个库/表（如按ID取模、按时间范围），解决单表数据量过大（如超1000万）。\n· 常用中间件：MyCat、ShardingSphere。\n· 水平拆分后需处理跨库JOIN、分布式事务、全局ID等问题。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "MySQL",
+    "code": ""
+  },
+  {
+    "id": "exam_redis_001",
+    "question": "什么是缓存穿透？怎么解决？",
+    "summary": "关于「什么是缓存穿透？怎么解决？」的详细回答：\n\n【简要结论】\n缓存穿透：查询一个一定不存在的数据，由于存储层查不到数据不写入缓存，导致每次请求都打到DB，可能压垮数据库（通常是攻击行为）。解决方案：1) 布隆过滤器：在查询缓存前先用布隆过滤器判断key是否存在，不存在直接返回；2) 缓存空值：对不存在的数据也缓存一个空值（设置较短过期时间）。\n\n【详细解释】\n· 缓存穿透：查询一个一定不存在的数据，由于存储层查不到数据不写入缓存，导致每次请求都打到DB，可能压垮数据库（通常是攻击行为）。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 解决方案：1) 布隆过滤器：在查询缓存前先用布隆过滤器判断key是否存在，不存在直接返回；。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 2) 缓存空值：对不存在的数据也缓存一个空值（设置较短过期时间）。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n\n【代码说明】\n· 配置/注释说明：\n  - Redisson布隆过滤器示例\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "Redis",
+    "code": "// Redisson布隆过滤器示例\nRBloomFilter<String> bloomFilter = redisson.getBloomFilter(\"userFilter\");\nbloomFilter.tryInit(100000L, 0.03); // 期望数据量100万，误判率3%\nbloomFilter.add(\"user:1001\");\nboolean exists = bloomFilter.contains(\"user:1001\");"
+  },
+  {
+    "id": "exam_redis_002",
+    "question": "布隆过滤器的原理是什么？",
+    "summary": "关于「布隆过滤器的原理是什么？」的详细回答：\n\n【简要结论】\n布隆过滤器用于检索元素是否在一个集合中。原理：初始化一个较大的位数组（全为0），元素加入时通过多个hash函数计算多个位置，将这些位置置为1。查询时同样计算多个位置，若全为1则可能存在（有误判），若有0则一定不存在。误判率可配置（通常设5%以内），误判率越低所需空间越大。不能删除元素（可用布谷鸟过滤器改进）。\n\n【详细解释】\n· 布隆过滤器用于检索元素是否在一个集合中。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 原理：初始化一个较大的位数组（全为0），元素加入时通过多个hash函数计算多个位置，将这些位置置为1。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 查询时同样计算多个位置，若全为1则可能存在（有误判），若有0则一定不存在。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 误判率可配置（通常设5%以内），误判率越低所需空间越大。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 不能删除元素（可用布谷鸟过滤器改进）。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。",
+    "category": "Redis",
+    "code": ""
+  },
+  {
+    "id": "exam_redis_003",
+    "question": "什么是缓存击穿？怎么解决？",
+    "summary": "关于「什么是缓存击穿？怎么解决？」的详细回答：\n\n【简要结论】\n缓存击穿：热点key设置了过期时间，在过期瞬间有大量并发请求同时访问，都打到DB。解决方案：1) 互斥锁（分布式锁）：缓存失效时，只有一个线程去加载DB并回设缓存，其他线程等待或重试；2) 逻辑过期：不设置TTL，在value中存储逻辑过期时间，查询时发现过期则开启异步线程更新缓存，当前线程返回旧数据。方案1保证强一致性但性能低，方案2保证高可用但数据可能非最新。\n\n【详细解释】\n· 缓存击穿：热点key设置了过期时间，在过期瞬间有大量并发请求同时访问，都打到DB。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 解决方案：1) 互斥锁（分布式锁）：缓存失效时，只有一个线程去加载DB并回设缓存，其他线程等待或重试；。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 2) 逻辑过期：不设置TTL，在value中存储逻辑过期时间，查询时发现过期则开启异步线程更新缓存，当前线程返回旧数据。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 方案1保证强一致性但性能低，方案2保证高可用但数据可能非最新。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n\n【代码说明】\n· 配置/注释说明：\n  - 互斥锁方案（SETNX）\n  - 查询DB并写入缓存\n  - ...\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "Redis",
+    "code": "// 互斥锁方案（SETNX）\nString lockKey = \"lock:hotKey\";\nboolean isLock = redisTemplate.opsForValue().setIfAbsent(lockKey, \"1\", 10, TimeUnit.SECONDS);\nif (isLock) {\n    // 查询DB并写入缓存\n    // ...\n    redisTemplate.delete(lockKey);\n}"
+  },
+  {
+    "id": "exam_redis_004",
+    "question": "什么是缓存雪崩？怎么解决？",
+    "summary": "关于「什么是缓存雪崩？怎么解决？」的详细回答：\n\n【简要结论】\n缓存雪崩：大量key设置了相同的过期时间，在某一时刻同时失效，请求全部打到DB导致宕机。与缓存击穿的区别：雪崩是很多key同时失效，击穿是单个热点key失效。解决方案：1) 过期时间加随机值：在原有TTL基础上增加1-5分钟随机值，分散过期时间；2) 多级缓存：如本地缓存+Redis缓存；3) 熔断降级：DB压力过大时触发熔断，返回默认值；4) 热点数据永不过期。\n\n【详细解释】\n· 缓存雪崩：大量key设置了相同的过期时间，在某一时刻同时失效，请求全部打到DB导致宕机。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 与缓存击穿的区别：雪崩是很多key同时失效，击穿是单个热点key失效。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 解决方案：1) 过期时间加随机值：在原有TTL基础上增加1-5分钟随机值，分散过期时间；。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 2) 多级缓存：如本地缓存+Redis缓存；。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 3) 熔断降级：DB压力过大时触发熔断，返回默认值；。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 4) 热点数据永不过期。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n\n【代码说明】\n· 配置/注释说明：\n  - 过期时间加随机值\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "Redis",
+    "code": "// 过期时间加随机值\nint expireTime = 60 + new Random().nextInt(300); // 60~360秒\nredisTemplate.opsForValue().set(key, value, expireTime, TimeUnit.SECONDS);"
+  },
+  {
+    "id": "exam_redis_005",
+    "question": "Redis和MySQL如何保证双写一致性？",
+    "summary": "关于「Redis和MySQL如何保证双写一致性？」的详细回答：\n\n【简要结论】\n方案1（强一致性）：使用Redisson读写锁。读操作加共享锁（读读不互斥、读写互斥），写操作加排他锁（读写互斥、写写互斥），保证写数据时其他线程不能读。方案2（最终一致性）：使用Canal监听MySQL的Binlog，异步更新Redis。Canal伪装成MySQL从节点，读取Binlog后通过客户端更新缓存，无需修改业务代码，适合允许短暂延迟的场景。\n\n【详细解释】\n· 方案1（强一致性）：使用Redisson读写锁。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 读操作加共享锁（读读不互斥、读写互斥），写操作加排他锁（读写互斥、写写互斥），保证写数据时其他线程不能读。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 方案2（最终一致性）：使用Canal监听MySQL的Binlog，异步更新Redis。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· Canal伪装成MySQL从节点，读取Binlog后通过客户端更新缓存，无需修改业务代码，适合允许短暂延迟的场景。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n\n【代码说明】\n· 配置/注释说明：\n  - Redisson读写锁（强一致性）\n  - 读操作\n  - 读缓存\n  - 写操作\n  - 更新DB\n  - 更新缓存\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "Redis",
+    "code": "// Redisson读写锁（强一致性）\nRReadWriteLock rwLock = redisson.getReadWriteLock(\"lock:order\");\n// 读操作\nRLock rLock = rwLock.readLock();\nrLock.lock();\ntry {\n    // 读缓存\n} finally { rLock.unlock(); }\n\n// 写操作\nRLock wLock = rwLock.writeLock();\nwLock.lock();\ntry {\n    // 更新DB\n    // 更新缓存\n} finally { wLock.unlock(); }"
+  },
+  {
+    "id": "exam_redis_006",
+    "question": "什么是延时双删？为什么不用？",
+    "summary": "关于「什么是延时双删？为什么不用？」的详细回答：\n\n【简要结论】\n延时双删策略：1) 先删缓存；2) 更新数据库；3) 延时一段时间（如500ms）再删缓存。目的是解决并发读写导致的数据不一致。不用原因：延时时间难以确定（取决于业务读写耗时、主从同步延迟等），延时时可能出现脏数据，无法保证强一致性。\n\n【详细解释】\n· 延时双删策略：1) 先删缓存；。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 2) 更新数据库；。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 3) 延时一段时间（如500ms）再删缓存。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 目的是解决并发读写导致的数据不一致。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 不用原因：延时时间难以确定（取决于业务读写耗时、主从同步延迟等），延时时可能出现脏数据，无法保证强一致性。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。",
+    "category": "Redis",
+    "code": ""
+  },
+  {
+    "id": "exam_redis_007",
+    "question": "Redis的持久化方式有哪些？区别是什么？",
+    "summary": "关于「Redis的持久化方式有哪些？区别是什么？」的详细回答：\n\n【简要结论】\nRDB（快照）：定时将内存数据快照写入磁盘，生成二进制压缩文件。恢复速度快，但可能丢失最后一次快照后的数据。AOF（追加日志）：记录每次写命令到日志文件，恢复时重放命令。数据安全性高（可配置每秒刷盘），但文件大、恢复慢。Redis4.0后支持混合持久化（RDB+AOF），先加载RDB再重放AOF增量命令。\n\n【详细解释】\n· RDB（快照）：定时将内存数据快照写入磁盘，生成二进制压缩文件。\n  - 定期做内存快照，文件紧凑、恢复较快，适合备份；但快照间隔之间的数据可能丢失。\n· 恢复速度快，但可能丢失最后一次快照后的数据。\n  - RDB 恢复通常比 AOF 重放更快，因为直接加载二进制快照。\n· AOF（追加日志）：记录每次写命令到日志文件，恢复时重放命令。\n  - 追加写命令日志，数据更安全，可通过 appendfsync 控制刷盘频率；文件更大、恢复更慢。\n· 数据安全性高（可配置每秒刷盘），但文件大、恢复慢。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· Redis4.0后支持混合持久化（RDB+AOF），先加载RDB再重放AOF增量命令。\n  - 定期做内存快照，文件紧凑、恢复较快，适合备份；但快照间隔之间的数据可能丢失。\n  - 追加写命令日志，数据更安全，可通过 appendfsync 控制刷盘频率；文件更大、恢复更慢。\n  - Redis 4.0 起可先加载 RDB 快照，再重放 AOF 增量，兼顾恢复速度与数据完整性。\n\n【代码说明】\n· 配置/注释说明：\n  - redis.conf配置\n  - RDB：900秒内1次修改则触发\n  - 300秒内10次修改\n  - 开启AOF\n  - 每秒刷盘\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 缓存为主、允许少量丢失：可优先考虑 RDB 或混合持久化。\n· 数据安全要求高：倾向 AOF（everysec），并结合主从/集群保证可用性。\n· 修改 redis.conf 后需重启或执行 CONFIG REWRITE 使配置持久生效。\n\n完整代码示例见下方代码块。",
+    "category": "Redis",
+    "code": "# redis.conf配置\nsave 900 1      # RDB：900秒内1次修改则触发\nsave 300 10     # 300秒内10次修改\nappendonly yes  # 开启AOF\nappendfsync everysec  # 每秒刷盘"
+  },
+  {
+    "id": "exam_redis_008",
+    "question": "Redis的数据过期策略有哪些？",
+    "summary": "关于「Redis的数据过期策略有哪些？」的详细回答：\n\n【简要结论】\n1) 惰性删除：访问key时检查是否过期，过期则删除。CPU友好但可能堆积大量过期key。2) 定期删除：每隔一段时间随机抽查部分key，删除过期key。两种模式：SLOW模式（定时任务，默认10Hz，每次不超过25ms）和FAST模式（事件循环中执行，间隔不低于2ms，每次不超过1ms）。Redis实际采用惰性删除+定期删除配合的策略。\n\n【详细解释】\n· 1) 惰性删除：访问key时检查是否过期，过期则删除。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· CPU友好但可能堆积大量过期key。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 2) 定期删除：每隔一段时间随机抽查部分key，删除过期key。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 两种模式：SLOW模式（定时任务，默认10Hz，每次不超过25ms）和FAST模式（事件循环中执行，间隔不低于2ms，每次不超过1ms）。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· Redis实际采用惰性删除+定期删除配合的策略。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。",
+    "category": "Redis",
+    "code": ""
+  },
+  {
+    "id": "exam_redis_009",
+    "question": "Redis的数据淘汰策略有哪些？",
+    "summary": "关于「Redis的数据淘汰策略有哪些？」的详细回答：\n\n【简要结论】\n默认noeviction（不淘汰，内存不足时报错）。常用策略：volatile-lru（从已设置TTL的key中选最近最少使用淘汰）、allkeys-lru（从所有key中选LRU淘汰，最常用）、volatile-lfu（从已设置TTL的key中选最少频率使用淘汰）、allkeys-lfu、volatile-random、allkeys-random、volatile-ttl（淘汰即将过期的）。LRU：当前时间-最后访问时间，值越大越优先淘汰。LFU：访问频率统计，值越小越优先淘汰。\n\n【详细解释】\n· 默认noeviction（不淘汰，内存不足时报错）。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 常用策略：volatile-lru（从已设置TTL的key中选最近最少使用淘汰）、allkeys-lru（从所有key中选LRU淘汰，最常用）、volatile-lfu（从已设置TTL的key中选最少频率使用淘汰）、allkeys-lfu、volatile-random、allkeys-random、volatile-ttl（淘汰即将过期的）。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· LRU：当前时间-最后访问时间，值越大越优先淘汰。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· LFU：访问频率统计，值越小越优先淘汰。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n\n【代码说明】\n· 配置/注释说明：\n  - redis.conf\n  - 常用策略\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "Redis",
+    "code": "# redis.conf\nmaxmemory-policy allkeys-lru  # 常用策略"
+  },
+  {
+    "id": "exam_redis_010",
+    "question": "Redis分布式锁如何实现？Redisson分布式锁原理？",
+    "summary": "关于「Redis分布式锁如何实现？Redisson分布式锁原理？」的详细回答：\n\n【简要结论】\n原生实现：SETNX命令（SET if not exists），利用Redis单线程特性保证原子性。Redisson实现：1) 手动加锁，可控制失效时间和等待时间；2) 看门狗机制：业务未执行完时自动续期（默认10秒检查一次，续期30秒）；3) 可重入锁：同一线程多次获取锁计数+1，释放时计数-1，计数为0才真正释放；4) 自旋获取锁：获取失败不立即拒绝，循环尝试。底层用hash结构存储，大key为锁名，小key为线程唯一标识，value为重入次数。\n\n【详细解释】\n· 原生实现：SETNX命令（SET if not exists），利用Redis单线程特性保证原子性。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· Redisson实现：1) 手动加锁，可控制失效时间和等待时间；。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 2) 看门狗机制：业务未执行完时自动续期（默认10秒检查一次，续期30秒）；。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 3) 可重入锁：同一线程多次获取锁计数+1，释放时计数-1，计数为0才真正释放；。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 4) 自旋获取锁：获取失败不立即拒绝，循环尝试。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 底层用hash结构存储，大key为锁名，小key为线程唯一标识，value为重入次数。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n\n【代码说明】\n· 配置/注释说明：\n  - Redisson分布式锁\n  - 尝试加锁，最多等待10秒，锁持有30秒\n  - 执行业务\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "Redis",
+    "code": "// Redisson分布式锁\nRLock lock = redisson.getLock(\"orderLock\");\ntry {\n    // 尝试加锁，最多等待10秒，锁持有30秒\n    boolean isLocked = lock.tryLock(10, 30, TimeUnit.SECONDS);\n    if (isLocked) {\n        // 执行业务\n    }\n} finally {\n    lock.unlock();\n}"
+  },
+  {
+    "id": "exam_redis_011",
+    "question": "Redisson分布式锁能解决主从一致性问题吗？",
+    "summary": "关于「Redisson分布式锁能解决主从一致性问题吗？」的详细回答：\n\n【简要结论】\n不能。场景：线程1在master加锁成功，master宕机前未同步到slave，slave提升为新master后，线程2可在新master上加锁成功，导致两个线程同时持有锁。解决方案：红锁（RedLock），在多个（如5个）独立Redis实例上加锁，过半成功才算加锁成功。但性能低、运维成本高，官方已废弃。强一致性场景建议使用ZooKeeper分布式锁。\n\n【详细解释】\n· 不能。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 场景：线程1在master加锁成功，master宕机前未同步到slave，slave提升为新master后，线程2可在新master上加锁成功，导致两个线程同时持有锁。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 解决方案：红锁（RedLock），在多个（如5个）独立Redis实例上加锁，过半成功才算加锁成功。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 但性能低、运维成本高，官方已废弃。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 强一致性场景建议使用ZooKeeper分布式锁。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。",
+    "category": "Redis",
+    "code": ""
+  },
+  {
+    "id": "exam_redis_012",
+    "question": "Redis集群方案有哪些？",
+    "summary": "关于「Redis集群方案有哪些？」的详细回答：\n\n【简要结论】\n1) 主从复制：一主多从，主写从读，提高读性能，但无自动故障转移；2) 哨兵模式（Sentinel）：在主从基础上增加哨兵节点，实现监控、自动故障转移（主节点故障时选举从节点为新主）、通知客户端。是生产环境常用方案；3) 分片集群（Cluster）：多主多从，数据分片存储（16384个哈希槽），支持水平扩展，解决海量数据存储和高并发。\n\n【详细解释】\n· 1) 主从复制：一主多从，主写从读，提高读性能，但无自动故障转移；。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 2) 哨兵模式（Sentinel）：在主从基础上增加哨兵节点，实现监控、自动故障转移（主节点故障时选举从节点为新主）、通知客户端。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 是生产环境常用方案；。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 3) 分片集群（Cluster）：多主多从，数据分片存储（16384个哈希槽），支持水平扩展，解决海量数据存储和高并发。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。",
+    "category": "Redis",
+    "code": ""
+  },
+  {
+    "id": "exam_redis_013",
+    "question": "Redis主从同步流程？",
+    "summary": "关于「Redis主从同步流程？」的详细回答：\n\n【简要结论】\n全量同步：从节点首次连接主节点时，主节点生成RDB快照发送给从节点，从节点清空数据后加载RDB。期间主节点的新写命令记录到复制缓冲区（repl_backlog），RDB发送完成后将缓冲区命令发送给从节点。增量同步：从节点重启后，携带replication id和offset请求同步，主节点判断非首次同步，从复制缓冲区中获取offset之后的数据发送给从节点。\n\n【详细解释】\n· 全量同步：从节点首次连接主节点时，主节点生成RDB快照发送给从节点，从节点清空数据后加载RDB。\n  - 定期做内存快照，文件紧凑、恢复较快，适合备份；但快照间隔之间的数据可能丢失。\n· 期间主节点的新写命令记录到复制缓冲区（repl_backlog），RDB发送完成后将缓冲区命令发送给从节点。\n  - 定期做内存快照，文件紧凑、恢复较快，适合备份；但快照间隔之间的数据可能丢失。\n· 增量同步：从节点重启后，携带replication id和offset请求同步，主节点判断非首次同步，从复制缓冲区中获取offset之后的数据发送给从节点。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。",
+    "category": "Redis",
+    "code": ""
+  },
+  {
+    "id": "exam_redis_014",
+    "question": "Redis集群脑裂怎么解决？",
+    "summary": "关于「Redis集群脑裂怎么解决？」的详细回答：\n\n【简要结论】\n脑裂：主节点与哨兵、从节点网络分区，哨兵选举新主节点，导致同时存在两个主节点，网络恢复后旧主节点降为从节点，数据被清空导致丢失。解决方案：1) min-slaves-to-write：设置主节点至少有几个从节点才能写入；2) min-slaves-max-lag：设置主从复制延迟时间，超过则拒绝写入。这样旧主节点因无法同步到足够从节点而拒绝写请求，减少数据丢失。\n\n【详细解释】\n· 脑裂：主节点与哨兵、从节点网络分区，哨兵选举新主节点，导致同时存在两个主节点，网络恢复后旧主节点降为从节点，数据被清空导致丢失。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 解决方案：1) min-slaves-to-write：设置主节点至少有几个从节点才能写入；。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 2) min-slaves-max-lag：设置主从复制延迟时间，超过则拒绝写入。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 这样旧主节点因无法同步到足够从节点而拒绝写请求，减少数据丢失。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n\n【代码说明】\n· 配置/注释说明：\n  - redis.conf\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "Redis",
+    "code": "# redis.conf\nmin-slaves-to-write 1\nmin-slaves-max-lag 10  # 秒"
+  },
+  {
+    "id": "exam_redis_015",
+    "question": "Redis分片集群数据如何存储和读取？",
+    "summary": "关于「Redis分片集群数据如何存储和读取？」的详细回答：\n\n【简要结论】\n引入哈希槽概念，共16384个槽。每个主节点绑定一定范围的槽。key通过CRC16(key) % 16384计算哈希槽，根据槽找到对应节点存储。读取时同样计算槽定位节点。客户端可连接任意节点，若key不在当前节点，会返回MOVED重定向到正确节点。\n\n【详细解释】\n· 引入哈希槽概念，共16384个槽。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 每个主节点绑定一定范围的槽。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· key通过CRC16(key) % 16384计算哈希槽，根据槽找到对应节点存储。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 读取时同样计算槽定位节点。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 客户端可连接任意节点，若key不在当前节点，会返回MOVED重定向到正确节点。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。",
+    "category": "Redis",
+    "code": ""
+  },
+  {
+    "id": "exam_redis_016",
+    "question": "Redis是单线程的，为什么还那么快？",
+    "summary": "关于「Redis是单线程的，为什么还那么快？」的详细回答：\n\n【简要结论】\n1) 纯内存操作，C语言编写；2) 单线程避免多线程上下文切换和竞争条件的开销；3) I/O多路复用模型（epoll），单个线程监听多个Socket，Socket就绪时得到通知，无需轮询；4) 高效数据结构（SDS、跳表、压缩列表等）。Redis6.0后命令回复和命令解析使用多线程，但命令执行仍是单线程。\n\n【详细解释】\n· 1) 纯内存操作，C语言编写；。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 2) 单线程避免多线程上下文切换和竞争条件的开销；。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 3) I/O多路复用模型（epoll），单个线程监听多个Socket，Socket就绪时得到通知，无需轮询；。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· 4) 高效数据结构（SDS、跳表、压缩列表等）。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· Redis6.0后命令回复和命令解析使用多线程，但命令执行仍是单线程。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。",
+    "category": "Redis",
+    "code": ""
+  },
+  {
+    "id": "exam_redis_017",
+    "question": "什么是I/O多路复用模型？",
+    "summary": "关于「什么是I/O多路复用模型？」的详细回答：\n\n【简要结论】\n利用单个线程同时监听多个Socket，当某个Socket可读/可写时得到通知，避免无效等待，充分利用CPU。Linux下使用epoll实现：内核维护就绪Socket列表，事件发生时直接通知用户进程哪些Socket就绪，无需遍历所有Socket判断。Redis使用I/O多路复用+事件处理器（连接应答处理器、命令回复处理器、命令请求处理器）处理多个Socket请求。\n\n【详细解释】\n· 利用单个线程同时监听多个Socket，当某个Socket可读/可写时得到通知，避免无效等待，充分利用CPU。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· Linux下使用epoll实现：内核维护就绪Socket列表，事件发生时直接通知用户进程哪些Socket就绪，无需遍历所有Socket判断。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n· Redis使用I/O多路复用+事件处理器（连接应答处理器、命令回复处理器、命令请求处理器）处理多个Socket请求。\n  - Redis 以内存为主，需结合持久化、过期策略和 maxmemory 一起设计。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。",
+    "category": "Redis",
+    "code": ""
+  },
+  {
+    "id": "exam_ssm_001",
+    "question": "Spring中的单例bean是线程安全的吗？",
+    "summary": "关于「Spring中的单例bean是线程安全的吗？」的详细回答：\n\n【简要结论】\n不是线程安全的。Spring容器对每个请求分配一个线程，多线程并发执行单例bean的业务逻辑。如果bean包含可变状态（如成员属性修改），需自行保证线程安全。通常Service/DAO类是无状态的（不修改成员变量），可视为线程安全。若bean有状态，可将作用域改为prototype，或使用同步机制。\n\n【详细解释】\n· 不是线程安全的。\n· Spring容器对每个请求分配一个线程，多线程并发执行单例bean的业务逻辑。\n· 如果bean包含可变状态（如成员属性修改），需自行保证线程安全。\n· 通常Service/DAO类是无状态的（不修改成员变量），可视为线程安全。\n· 若bean有状态，可将作用域改为prototype，或使用同步机制。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "SSM",
+    "code": ""
+  },
+  {
+    "id": "exam_ssm_002",
+    "question": "什么是AOP？项目中如何使用？",
+    "summary": "关于「什么是AOP？项目中如何使用？」的详细回答：\n\n【简要结论】\nAOP（面向切面编程）将业务无关但对多个对象产生影响的公共行为（日志、事务、权限等）抽取为切面，实现公共模块复用，降低耦合。项目中常用于记录操作日志：通过@Aspect定义切面，@Pointcut定义切点表达式匹配目标方法，@Around环绕通知获取方法参数（类名、方法名、注解、请求参数等）保存到数据库。\n\n【详细解释】\n· AOP（面向切面编程）将业务无关但对多个对象产生影响的公共行为（日志、事务、权限等）抽取为切面，实现公共模块复用，降低耦合。\n· 项目中常用于记录操作日志：通过@Aspect定义切面，@Pointcut定义切点表达式匹配目标方法，@Around环绕通知获取方法参数（类名、方法名、注解、请求参数等）保存到数据库。\n\n【代码说明】\n· 配置/注释说明：\n  - 获取方法信息、参数\n  - 保存日志...\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "SSM",
+    "code": "@Aspect\n@Component\npublic class LogAspect {\n    @Pointcut(\"@annotation(com.example.annotation.Log)\")\n    public void logPointcut() {}\n    \n    @Around(\"logPointcut()\")\n    public Object around(ProceedingJoinPoint point) throws Throwable {\n        // 获取方法信息、参数\n        // 保存日志...\n        return point.proceed();\n    }\n}"
+  },
+  {
+    "id": "exam_ssm_003",
+    "question": "Spring中的事务是如何实现的？事务失效场景？",
+    "summary": "关于「Spring中的事务是如何实现的？事务失效场景？」的详细回答：\n\n【简要结论】\n实现原理：基于AOP，对方法前后拦截，执行前开启事务，执行后根据情况提交或回滚。失效场景：1) 方法内部捕获异常未抛出（@Transactional只能回滚未捕获的运行时异常）；2) 抛出检查型异常（checked exception）且未配置rollbackFor=Exception.class；3) 方法非public修饰；4) 同类中方法互相调用（this调用不走代理）；5) 数据库引擎不支持事务（如MyISAM）。\n\n【详细解释】\n· 实现原理：基于AOP，对方法前后拦截，执行前开启事务，执行后根据情况提交或回滚。\n· 失效场景：1) 方法内部捕获异常未抛出（@Transactional只能回滚未捕获的运行时异常）；。\n· 2) 抛出检查型异常（checked exception）且未配置rollbackFor=Exception.class；。\n· 3) 方法非public修饰；。\n· 4) 同类中方法互相调用（this调用不走代理）；。\n· 5) 数据库引擎不支持事务（如MyISAM）。\n\n【代码说明】\n· 配置/注释说明：\n  - 必须抛出异常事务才回滚\n  - 不要try-catch吞掉异常\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "SSM",
+    "code": "@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)\npublic void transfer() {\n    // 必须抛出异常事务才回滚\n    // 不要try-catch吞掉异常\n}"
+  },
+  {
+    "id": "exam_ssm_004",
+    "question": "Spring的bean生命周期？",
+    "summary": "关于「Spring的bean生命周期？」的详细回答：\n\n【简要结论】\n1) 通过BeanDefinition获取bean定义信息；2) 调用构造函数实例化；3) 依赖注入（setter/@Autowired）；4) 处理Aware接口（BeanNameAware、BeanFactoryAware等）；5) BeanPostProcessor前置处理（postProcessBeforeInitialization）；6) 调用初始化方法（InitializingBean.afterPropertiesSet()或@PostConstruct/init-method）；7) BeanPostProcessor后置处理（可能生成代理对象，如AOP代理）；8) bean就绪使用；9) 销毁（@PreDestroy/DisposableBean.destroy()/destroy-method）。\n\n【详细解释】\n· 1) 通过BeanDefinition获取bean定义信息；。\n· 2) 调用构造函数实例化；。\n· 3) 依赖注入（setter/@Autowired）；。\n· 4) 处理Aware接口（BeanNameAware、BeanFactoryAware等）；。\n· 5) BeanPostProcessor前置处理（postProcessBeforeInitialization）；。\n· 6) 调用初始化方法（InitializingBean.afterPropertiesSet()或@PostConstruct/init-method）；。\n· 7) BeanPostProcessor后置处理（可能生成代理对象，如AOP代理）；。\n· 8) bean就绪使用；。\n· 9) 销毁（@PreDestroy/DisposableBean.destroy()/destroy-method）。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "SSM",
+    "code": ""
+  },
+  {
+    "id": "exam_ssm_005",
+    "question": "Spring如何解决循环依赖？",
+    "summary": "关于「Spring如何解决循环依赖？」的详细回答：\n\n【简要结论】\n通过三级缓存解决setter注入的循环依赖：一级缓存（singletonObjects）：存放完全初始化好的bean；二级缓存（earlySingletonObjects）：存放早期暴露的bean（已实例化但未初始化）；三级缓存（singletonFactories）：存放生成bean的ObjectFactory。流程：A实例化后存入三级缓存→A初始化需要B→B实例化存入三级缓存→B初始化需要A→从三级缓存获取A的ObjectFactory生成A存入二级缓存→B完成创建存入一级缓存→A注入B完成创建存入一级缓存。构造器循环依赖无法解决，可用@Lazy延迟加载。\n\n【详细解释】\n· 通过三级缓存解决setter注入的循环依赖：一级缓存（singletonObjects）：存放完全初始化好的bean；。\n· 二级缓存（earlySingletonObjects）：存放早期暴露的bean（已实例化但未初始化）；。\n· 三级缓存（singletonFactories）：存放生成bean的ObjectFactory。\n· 流程：A实例化后存入三级缓存→A初始化需要B→B实例化存入三级缓存→B初始化需要A→从三级缓存获取A的ObjectFactory生成A存入二级缓存→B完成创建存入一级缓存→A注入B完成创建存入一级缓存。\n· 构造器循环依赖无法解决，可用@Lazy延迟加载。\n\n【代码说明】\n· 配置/注释说明：\n  - 三级缓存源码核心\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "SSM",
+    "code": "// 三级缓存源码核心\n/** 一级缓存：完整bean */\nprivate final Map<String, Object> singletonObjects = new ConcurrentHashMap<>();\n/** 二级缓存：早期暴露bean */\nprivate final Map<String, Object> earlySingletonObjects = new ConcurrentHashMap<>();\n/** 三级缓存：bean工厂 */\nprivate final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>();"
+  },
+  {
+    "id": "exam_ssm_006",
+    "question": "SpringMVC的执行流程？",
+    "summary": "关于「SpringMVC的执行流程？」的详细回答：\n\n【简要结论】\n1) 用户发送请求到DispatcherServlet（前端控制器）；2) DispatcherServlet调用HandlerMapping找到处理器（Controller）；3) HandlerMapping返回处理器对象及拦截器；4) DispatcherServlet调用HandlerAdapter适配并调用Controller；5) Controller执行返回ModelAndView；6) HandlerAdapter将ModelAndView返回给DispatcherServlet；7) DispatcherServlet传给ViewResolver解析视图；8) ViewResolver返回具体视图；9) DispatcherServlet渲染视图并响应用户。\n\n【详细解释】\n· 1) 用户发送请求到DispatcherServlet（前端控制器）；。\n· 2) DispatcherServlet调用HandlerMapping找到处理器（Controller）；。\n· 3) HandlerMapping返回处理器对象及拦截器；。\n· 4) DispatcherServlet调用HandlerAdapter适配并调用Controller；。\n· 5) Controller执行返回ModelAndView；。\n· 6) HandlerAdapter将ModelAndView返回给DispatcherServlet；。\n· 7) DispatcherServlet传给ViewResolver解析视图；。\n· 8) ViewResolver返回具体视图；。\n· 9) DispatcherServlet渲染视图并响应用户。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "SSM",
+    "code": ""
+  },
+  {
+    "id": "exam_ssm_007",
+    "question": "SpringBoot自动配置原理？",
+    "summary": "关于「SpringBoot自动配置原理？」的详细回答：\n\n【简要结论】\n核心注解@SpringBootApplication由三个注解组成：@SpringBootConfiguration（标识配置类）、@EnableAutoConfiguration（开启自动配置核心）、@ComponentScan（组件扫描）。@EnableAutoConfiguration通过@Import导入AutoConfigurationImportSelector，读取所有jar包中META-INF/spring.factories文件里配置的自动配置类，根据@Conditional条件注解决定是否将配置类中的Bean导入Spring容器。条件注解如@ConditionalOnClass（类存在时生效）、@ConditionalOnProperty（配置属性满足时生效）等。\n\n【详细解释】\n· 核心注解@SpringBootApplication由三个注解组成：@SpringBootConfiguration（标识配置类）、@EnableAutoConfiguration（开启自动配置核心）、@ComponentScan（组件扫描）。\n· @EnableAutoConfiguration通过@Import导入AutoConfigurationImportSelector，读取所有jar包中META-INF/spring.factories文件里配置的自动配置类，根据@Conditional条件注解决定是否将配置类中的Bean导入Spring容器。\n· 条件注解如@ConditionalOnClass（类存在时生效）、@ConditionalOnProperty（配置属性满足时生效）等。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "SSM",
+    "code": ""
+  },
+  {
+    "id": "exam_ssm_008",
+    "question": "Spring、SpringMVC、SpringBoot常用注解？",
+    "summary": "关于「Spring、SpringMVC、SpringBoot常用注解？」的详细回答：\n\n【简要结论】\nSpring：@Component/@Service/@Repository/@Controller（声明Bean）、@Autowired/@Qualifier/@Resource（依赖注入）、@Scope（作用域）、@Configuration/@ComponentScan/@Bean（配置类）、@Aspect/@Before/@After/@Around/@Pointcut（AOP）。SpringMVC：@RequestMapping/@GetMapping/@PostMapping（映射路径）、@RequestBody（接收JSON）、@RequestParam（请求参数）、@PathVariable（路径参数）、@ResponseBody（返回JSON）、@RequestHeader（请求头）。SpringBoot：@SpringBootApplication、@RestController、@EnableAutoConfiguration等。\n\n【详细解释】\n· Spring：@Component/@Service/@Repository/@Controller（声明Bean）、@Autowired/@Qualifier/@Resource（依赖注入）、@Scope（作用域）、@Configuration/@ComponentScan/@Bean（配置类）、@Aspect/@Before/@After/@Around/@Pointcut（AOP）。\n· SpringMVC：@RequestMapping/@GetMapping/@PostMapping（映射路径）、@RequestBody（接收JSON）、@RequestParam（请求参数）、@PathVariable（路径参数）、@ResponseBody（返回JSON）、@RequestHeader（请求头）。\n· SpringBoot：@SpringBootApplication、@RestController、@EnableAutoConfiguration等。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "SSM",
+    "code": ""
+  },
+  {
+    "id": "exam_ssm_009",
+    "question": "MyBatis执行流程？",
+    "summary": "关于「MyBatis执行流程？」的详细回答：\n\n【简要结论】\n1) 读取MyBatis配置文件mybatis-config.xml（数据源、映射文件等配置）；2) 构造SqlSessionFactory（会话工厂，单例）；3) SqlSessionFactory创建SqlSession（非线程安全，每次请求创建）；4) SqlSession通过Executor执行器执行SQL；5) Executor执行MappedStatement（封装了SQL语句、输入参数映射、输出结果映射）；6) 输入参数映射（将Java对象转为JDBC参数）；7) 执行SQL；8) 输出结果映射（将JDBC结果集转为Java对象）。\n\n【详细解释】\n· 1) 读取MyBatis配置文件mybatis-config.xml（数据源、映射文件等配置）；。\n· 2) 构造SqlSessionFactory（会话工厂，单例）；。\n· 3) SqlSessionFactory创建SqlSession（非线程安全，每次请求创建）；。\n· 4) SqlSession通过Executor执行器执行SQL；。\n· 5) Executor执行MappedStatement（封装了SQL语句、输入参数映射、输出结果映射）；。\n· 6) 输入参数映射（将Java对象转为JDBC参数）；。\n· 7) 执行SQL；。\n· 8) 输出结果映射（将JDBC结果集转为Java对象）。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "SSM",
+    "code": ""
+  },
+  {
+    "id": "exam_ssm_010",
+    "question": "MyBatis是否支持延迟加载？原理是什么？",
+    "summary": "关于「MyBatis是否支持延迟加载？原理是什么？」的详细回答：\n\n【简要结论】\n支持延迟加载（懒加载），即需要用到关联对象数据时才加载。配置：lazyLoadingEnabled=true。原理：使用CGLIB动态代理创建目标对象代理，调用目标方法时检查属性是否为null，为null则执行SQL查询关联数据，设置属性值后继续执行方法。适用于关联查询（如一对多），避免一次性加载大量无用数据。\n\n【详细解释】\n· 支持延迟加载（懒加载），即需要用到关联对象数据时才加载。\n· 配置：lazyLoadingEnabled=true。\n· 原理：使用CGLIB动态代理创建目标对象代理，调用目标方法时检查属性是否为null，为null则执行SQL查询关联数据，设置属性值后继续执行方法。\n· 适用于关联查询（如一对多），避免一次性加载大量无用数据。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "SSM",
+    "code": "<!-- mybatis-config.xml -->\n<settings>\n    <setting name=\"lazyLoadingEnabled\" value=\"true\"/>\n    <setting name=\"aggressiveLazyLoading\" value=\"false\"/>\n</settings>"
+  },
+  {
+    "id": "exam_ssm_011",
+    "question": "MyBatis的一级缓存和二级缓存？",
+    "summary": "关于「MyBatis的一级缓存和二级缓存？」的详细回答：\n\n【简要结论】\n一级缓存：基于PerpetualCache的HashMap本地缓存，作用域为SqlSession，默认开启。同一个SqlSession内多次查询相同SQL和参数，直接从缓存取。二级缓存：作用域为Namespace（Mapper），需手动开启（cache标签），多个SqlSession共享。默认使用PerpetualCache，可配置Ehcache等第三方缓存。执行增删改操作后，对应作用域的缓存会被清空。\n\n【详细解释】\n· 一级缓存：基于PerpetualCache的HashMap本地缓存，作用域为SqlSession，默认开启。\n· 同一个SqlSession内多次查询相同SQL和参数，直接从缓存取。\n· 二级缓存：作用域为Namespace（Mapper），需手动开启（cache标签），多个SqlSession共享。\n· 默认使用PerpetualCache，可配置Ehcache等第三方缓存。\n· 执行增删改操作后，对应作用域的缓存会被清空。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "SSM",
+    "code": "<!-- Mapper.xml开启二级缓存 -->\n<cache eviction=\"LRU\" flushInterval=\"60000\" size=\"512\" readOnly=\"true\"/>\n\n<!-- 或注解方式 -->\n@CacheNamespace\npublic interface UserMapper {}"
+  }
+]

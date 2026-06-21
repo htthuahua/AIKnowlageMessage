@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>知识库助手</title>
+  <link rel="stylesheet" href="/static/style.css?v=3" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <button type="button" class="sidebar-btn new-chat" id="newChatBtn" title="新对话">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          <span>新对话</span>
+        </button>
+        <button type="button" class="sidebar-btn city-sidebar-btn" id="citySidebarBtn" title="知识之城 3D">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/>
+          </svg>
+          <span>知识之城 3D</span>
+        </button>
+        <button type="button" class="sidebar-btn upload-sidebar-btn" id="uploadSidebarBtn" title="上传知识点">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 16V4m0 0 4 4m-4-4-4 4"/><path d="M4 20h16"/>
+          </svg>
+          <span>上传知识点</span>
+        </button>
+      </div>
+      <div class="sidebar-body">
+        <p class="sidebar-label">示例问题</p>
+        <div class="sidebar-samples" id="sidebarSamples"></div>
+      </div>
+      <div class="sidebar-footer">
+        <div class="model-status" id="modelStatus">
+          <span class="status-dot"></span>
+          <span class="status-text">连接中...</span>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <main class="main">
+      <div class="main-toolbar" id="mainToolbar">
+        <button type="button" class="main-toolbar-btn upload-toolbar-btn" id="uploadToolbarBtn">
+          上传知识点
+        </button>
+        <button type="button" class="main-toolbar-btn city-toolbar-btn" id="cityToolbarBtn">
+          知识之城 3D
+        </button>
+      </div>
+      <header class="topbar">
+        <button type="button" class="icon-btn menu-btn" id="menuBtn" aria-label="打开菜单">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12h18M3 6h18M3 18h18"/>
+          </svg>
+        </button>
+        <h1 class="topbar-title">知识库助手</h1>
+        <button type="button" class="upload-toggle-btn" id="uploadToggleBtn">上传知识</button>
+        <button type="button" class="city-toggle-btn" id="cityToggleBtn">知识之城 3D</button>
+        <div class="topbar-spacer"></div>
+      </header>
+
+      <div class="chat-scroll" id="chatScroll">
+        <div class="welcome" id="welcome">
+          <div class="welcome-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 3c-1.2 0-2.4.6-3 1.7A3.5 3.5 0 0 0 5.5 8 3.5 3.5 0 0 0 8 11.5c0 .3 0 .7.1 1H8a4 4 0 0 0 8 0h-.1c.1-.3.1-.7.1-1A3.5 3.5 0 0 0 18.5 8 3.5 3.5 0 0 0 15 4.7C14.4 3.6 13.2 3 12 3z"/>
+              <path d="M8 14h8M9 18h6"/>
+            </svg>
+          </div>
+          <h2>有什么可以帮你的？</h2>
+          <p>基于你的个人知识库检索，返回匹配的总结与代码示例。</p>
+          <button type="button" class="city-entry-card" id="cityWelcomeBtn">
+            <span class="city-entry-icon">🏙️</span>
+            <span class="city-entry-text">
+              <strong>进入知识之城 3D</strong>
+              <small>简洁 3D 地图 · 点击小车或楼宇</small>
+            </span>
+          </button>
+          <button type="button" class="upload-entry-card" id="uploadWelcomeBtn">
+            <span class="upload-entry-icon">📤</span>
+            <span class="city-entry-text">
+              <strong>上传知识点</strong>
+              <small>保存问答到知识库 · 满 50 条自动训练 · 新建楼宇</small>
+            </span>
+          </button>
+          <div class="suggestions" id="suggestions"></div>
+        </div>
+        <div class="messages" id="messages"></div>
+      </div>
+
+      <section class="city-view hidden" id="cityView" aria-hidden="true">
+        <canvas id="cityCanvas"></canvas>
+        <div class="city-hud">
+          <h2>知识之城</h2>
+          <p>中心环岛 · 中间楼宇环（每环最多 12 座）· 外围环路；超过 12 座楼宇会自动生成下一个知识小区。</p>
+          <p class="city-stats" id="cityStats">加载中...</p>
+        </div>
+        <aside class="city-panel hidden" id="cityPanel">
+          <div class="city-panel-head">
+            <div>
+              <h3 id="cityPanelTitle">楼宇详情</h3>
+              <p id="cityPanelMeta"></p>
+            </div>
+            <button type="button" class="icon-btn" id="cityPanelClose" aria-label="关闭">✕</button>
+          </div>
+          <div class="city-panel-body" id="cityPanelList"></div>
+        </aside>
+      </section>
+
+      <section class="upload-view hidden" id="uploadView" aria-hidden="true">
+        <div class="upload-container">
+          <header class="upload-header">
+            <div>
+              <h2>上传知识点</h2>
+              <p>问答将保存到 <code>message/</code> 对应知识库；累计 50 条自动触发训练。</p>
+            </div>
+            <div class="upload-status-card" id="uploadStatusCard">
+              <span class="upload-status-label">训练进度</span>
+              <span class="upload-status-value" id="uploadStatusText">加载中...</span>
+            </div>
+          </header>
+
+          <form class="upload-form" id="uploadForm">
+            <input type="hidden" id="uploadEditId" value="" />
+            <p class="upload-edit-banner hidden" id="uploadEditBanner">
+              正在编辑：<strong id="uploadEditLabel"></strong>
+              <button type="button" class="upload-cancel-edit" id="uploadCancelEdit">取消编辑</button>
+            </p>
+            <div class="upload-row">
+              <label class="upload-field">
+                <span>目标知识库</span>
+                <select id="uploadKbSelect">
+                  <option value="">加载中...</option>
+                </select>
+              </label>
+              <label class="upload-field upload-field-new hidden" id="uploadNewKbField">
+                <span>新知识库名称</span>
+                <input type="text" id="uploadKbName" placeholder="例如：前端笔记" />
+              </label>
+            </div>
+
+            <label class="upload-field">
+              <span>问题 <em>*</em></span>
+              <input type="text" id="uploadQuestion" placeholder="输入问题" required />
+            </label>
+
+            <label class="upload-field">
+              <span>回答摘要 <em>*</em></span>
+              <textarea id="uploadSummary" rows="4" placeholder="输入回答或知识点摘要" required></textarea>
+            </label>
+
+            <div class="upload-row">
+              <label class="upload-field">
+                <span>分类</span>
+                <input type="text" id="uploadCategory" placeholder="例如：基础概念" />
+              </label>
+            </div>
+
+            <label class="upload-field">
+              <span>代码示例（可选）</span>
+              <textarea id="uploadCode" rows="5" placeholder="可选代码片段" spellcheck="false"></textarea>
+            </label>
+
+            <div class="upload-actions">
+              <button type="submit" class="upload-submit-btn" id="uploadSubmitBtn">保存到知识库</button>
+              <p class="upload-feedback hidden" id="uploadFeedback"></p>
+            </div>
+          </form>
+
+          <section class="upload-manage">
+            <div class="upload-history-head">
+              <h3>知识库管理</h3>
+              <button type="button" class="upload-refresh-btn" id="manageRecordsRefresh">刷新</button>
+            </div>
+            <div class="upload-manage-filters">
+              <label class="upload-field">
+                <span>筛选知识库</span>
+                <select id="manageKbSelect">
+                  <option value="">全部知识库</option>
+                </select>
+              </label>
+              <label class="upload-field">
+                <span>搜索</span>
+                <input type="search" id="manageSearchInput" placeholder="按问题或摘要搜索" />
+              </label>
+            </div>
+            <ul class="upload-manage-list" id="manageRecordsList">
+              <li class="upload-history-empty">加载中...</li>
+            </ul>
+          </section>
+
+          <section class="upload-history">
+            <div class="upload-history-head">
+              <h3>上传历史</h3>
+              <button type="button" class="upload-refresh-btn" id="uploadHistoryRefresh">刷新</button>
+            </div>
+            <ul class="upload-history-list" id="uploadHistoryList">
+              <li class="upload-history-empty">暂无上传记录</li>
+            </ul>
+          </section>
+        </div>
+      </section>
+
+      <footer class="composer-wrap">
+        <div class="composer">
+          <div class="input-box">
+            <textarea
+              id="question"
+              rows="1"
+              placeholder="输入问题，Enter 发送，Shift+Enter 换行"
+            ></textarea>
+            <button type="button" class="send-btn" id="askBtn" aria-label="发送" disabled>
+              <svg class="send-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3.4 20.4 21 12 3.4 3.6l-.9 3.4L16 12 2.5 17l.9 3.4z"/>
+              </svg>
+              <span class="loading-spinner" aria-hidden="true"></span>
+            </button>
+          </div>
+          <p class="composer-hint">知识库问答 · 553 条训练样本 · 相似度阈值 0.45</p>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="/static/city-boot.js?v=5"></script>
+  <script src="/static/app.js?v=3"></script>
+</body>
+</html>

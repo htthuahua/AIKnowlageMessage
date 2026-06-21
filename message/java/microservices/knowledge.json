@@ -1,0 +1,751 @@
+[
+  {
+    "id": "microservice_kb_001",
+    "question": "微服务技术对比：Dubbo、SpringCloud、SpringCloudAlibaba的注册中心分别是什么？",
+    "summary": "关于「微服务技术对比：Dubbo、SpringCloud、SpringCloudAlibaba的注册中心分别是什么？」的详细回答：\n\n【简要结论】\nDubbo使用zookeeper、Redis；SpringCloud使用Eureka、Consul；SpringCloudAlibaba使用Nacos、Eureka\n\n【详细解释】\n· Dubbo：通常采用 zookeeper、Redis。\n  - zookeeper：Zookeeper 提供分布式协调与注册发现能力，偏 CP 模型，适合传统 Dubbo 集群。\n  - Redis：在 Dubbo 体系中承担服务治理或通信支撑作用。\n· SpringCloud：通常采用 Eureka、Consul。\n  - Eureka：Eureka 是 Spring Cloud Netflix 默认注册中心，AP 模型，强调可用性。\n  - Consul：Consul 集成服务发现、健康检查和 KV 配置，适合云原生场景。\n· SpringCloudAlibaba：通常采用 Nacos、Eureka。\n  - Nacos：Nacos 同时支持注册发现与配置管理，是 Spring Cloud Alibaba 核心组件。\n  - Eureka：Eureka 是 Spring Cloud Netflix 默认注册中心，AP 模型，强调可用性。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "微服务架构",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_002",
+    "question": "微服务技术对比：三种框架的服务远程调用方式分别是什么？",
+    "summary": "关于「微服务技术对比：三种框架的服务远程调用方式分别是什么？」的详细回答：\n\n【简要结论】\nDubbo使用Dubbo协议；SpringCloud使用Feign（http协议）；SpringCloudAlibaba使用Dubbo、Feign\n\n【详细解释】\n· Dubbo：通常采用 Dubbo协议。\n  - Dubbo协议：在 Dubbo 体系中承担服务治理或通信支撑作用。\n· SpringCloud：通常采用 Feign（http协议）。\n  - Feign（http协议）：在 SpringCloud 体系中承担服务治理或通信支撑作用。\n· SpringCloudAlibaba：通常采用 Dubbo、Feign。\n  - Dubbo：Dubbo 是高性能 RPC 框架，适合 Java 服务间强类型调用。\n  - Feign：Feign 是声明式 HTTP 客户端，适合 REST 风格远程调用。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "微服务架构",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_003",
+    "question": "SpringCloud集成了哪些微服务功能组件？",
+    "summary": "关于「SpringCloud集成了哪些微服务功能组件？」的详细回答：\n\n【简要结论】\n服务注册发现(Eureka/Nacos/Consul)、服务远程调用(OpenFeign/Dubbo)、服务链路监控(Zipkin/Sleuth)、统一配置管理(SpringCloudConfig/Nacos)、统一网关路由(SpringCloudGateway/Zuul)、流控降级保护(Hystrix/Sentinel)\n\n【详细解释】\n· 服务注册发现(Eureka/Nacos/Consul)、服务远程调用(OpenFeign/Dubbo)、服务链路监控(Zipkin/Sleuth)、统一配置管理(SpringCloudConfig/Nacos)、统一网关路由(SpringCloudGateway/Zuul)、流控降级保护(Hystrix/Sentinel)。\n  - Dubbo 是高性能 RPC 框架，适合 Java 服务间强类型调用。\n  - Nacos 同时支持注册发现与配置管理，是 Spring Cloud Alibaba 核心组件。\n  - Eureka 是 Spring Cloud Netflix 默认注册中心，AP 模型，强调可用性。\n\n【实践建议】\n· Spring Cloud 组件通常与 Boot 版本强绑定，升级前需查兼容矩阵。",
+    "category": "SpringCloud",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_004",
+    "question": "SpringCloud版本与SpringBoot版本的兼容关系是什么？",
+    "summary": "关于「SpringCloud版本与SpringBoot版本的兼容关系是什么？」的详细回答：\n\n【简要结论】\n2020.0.x对应Boot 2.4.x；Hoxton对应2.2.x/2.3.x；Greenwich对应2.1.x；Finchley对应2.0.x；Edgware/Dalston对应1.5.x\n\n【详细解释】\n· 2020.0.x对应Boot 2.4.x；。\n  - Spring Cloud 组件通常与 Boot 版本强绑定，升级前需查兼容矩阵。\n· Hoxton对应2.2.x/2.3.x；。\n  - Spring Cloud 组件通常与 Boot 版本强绑定，升级前需查兼容矩阵。\n· Greenwich对应2.1.x；。\n  - Spring Cloud 组件通常与 Boot 版本强绑定，升级前需查兼容矩阵。\n· Finchley对应2.0.x；。\n  - Spring Cloud 组件通常与 Boot 版本强绑定，升级前需查兼容矩阵。\n· Edgware/Dalston对应1.5.x。\n  - Spring Cloud 组件通常与 Boot 版本强绑定，升级前需查兼容矩阵。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "SpringCloud",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_005",
+    "question": "HttpClient和RestTemplate有什么区别？",
+    "summary": "关于「HttpClient和RestTemplate有什么区别？」的详细回答：\n\n【简要结论】\nHttpClient是通用底层HTTP客户端库，RestTemplate是Spring提供的高层REST客户端模板。RestTemplate内部默认使用HttpClient发请求，功能重点是对象JSON自动转换、异常封装、REST风格调用\n\n【详细解释】\n· HttpClient是通用底层HTTP客户端库，RestTemplate是Spring提供的高层REST客户端模板。\n· RestTemplate内部默认：通常采用 HttpClient发请求，功能重点是对象JSON自动转换、异常封装、REST风格调用。\n  - HttpClient发请求：在 RestTemplate内部默认 体系中承担服务治理或通信支撑作用。\n  - 功能重点是对象JSON自动转换：在 RestTemplate内部默认 体系中承担服务治理或通信支撑作用。\n  - 异常封装：在 RestTemplate内部默认 体系中承担服务治理或通信支撑作用。\n  - REST风格调用：在 RestTemplate内部默认 体系中承担服务治理或通信支撑作用。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "远程调用",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_006",
+    "question": "如何在SpringBoot中注入RestTemplate？",
+    "summary": "关于「如何在SpringBoot中注入RestTemplate？」的详细回答：\n\n【简要结论】\n在启动类中使用@Bean注解创建RestTemplate实例并注入Spring容器\n\n【详细解释】\n· 在启动类中使用@Bean注解创建RestTemplate实例并注入Spring容器。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "远程调用",
+    "code": "@Bean\npublic RestTemplate restTemplate() {\n    return new RestTemplate();\n}"
+  },
+  {
+    "id": "microservice_kb_007",
+    "question": "什么是服务提供者和服务消费者？",
+    "summary": "关于「什么是服务提供者和服务消费者？」的详细回答：\n\n【简要结论】\n服务提供者是被其他微服务调用的服务（提供接口）；服务消费者是调用其他微服务的服务。一个服务既可以是提供者也可以是消费者\n\n【详细解释】\n· 服务提供者是被其他微服务调用的服务（提供接口）；。\n· 服务消费者是调用其他微服务的服务。\n· 一个服务既可以是提供者也可以是消费者。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "微服务概念",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_008",
+    "question": "Eureka的工作原理是什么？",
+    "summary": "关于「Eureka的工作原理是什么？」的详细回答：\n\n【简要结论】\n三步走：1)服务注册(Register) - 服务启动时向Eureka Server注册信息；2)健康监测(Renew/Heartbeat) - 每30秒发送心跳，90秒无心跳则剔除；3)服务发现(Fetch Registry) - 消费者定期拉取服务列表\n\n【详细解释】\n· 三步走：1)服务注册(Register) - 服务启动时向Eureka Server注册信息；。\n  - Eureka 是 Spring Cloud Netflix 默认注册中心，AP 模型，强调可用性。\n· 2)健康监测(Renew/Heartbeat) - 每30秒发送心跳，90秒无心跳则剔除；。\n· 3)服务发现(Fetch Registry) - 消费者定期拉取服务列表。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "Eureka",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_009",
+    "question": "如何搭建EurekaServer？",
+    "summary": "关于「如何搭建EurekaServer？」的详细回答：\n\n【简要结论】\n1)引入eureka-server依赖；2)启动类添加@EnableEurekaServer注解；3)配置application.yml\n\n【详细解释】\n· 1)引入eureka-server依赖；。\n· 2)启动类添加@EnableEurekaServer注解；。\n  - Eureka 是 Spring Cloud Netflix 默认注册中心，AP 模型，强调可用性。\n· 3)配置application.yml。\n\n【代码说明】\n· 配置/注释说明：\n  - 启动类\n  - application.yml\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Eureka",
+    "code": "<dependency>\n    <groupId>org.springframework.cloud</groupId>\n    <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>\n</dependency>\n\n// 启动类\n@EnableEurekaServer\n\n// application.yml\nserver:\n  port: 10086\nspring:\n  application:\n    name: eurekaserver\neureka:\n  client:\n    service-url:\n      defaultZone: http://127.0.0.1:10086/eureka/"
+  },
+  {
+    "id": "microservice_kb_010",
+    "question": "如何将服务注册到Eureka？",
+    "summary": "关于「如何将服务注册到Eureka？」的详细回答：\n\n【简要结论】\n引入eureka-client依赖，在application.yml中配置eureka地址\n\n【详细解释】\n· 引入eureka-client依赖，在application.yml中配置eureka地址。\n\n【代码说明】\n· 配置/注释说明：\n  - application.yml\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Eureka",
+    "code": "<dependency>\n    <groupId>org.springframework.cloud</groupId>\n    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>\n</dependency>\n\n// application.yml\nspring:\n  application:\n    name: userservice\neureka:\n  client:\n    service-url:\n      defaultZone: http://127.0.0.1:10086/eureka/"
+  },
+  {
+    "id": "microservice_kb_011",
+    "question": "Ribbon负载均衡的流程是什么？",
+    "summary": "关于「Ribbon负载均衡的流程是什么？」的详细回答：\n\n【简要结论】\n1)order-service发起请求；2)Ribbon从eureka-server拉取服务列表；3)返回服务列表；4)Ribbon根据负载均衡策略选择实例；5)修改URL发起请求\n\n【详细解释】\n· 1)order-service发起请求；。\n· 2)Ribbon从eureka-server拉取服务列表；。\n· 3)返回服务列表；。\n· 4)Ribbon根据负载均衡策略选择实例；。\n· 5)修改URL发起请求。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "Ribbon",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_012",
+    "question": "Ribbon有哪些内置负载均衡规则？",
+    "summary": "关于「Ribbon有哪些内置负载均衡规则？」的详细回答：\n\n【简要结论】\nRoundRobinRule(轮询-默认)、RandomRule(随机)、WeightedResponseTimeRule(权重响应时间)、ZoneAvoidanceRule(区域可用性)、BestAvailableRule(最佳可用)、AvailabilityFilteringRule(可用性过滤)、RetryRule(重试)\n\n【详细解释】\n· RoundRobinRule(轮询-默认)、RandomRule(随机)、WeightedResponseTimeRule(权重响应时间)、ZoneAvoidanceRule(区域可用性)、BestAvailableRule(最佳可用)、AvailabilityFilteringRule(可用性过滤)、RetryRule(重试)。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "Ribbon",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_013",
+    "question": "如何自定义Ribbon负载均衡规则？",
+    "summary": "关于「如何自定义Ribbon负载均衡规则？」的详细回答：\n\n【简要结论】\n方式一：代码方式定义IRule Bean；方式二：配置文件方式配置\n\n【详细解释】\n· 方式一：代码方式定义IRule Bean；。\n· 方式二：配置文件方式配置。\n\n【代码说明】\n· 配置/注释说明：\n  - 方式一：代码方式\n  - 方式二：配置文件\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Ribbon",
+    "code": "// 方式一：代码方式\n@Bean\npublic IRule randomRule() {\n    return new RandomRule();\n}\n\n// 方式二：配置文件\nuserservice:\n  ribbon:\n    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule"
+  },
+  {
+    "id": "microservice_kb_014",
+    "question": "什么是Ribbon的饥饿加载？",
+    "summary": "关于「什么是Ribbon的饥饿加载？」的详细回答：\n\n【简要结论】\nRibbon默认懒加载，第一次访问时才创建LoadBalanceClient。饥饿加载在启动时创建，降低第一次访问耗时\n\n【详细解释】\n· Ribbon默认懒加载，第一次访问时才创建LoadBalanceClient。\n· 饥饿加载在启动时创建，降低第一次访问耗时。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Ribbon",
+    "code": "ribbon:\n  eager-load:\n    enabled: true\n    clients:\n      - userservice"
+  },
+  {
+    "id": "microservice_kb_015",
+    "question": "如何将服务注册到Nacos？",
+    "summary": "关于「如何将服务注册到Nacos？」的详细回答：\n\n【简要结论】\n引入spring-cloud-alibaba-dependencies和nacos-discovery依赖，配置nacos地址\n\n【详细解释】\n· 引入spring-cloud-alibaba-dependencies和nacos-discovery依赖，配置nacos地址。\n\n【代码说明】\n· 配置/注释说明：\n  - application.yml\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Nacos",
+    "code": "<dependency>\n    <groupId>com.alibaba.cloud</groupId>\n    <artifactId>spring-cloud-alibaba-dependencies</artifactId>\n    <version>2.2.5.RELEASE</version>\n    <type>pom</type>\n    <scope>import</scope>\n</dependency>\n\n<dependency>\n    <groupId>com.alibaba.cloud</groupId>\n    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>\n</dependency>\n\n// application.yml\nspring:\n  cloud:\n    nacos:\n      server-addr: localhost:8848"
+  },
+  {
+    "id": "microservice_kb_016",
+    "question": "Nacos服务分级存储模型是什么？",
+    "summary": "关于「Nacos服务分级存储模型是什么？」的详细回答：\n\n【简要结论】\n一级是服务(userservice)，二级是集群(杭州/上海)，三级是实例(具体服务器)。通过cluster-name配置集群属性\n\n【详细解释】\n· 一级是服务(userservice)，二级是集群(杭州/上海)，三级是实例(具体服务器)。\n· 通过cluster-name配置集群属性。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Nacos",
+    "code": "spring:\n  cloud:\n    nacos:\n      server-addr: localhost:8848\n      discovery:\n        cluster-name: HZ"
+  },
+  {
+    "id": "microservice_kb_017",
+    "question": "Nacos中如何实现根据集群负载均衡？",
+    "summary": "关于「Nacos中如何实现根据集群负载均衡？」的详细回答：\n\n【简要结论】\n设置负载均衡的IRule为NacosRule，优先寻找同集群的服务\n\n【详细解释】\n· 设置负载均衡的IRule为NacosRule，优先寻找同集群的服务。\n  - Nacos 同时支持注册发现与配置管理，是 Spring Cloud Alibaba 核心组件。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Nacos",
+    "code": "userservice:\n  ribbon:\n    NFLoadBalancerRuleClassName: com.alibaba.cloud.nacos.ribbon.NacosRule"
+  },
+  {
+    "id": "microservice_kb_018",
+    "question": "Nacos中如何根据权重负载均衡？",
+    "summary": "关于「Nacos中如何根据权重负载均衡？」的详细回答：\n\n【简要结论】\n在Nacos控制台编辑实例，调整权重值。权重为0则关闭服务\n\n【详细解释】\n· 在Nacos控制台编辑实例，调整权重值。\n  - Nacos 同时支持注册发现与配置管理，是 Spring Cloud Alibaba 核心组件。\n· 权重为0则关闭服务。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "Nacos",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_019",
+    "question": "Nacos的环境隔离(namespace)是什么？",
+    "summary": "关于「Nacos的环境隔离(namespace)是什么？」的详细回答：\n\n【简要结论】\nnamespace用来做环境隔离，每个namespace有唯一id，不同namespace下的服务不可见\n\n【详细解释】\n· namespace用来做环境隔离，每个namespace有唯一id，不同namespace下的服务不可见。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Nacos",
+    "code": "spring:\n  cloud:\n    nacos:\n      server-addr: localhost:8848\n      discovery:\n        cluster-name: SH\n        namespace: 492a7d5d-237b-46a1-a99a-fa8e98e4b0f9"
+  },
+  {
+    "id": "microservice_kb_020",
+    "question": "Nacos与Eureka的区别是什么？",
+    "summary": "关于「Nacos与Eureka的区别是什么？」的详细回答：\n\n【简要结论】\n1)Nacos支持服务端主动检测提供者状态；2)临时实例心跳不正常会被剔除，非临时实例不会；3)Nacos支持服务列表变更的消息推送模式；4)Nacos集群默认AP，存在非临时实例时CP；Eureka采用AP\n\n【详细解释】\n· 1)Nacos支持服务端主动检测提供者状态；。\n  - Nacos 同时支持注册发现与配置管理，是 Spring Cloud Alibaba 核心组件。\n· 2)临时实例心跳不正常会被剔除，非临时实例不会；。\n· 3)Nacos支持服务列表变更的消息推送模式；。\n  - Nacos 同时支持注册发现与配置管理，是 Spring Cloud Alibaba 核心组件。\n· 4)Nacos集群默认AP，存在非临时实例时CP；。\n  - Nacos 同时支持注册发现与配置管理，是 Spring Cloud Alibaba 核心组件。\n· Eureka采用AP。\n  - Eureka 是 Spring Cloud Netflix 默认注册中心，AP 模型，强调可用性。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "注册中心对比",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_021",
+    "question": "Nacos配置管理如何实现配置热更新？",
+    "summary": "关于「Nacos配置管理如何实现配置热更新？」的详细回答：\n\n【简要结论】\n通过Nacos统一管理配置，配置更改后实时热更新。使用bootstrap.yml读取nacos配置\n\n【详细解释】\n· 通过Nacos统一管理配置，配置更改后实时热更新。\n  - Nacos 同时支持注册发现与配置管理，是 Spring Cloud Alibaba 核心组件。\n· 使用bootstrap.yml读取nacos配置。\n\n【代码说明】\n· 配置/注释说明：\n  - bootstrap.yml\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Nacos配置",
+    "code": "// bootstrap.yml\nspring:\n  application:\n    name: userservice\n  profiles:\n    active: dev\n  cloud:\n    nacos:\n      server-addr: localhost:8848\n      config:\n        file-extension: yaml"
+  },
+  {
+    "id": "microservice_kb_022",
+    "question": "Nacos配置自动刷新有哪两种方式？",
+    "summary": "关于「Nacos配置自动刷新有哪两种方式？」的详细回答：\n\n【简要结论】\n方式一：在Controller类上添加@RefreshScope注解；方式二：使用@ConfigurationProperties注解\n\n【详细解释】\n· 方式一：在Controller类上添加@RefreshScope注解；。\n· 方式二：使用@ConfigurationProperties注解。\n\n【代码说明】\n· 配置/注释说明：\n  - 方式一\n  - 方式二\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Nacos配置",
+    "code": "// 方式一\n@RefreshScope\n@RestController\npublic class UserController {\n    @Value(\"${pattern.dateformat}\")\n    private String dateformat;\n}\n\n// 方式二\n@Data\n@Component\n@ConfigurationProperties(prefix = \"pattern\")\npublic class PatternProperties {\n    private String dateformat;\n}"
+  },
+  {
+    "id": "microservice_kb_023",
+    "question": "Nacos多种配置的优先级是什么？",
+    "summary": "关于「Nacos多种配置的优先级是什么？」的详细回答：\n\n【简要结论】\n服务名-profile.yaml > 服务名称.yaml > 本地配置\n\n【详细解释】\n· 服务名-profile.yaml > 服务名称.yaml > 本地配置。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "Nacos配置",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_024",
+    "question": "Feign是什么？",
+    "summary": "关于「Feign是什么？」的详细回答：\n\n【简要结论】\nFeign是一个声明式的http客户端，帮助我们优雅地实现http请求的发送\n\n【详细解释】\n· Feign是一个声明式的http客户端，帮助我们优雅地实现http请求的发送。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "Feign",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_025",
+    "question": "如何使用Feign客户端？",
+    "summary": "关于「如何使用Feign客户端？」的详细回答：\n\n【简要结论】\n1)引入openfeign依赖；2)启动类添加@EnableFeignClients；3)编写Feign客户端接口\n\n【详细解释】\n· 1)引入openfeign依赖；。\n· 2)启动类添加@EnableFeignClients；。\n· 3)编写Feign客户端接口。\n\n【代码说明】\n· 配置/注释说明：\n  - 启动类\n  - Feign客户端\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Feign",
+    "code": "<dependency>\n    <groupId>org.springframework.cloud</groupId>\n    <artifactId>spring-cloud-starter-openfeign</artifactId>\n</dependency>\n\n// 启动类\n@EnableFeignClients\n\n// Feign客户端\n@FeignClient(\"userservice\")\npublic interface UserClient {\n    @GetMapping(\"/user/{id}\")\n    User findById(@PathVariable(\"id\") Long id);\n}\n\n// 使用\n@Autowired\nprivate UserClient userClient;\n\nUser user = userClient.findById(order.getUserId());"
+  },
+  {
+    "id": "microservice_kb_026",
+    "question": "Feign可以自定义哪些配置？",
+    "summary": "关于「Feign可以自定义哪些配置？」的详细回答：\n\n【简要结论】\n日志级别(feign.Logger.Level)、响应结果解析器(Decoder)、请求参数编码器(Encoder)、支持的注解格式(Contract)、失败重试机制(Retryer)\n\n【详细解释】\n· 日志级别(feign.Logger.Level)、响应结果解析器(Decoder)、请求参数编码器(Encoder)、支持的注解格式(Contract)、失败重试机制(Retryer)。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "Feign",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_027",
+    "question": "如何配置Feign日志？",
+    "summary": "关于「如何配置Feign日志？」的详细回答：\n\n【简要结论】\n配置文件方式或代码方式。日志级别有NONE、BASIC、HEADERS、FULL\n\n【详细解释】\n· 配置文件方式或代码方式。\n· 日志级别有NONE、BASIC、HEADERS、FULL。\n\n【代码说明】\n· 配置/注释说明：\n  - 配置文件方式（全局）\n  - 配置文件方式（局部）\n  - 代码方式\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Feign",
+    "code": "// 配置文件方式（全局）\nfeign:\n  client:\n    config:\n      default:\n        loggerLevel: FULL\n\n// 配置文件方式（局部）\nfeign:\n  client:\n    config:\n      userservice:\n        loggerLevel: FULL\n\n// 代码方式\npublic class FeignClientConfiguration {\n    @Bean\n    public Logger.Level feignLogLevel() {\n        return Logger.Level.BASIC;\n    }\n}"
+  },
+  {
+    "id": "microservice_kb_028",
+    "question": "Feign的性能优化方法有哪些？",
+    "summary": "关于「Feign的性能优化方法有哪些？」的详细回答：\n\n【简要结论】\n1)使用连接池代替默认的URLConnection（Apache HttpClient或OKHttp）；2)日志级别用basic或none\n\n【详细解释】\n· 1)使用连接池代替默认的URLConnection（Apache HttpClient或OKHttp）；。\n· 2)日志级别用basic或none。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Feign",
+    "code": "<dependency>\n    <groupId>io.github.openfeign</groupId>\n    <artifactId>feign-httpclient</artifactId>\n</dependency>\n\nfeign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\n  httpclient:\n    enabled: true\n    max-connections: 200\n    max-connections-per-route: 50"
+  },
+  {
+    "id": "microservice_kb_029",
+    "question": "Feign的最佳实践是什么？",
+    "summary": "关于「Feign的最佳实践是什么？」的详细回答：\n\n【简要结论】\n将FeignClient、POJO、Feign默认配置定义到一个项目中（feign-api），供所有消费者使用\n\n【详细解释】\n· 将FeignClient、POJO、Feign默认配置定义到一个项目中（feign-api），供所有消费者使用。\n\n【代码说明】\n· 配置/注释说明：\n  - 解决扫描不到FeignClient的问题\n  - 方式一：指定包\n  - 方式二：指定类\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Feign",
+    "code": "// 解决扫描不到FeignClient的问题\n// 方式一：指定包\n@EnableFeignClients(basePackages = \"cn.itcast.feign.clients\")\n\n// 方式二：指定类\n@EnableFeignClients(clients = UserClient.class, defaultConfiguration = DefaultFeignConfiguration.class)"
+  },
+  {
+    "id": "microservice_kb_030",
+    "question": "为什么需要网关？",
+    "summary": "关于「为什么需要网关？」的详细回答：\n\n【简要结论】\n网关功能包括：身份认证和权限校验、服务路由和负载均衡、请求限流\n\n【详细解释】\n· 网关功能包括：身份认证和权限校验、服务路由和负载均衡、请求限流。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "Gateway",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_031",
+    "question": "Gateway和Zuul的区别是什么？",
+    "summary": "关于「Gateway和Zuul的区别是什么？」的详细回答：\n\n【简要结论】\nZuul基于Servlet实现，属于阻塞式编程；SpringCloudGateway基于Spring5的WebFlux，属于响应式编程，性能更好\n\n【详细解释】\n· Zuul基于Servlet实现，属于阻塞式编程；。\n· SpringCloudGateway基于Spring5的WebFlux，属于响应式编程，性能更好。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "Gateway",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_032",
+    "question": "如何搭建Gateway网关服务？",
+    "summary": "关于「如何搭建Gateway网关服务？」的详细回答：\n\n【简要结论】\n引入gateway和nacos-discovery依赖，编写路由配置\n\n【详细解释】\n· 引入gateway和nacos-discovery依赖，编写路由配置。\n\n【代码说明】\n· 配置/注释说明：\n  - application.yml\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Gateway",
+    "code": "<dependency>\n    <groupId>org.springframework.cloud</groupId>\n    <artifactId>spring-cloud-starter-gateway</artifactId>\n</dependency>\n<dependency>\n    <groupId>com.alibaba.cloud</groupId>\n    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>\n</dependency>\n\n// application.yml\nserver:\n  port: 10010\nspring:\n  application:\n    name: gateway\n  cloud:\n    nacos:\n      server-addr: localhost:8848\n    gateway:\n      routes:\n        - id: user-service\n          uri: lb://userservice\n          predicates:\n            - Path=/user/**"
+  },
+  {
+    "id": "microservice_kb_033",
+    "question": "Gateway路由断言工厂有哪些？",
+    "summary": "关于「Gateway路由断言工厂有哪些？」的详细回答：\n\n【简要结论】\nSpring提供了11种基本的Predicate工厂，如Path、After、Before、Between、Cookie、Header、Host、Method、Query、RemoteAddr、Weight\n\n【详细解释】\n· Spring提供了11种基本的Predicate工厂，如Path、After、Before、Between、Cookie、Header、Host、Method、Query、RemoteAddr、Weight。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "Gateway",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_034",
+    "question": "GatewayFilter有哪些常见过滤器？",
+    "summary": "关于「GatewayFilter有哪些常见过滤器？」的详细回答：\n\n【简要结论】\nAddRequestHeader、RemoveRequestHeader、AddResponseHeader、RemoveResponseHeader、RequestRateLimiter等31种\n\n【详细解释】\n· AddRequestHeader、RemoveRequestHeader、AddResponseHeader、RemoveResponseHeader、RequestRateLimiter等31种。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Gateway",
+    "code": "spring:\n  cloud:\n    gateway:\n      routes:\n        - id: user-service\n          uri: lb://userservice\n          predicates:\n            - Path=/user/**\n          filters:\n            - AddRequestHeader=Truth, Itcast is freaking awesome!\n      default-filters:\n        - AddRequestHeader=Truth, Itcast is freaking awesome!"
+  },
+  {
+    "id": "microservice_kb_035",
+    "question": "如何实现Gateway全局过滤器？",
+    "summary": "关于「如何实现Gateway全局过滤器？」的详细回答：\n\n【简要结论】\n实现GlobalFilter接口，重写filter方法，通过getOrder()设置优先级\n\n【详细解释】\n· 实现GlobalFilter接口，重写filter方法，通过getOrder()设置优先级。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Gateway",
+    "code": "@Component\n@Order(-1)\npublic class AuthorizeFilter implements GlobalFilter {\n    @Override\n    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {\n        ServerHttpRequest request = exchange.getRequest();\n        MultiValueMap<String, String> params = request.getQueryParams();\n        String auth = params.getFirst(\"authorization\");\n        if (\"admin\".equals(auth)) {\n            return chain.filter(exchange);\n        }\n        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);\n        return exchange.getResponse().setComplete();\n    }\n}"
+  },
+  {
+    "id": "microservice_kb_036",
+    "question": "Gateway过滤器的执行顺序是什么？",
+    "summary": "关于「Gateway过滤器的执行顺序是什么？」的详细回答：\n\n【简要结论】\n请求路由后，当前路由过滤器、DefaultFilter、GlobalFilter合并到过滤器链中排序执行。order值越小越靠前。order相同时：defaultFilter > 路由过滤器 > GlobalFilter\n\n【详细解释】\n· 请求路由后，当前路由过滤器、DefaultFilter、GlobalFilter合并到过滤器链中排序执行。\n· order值越小越靠前。\n· order相同时：defaultFilter > 路由过滤器 > GlobalFilter。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "Gateway",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_037",
+    "question": "Gateway如何处理跨域问题？",
+    "summary": "关于「Gateway如何处理跨域问题？」的详细回答：\n\n【简要结论】\n通过globalcors配置实现CORS跨域处理\n\n【详细解释】\n· 通过globalcors配置实现CORS跨域处理。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Gateway",
+    "code": "spring:\n  cloud:\n    gateway:\n      globalcors:\n        add-to-simple-url-handler-mapping: true\n        corsConfigurations:\n          '[/**]':\n            allowedOrigins:\n              - \"http://localhost:8090\"\n              - \"http://www.leyou.com\"\n            allowedMethods:\n              - \"GET\"\n              - \"POST\"\n              - \"DELETE\"\n              - \"PUT\"\n              - \"OPTIONS\"\n            allowedHeaders: \"*\"\n            allowCredentials: true\n            maxAge: 360000"
+  },
+  {
+    "id": "microservice_kb_038",
+    "question": "Docker如何解决不同系统环境的问题？",
+    "summary": "关于「Docker如何解决不同系统环境的问题？」的详细回答：\n\n【简要结论】\nDocker将应用与所需系统函数库一起打包，运行到不同操作系统时直接基于打包的库函数，借助Linux内核运行\n\n【详细解释】\n· Docker将应用与所需系统函数库一起打包，运行到不同操作系统时直接基于打包的库函数，借助Linux内核运行。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "Docker",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_039",
+    "question": "Docker与虚拟机的区别是什么？",
+    "summary": "关于「Docker与虚拟机的区别是什么？」的详细回答：\n\n【简要结论】\nDocker性能接近原生、硬盘占用MB级、启动秒级；虚拟机性能较差、硬盘占用GB级、启动分钟级。Docker共享操作系统内核，虚拟机需要完整操作系统\n\n【详细解释】\n· Docker性能接近原生、硬盘占用MB级、启动秒级；。\n· 虚拟机性能较差、硬盘占用GB级、启动分钟级。\n· Docker共享操作系统内核，虚拟机需要完整操作系统。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "Docker",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_040",
+    "question": "Docker镜像和容器的关系是什么？",
+    "summary": "关于「Docker镜像和容器的关系是什么？」的详细回答：\n\n【简要结论】\n镜像是将应用程序及其依赖、环境、配置打包在一起。容器是镜像运行时的实体，相互隔离。容器在镜像层之上添加可写层\n\n【详细解释】\n· 镜像是将应用程序及其依赖、环境、配置打包在一起。\n· 容器是镜像运行时的实体，相互隔离。\n· 容器在镜像层之上添加可写层。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "Docker",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_041",
+    "question": "Docker常用镜像操作命令有哪些？",
+    "summary": "关于「Docker常用镜像操作命令有哪些？」的详细回答：\n\n【简要结论】\ndocker pull(拉取)、docker push(推送)、docker images(查看)、docker rmi(删除)、docker build(构建)、docker save(保存为压缩包)、docker load(加载压缩包)\n\n【详细解释】\n· docker pull(拉取)、docker push(推送)、docker images(查看)、docker rmi(删除)、docker build(构建)、docker save(保存为压缩包)、docker load(加载压缩包)。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "Docker",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_042",
+    "question": "Docker容器常用命令有哪些？",
+    "summary": "关于「Docker容器常用命令有哪些？」的详细回答：\n\n【简要结论】\ndocker run(创建并运行)、docker stop(停止)、docker start(启动)、docker pause(暂停)、docker unpause(恢复)、docker rm(删除)、docker exec(进入容器)、docker logs(查看日志)、docker ps(查看容器)\n\n【详细解释】\n· docker run(创建并运行)、docker stop(停止)、docker start(启动)、docker pause(暂停)、docker unpause(恢复)、docker rm(删除)、docker exec(进入容器)、docker logs(查看日志)、docker ps(查看容器)。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "Docker",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_043",
+    "question": "docker run命令的参数含义是什么？",
+    "summary": "关于「docker run命令的参数含义是什么？」的详细回答：\n\n【简要结论】\n--name:容器名称；-p:端口映射(宿主机:容器)；-d:后台运行；-v:挂载数据卷；-e:环境变量\n\n【详细解释】\n· --name:容器名称；。\n· -p:端口映射(宿主机:容器)；。\n· -d:后台运行；。\n· -v:挂载数据卷；。\n· -e:环境变量。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Docker",
+    "code": "docker run --name mn -p 80:80 -d nginx"
+  },
+  {
+    "id": "microservice_kb_044",
+    "question": "什么是Docker数据卷？",
+    "summary": "关于「什么是Docker数据卷？」的详细回答：\n\n【简要结论】\n数据卷是一个虚拟目录，指向宿主机文件系统中的某个目录，实现容器与数据分离、解耦合\n\n【详细解释】\n· 数据卷是一个虚拟目录，指向宿主机文件系统中的某个目录，实现容器与数据分离、解耦合。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Docker",
+    "code": "docker volume create html\ndocker volume ls\ndocker volume inspect html\ndocker volume rm html"
+  },
+  {
+    "id": "microservice_kb_045",
+    "question": "如何挂载数据卷到容器？",
+    "summary": "关于「如何挂载数据卷到容器？」的详细回答：\n\n【简要结论】\n使用-v参数挂载数据卷或宿主机目录到容器目录\n\n【详细解释】\n· 使用-v参数挂载数据卷或宿主机目录到容器目录。\n\n【代码说明】\n· 配置/注释说明：\n  - 数据卷挂载\n  - 目录直接挂载\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Docker",
+    "code": "// 数据卷挂载\ndocker run --name mn -v html:/usr/share/nginx/html -p 8080:80 -d nginx\n\n// 目录直接挂载\ndocker run --name mysql -e MYSQL_ROOT_PASSWORD=123 -p 3306:3306 -v /tmp/mysql/conf/hmy.cnf:/etc/mysql/conf.d/hmy.cnf -v /tmp/mysql/data:/var/lib/mysql -d mysql:5.7.25"
+  },
+  {
+    "id": "microservice_kb_046",
+    "question": "Dockerfile常用指令有哪些？",
+    "summary": "关于「Dockerfile常用指令有哪些？」的详细回答：\n\n【简要结论】\nFROM(指定基础镜像)、ENV(设置环境变量)、COPY(拷贝文件)、RUN(执行命令)、EXPOSE(暴露端口)、ENTRYPOINT(启动命令)\n\n【详细解释】\n· FROM(指定基础镜像)、ENV(设置环境变量)、COPY(拷贝文件)、RUN(执行命令)、EXPOSE(暴露端口)、ENTRYPOINT(启动命令)。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Docker",
+    "code": "FROM java:8-alpine\nCOPY ./docker-demo.jar /tmp/app.jar\nEXPOSE 8090\nENTRYPOINT java -jar /tmp/app.jar"
+  },
+  {
+    "id": "microservice_kb_047",
+    "question": "什么是DockerCompose？",
+    "summary": "关于「什么是DockerCompose？」的详细回答：\n\n【简要结论】\nDockerCompose可以基于Compose文件快速部署分布式应用，无需手动一个个创建和运行容器\n\n【详细解释】\n· DockerCompose可以基于Compose文件快速部署分布式应用，无需手动一个个创建和运行容器。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Docker",
+    "code": "version: \"3.8\"\nservices:\n  mysql:\n    image: mysql:5.7.25\n    environment:\n      MYSQL_ROOT_PASSWORD: 123\n    volumes:\n      - /tmp/mysql/data:/var/lib/mysql\n      - /tmp/mysql/conf/hmy.cnf:/etc/mysql/conf.d/hmy.cnf\n  web:\n    build: .\n    ports:\n      - 8090:8090"
+  },
+  {
+    "id": "microservice_kb_048",
+    "question": "如何搭建私有Docker镜像仓库？",
+    "summary": "关于「如何搭建私有Docker镜像仓库？」的详细回答：\n\n【简要结论】\n使用registry镜像搭建基础版，或使用docker-registry-ui提供图形化界面\n\n【详细解释】\n· 使用registry镜像搭建基础版，或使用docker-registry-ui提供图形化界面。\n\n【代码说明】\n· 配置/注释说明：\n  - 简化版\n  - 图形化版本\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Docker",
+    "code": "// 简化版\ndocker run -d --restart=always --name registry -p 5000:5000 -v registry-data:/var/lib/registry registry\n\n// 图形化版本\nversion: '3.0'\nservices:\n  registry:\n    image: registry\n    volumes:\n      - ./registry-data:/var/lib/registry\n  ui:\n    image: joxit/docker-registry-ui:static\n    ports:\n      - 8080:80\n    environment:\n      - REGISTRY_TITLE=传智教育私有仓库\n      REGISTRY_URL=http://registry:5000\n    depends_on:\n      - registry"
+  },
+  {
+    "id": "microservice_kb_049",
+    "question": "如何推送镜像到私有仓库？",
+    "summary": "关于「如何推送镜像到私有仓库？」的详细回答：\n\n【简要结论】\n1)docker tag重命名镜像，前缀为私有仓库地址；2)配置daemon.json信任地址；3)docker push推送\n\n【详细解释】\n· 1)docker tag重命名镜像，前缀为私有仓库地址；。\n· 2)配置daemon.json信任地址；。\n· 3)docker push推送。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Docker",
+    "code": "docker tag nginx:latest 192.168.150.101:8080/nginx:1.0\ndocker push 192.168.150.101:8080/nginx:1.0\ndocker pull 192.168.150.101:8080/nginx:1.0"
+  },
+  {
+    "id": "microservice_kb_050",
+    "question": "同步调用存在哪些问题？",
+    "summary": "关于「同步调用存在哪些问题？」的详细回答：\n\n【简要结论】\n耦合度高、性能下降、资源浪费、级联失败\n\n【详细解释】\n· 耦合度高、性能下降、资源浪费、级联失败。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "MQ",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_051",
+    "question": "异步通信的优点和缺点是什么？",
+    "summary": "关于「异步通信的优点和缺点是什么？」的详细回答：\n\n【简要结论】\n优点：耦合度低、吞吐量提升、故障隔离、流量削峰。缺点：依赖Broker可靠性、架构复杂、不好追踪管理\n\n【详细解释】\n· 优点：耦合度低、吞吐量提升、故障隔离、流量削峰。\n· 缺点：依赖Broker可靠性、架构复杂、不好追踪管理。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "MQ",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_052",
+    "question": "RabbitMQ的核心概念有哪些？",
+    "summary": "关于「RabbitMQ的核心概念有哪些？」的详细回答：\n\n【简要结论】\nchannel(操作MQ的工具)、exchange(路由消息到队列)、queue(缓存消息)、virtualhost(虚拟主机，逻辑分组)\n\n【详细解释】\n· channel(操作MQ的工具)、exchange(路由消息到队列)、queue(缓存消息)、virtualhost(虚拟主机，逻辑分组)。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "RabbitMQ",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_053",
+    "question": "RabbitMQ的常见消息模型有哪些？",
+    "summary": "关于「RabbitMQ的常见消息模型有哪些？」的详细回答：\n\n【简要结论】\n基本消息队列(BasicQueue)、工作消息队列(WorkQueue)、发布订阅(Fanout/Direct/TopicExchange)\n\n【详细解释】\n· 基本消息队列(BasicQueue)、工作消息队列(WorkQueue)、发布订阅(Fanout/Direct/TopicExchange)。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "RabbitMQ",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_054",
+    "question": "如何运行RabbitMQ容器？",
+    "summary": "关于「如何运行RabbitMQ容器？」的详细回答：\n\n【简要结论】\n使用docker run命令，映射5672(消息端口)和15672(管理界面端口)\n\n【详细解释】\n· 使用docker run命令，映射5672(消息端口)和15672(管理界面端口)。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "RabbitMQ",
+    "code": "docker run \\\n  -e RABBITMQ_DEFAULT_USER=itcast \\\n  -e RABBITMQ_DEFAULT_PASS=123321 \\\n  --name mq \\\n  --hostname mq1 \\\n  -p 15672:15672 \\\n  -p 5672:5672 \\\n  -d \\\n  rabbitmq:3-management"
+  },
+  {
+    "id": "microservice_kb_055",
+    "question": "SpringAMQP如何发送消息？",
+    "summary": "关于「SpringAMQP如何发送消息？」的详细回答：\n\n【简要结论】\n引入amqp依赖，配置rabbitmq连接信息，使用RabbitTemplate发送消息\n\n【详细解释】\n· 引入amqp依赖，配置rabbitmq连接信息，使用RabbitTemplate发送消息。\n\n【代码说明】\n· 配置/注释说明：\n  - application.yml\n  - 发送消息\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "SpringAMQP",
+    "code": "<dependency>\n    <groupId>org.springframework.boot</groupId>\n    <artifactId>spring-boot-starter-amqp</artifactId>\n</dependency>\n\n// application.yml\nspring:\n  rabbitmq:\n    host: 192.168.150.101\n    port: 5672\n    virtual-host: /\n    username: itcast\n    password: 123321\n\n// 发送消息\n@Autowired\nprivate RabbitTemplate rabbitTemplate;\n\n@Test\npublic void testSimpleQueue() {\n    String queueName = \"simple.queue\";\n    String message = \"hello, spring amqp!\";\n    rabbitTemplate.convertAndSend(queueName, message);\n}"
+  },
+  {
+    "id": "microservice_kb_056",
+    "question": "SpringAMQP如何监听消息？",
+    "summary": "关于「SpringAMQP如何监听消息？」的详细回答：\n\n【简要结论】\n使用@RabbitListener注解监听指定队列\n\n【详细解释】\n· 使用@RabbitListener注解监听指定队列。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "SpringAMQP",
+    "code": "@Component\npublic class SpringRabbitListener {\n    @RabbitListener(queues = \"simple.queue\")\n    public void listenSimpleQueueMessage(String msg) {\n        System.out.println(\"spring消费者接收到消息：[\" + msg + \"]\");\n    }\n}"
+  },
+  {
+    "id": "microservice_kb_057",
+    "question": "WorkQueue工作队列如何解决消息堆积问题？",
+    "summary": "关于「WorkQueue工作队列如何解决消息堆积问题？」的详细回答：\n\n【简要结论】\n通过设置prefetch控制预取消息上限，避免消费者贪多嚼不烂\n\n【详细解释】\n· 通过设置prefetch控制预取消息上限，避免消费者贪多嚼不烂。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "SpringAMQP",
+    "code": "spring:\n  rabbitmq:\n    listener:\n      simple:\n        prefetch: 1  // 每次只能获取一条消息，处理完成才能获取下一个"
+  },
+  {
+    "id": "microservice_kb_058",
+    "question": "SpringAMQP如何声明FanoutExchange、Queue和Binding？",
+    "summary": "关于「SpringAMQP如何声明FanoutExchange、Queue和Binding？」的详细回答：\n\n【简要结论】\n使用@Bean声明FanoutExchange、Queue和Binding\n\n【详细解释】\n· 使用@Bean声明FanoutExchange、Queue和Binding。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "SpringAMQP",
+    "code": "@Configuration\npublic class FanoutConfig {\n    @Bean\n    public FanoutExchange fanoutExchange() {\n        return new FanoutExchange(\"itcast.fanout\");\n    }\n    \n    @Bean\n    public Queue fanoutQueue1() {\n        return new Queue(\"fanout.queue1\");\n    }\n    \n    @Bean\n    public Binding bindingQueue1(Queue fanoutQueue1, FanoutExchange fanoutExchange) {\n        return BindingBuilder.bind(fanoutQueue1).to(fanoutExchange);\n    }\n}"
+  },
+  {
+    "id": "microservice_kb_059",
+    "question": "如何使用注解方式声明DirectExchange和队列绑定？",
+    "summary": "关于「如何使用注解方式声明DirectExchange和队列绑定？」的详细回答：\n\n【简要结论】\n使用@RabbitListener的bindings属性配合@QueueBinding注解\n\n【详细解释】\n· 使用@RabbitListener的bindings属性配合@QueueBinding注解。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "SpringAMQP",
+    "code": "@RabbitListener(bindings = @QueueBinding(\n    value = @Queue(name = \"direct.queue1\"),\n    exchange = @Exchange(name = \"itcast.direct\", type = ExchangeTypes.DIRECT),\n    key = {\"red\", \"blue\"}\n))\npublic void listenDirectQueue1(String msg) {\n    System.out.println(\"消费者1接收到Direct消息：【\" + msg + \"】\");\n}"
+  },
+  {
+    "id": "microservice_kb_060",
+    "question": "TopicExchange的通配符规则是什么？",
+    "summary": "关于「TopicExchange的通配符规则是什么？」的详细回答：\n\n【简要结论】\n#代指0个或多个单词，*代指一个单词\n\n【详细解释】\n· #代指0个或多个单词，*代指一个单词。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "SpringAMQP",
+    "code": "@RabbitListener(bindings = @QueueBinding(\n    value = @Queue(name = \"topic.queue1\"),\n    exchange = @Exchange(name = \"itcast.topic\", type = ExchangeTypes.TOPIC),\n    key = \"china.#\"\n))\npublic void listenTopicQueue1(String msg) {\n    System.out.println(\"消费者1接收到Topic消息：[\" + msg + \"]\");\n}"
+  },
+  {
+    "id": "microservice_kb_061",
+    "question": "SpringAMQP消息转换器默认使用什么序列化？",
+    "summary": "关于「SpringAMQP消息转换器默认使用什么序列化？」的详细回答：\n\n【简要结论】\n默认使用JDK序列化，建议改为JSON序列化\n\n【详细解释】\n· 默认使用JDK序列化，建议改为JSON序列化。\n\n【代码说明】\n· 配置/注释说明：\n  - 引入依赖\n  - 声明MessageConverter\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "SpringAMQP",
+    "code": "// 引入依赖\n<dependency>\n    <groupId>com.fasterxml.jackson.dataformat</groupId>\n    <artifactId>jackson-dataformat-xml</artifactId>\n    <version>2.9.10</version>\n</dependency>\n\n// 声明MessageConverter\n@Bean\npublic MessageConverter jsonMessageConverter() {\n    return new Jackson2JsonMessageConverter();\n}"
+  },
+  {
+    "id": "microservice_kb_062",
+    "question": "Elasticsearch是什么？",
+    "summary": "关于「Elasticsearch是什么？」的详细回答：\n\n【简要结论】\nElasticsearch是一款非常强大的开源搜索引擎，基于Lucene，可以帮助从海量数据中快速找到需要的内容\n\n【详细解释】\n· Elasticsearch是一款非常强大的开源搜索引擎，基于Lucene，可以帮助从海量数据中快速找到需要的内容。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "Elasticsearch",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_063",
+    "question": "什么是倒排索引？",
+    "summary": "关于「什么是倒排索引？」的详细回答：\n\n【简要结论】\n对文档内容分词，对词条创建索引并记录词条所在文档信息。查询时先根据词条查询文档id，再获取文档\n\n【详细解释】\n· 对文档内容分词，对词条创建索引并记录词条所在文档信息。\n· 查询时先根据词条查询文档id，再获取文档。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "Elasticsearch",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_064",
+    "question": "Elasticsearch与MySQL的关系是什么？",
+    "summary": "关于「Elasticsearch与MySQL的关系是什么？」的详细回答：\n\n【简要结论】\n两者是互补关系。MySQL擅长事务操作，确保数据安全一致；Elasticsearch擅长海量数据的搜索、分析、计算\n\n【详细解释】\n· 两者是互补关系。\n· MySQL擅长事务操作，确保数据安全一致；。\n· Elasticsearch擅长海量数据的搜索、分析、计算。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "Elasticsearch",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_065",
+    "question": "如何部署单点Elasticsearch？",
+    "summary": "关于「如何部署单点Elasticsearch？」的详细回答：\n\n【简要结论】\n创建网络、加载镜像、运行docker命令部署\n\n【详细解释】\n· 创建网络、加载镜像、运行docker命令部署。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Elasticsearch",
+    "code": "docker network create es-net\ndocker load -i es.tar\n\ndocker run -d \\\n  --name es \\\n  -e \"ES_JAVA_OPTS=-Xms512m -Xmx512m\" \\\n  -e \"discovery.type=single-node\" \\\n  -v es-data:/usr/share/elasticsearch/data \\\n  -v es-plugins:/usr/share/elasticsearch/plugins \\\n  --privileged \\\n  --network es-net \\\n  -p 9200:9200 \\\n  -p 9300:9300 \\\n  elasticsearch:7.12.1"
+  },
+  {
+    "id": "microservice_kb_066",
+    "question": "如何部署Kibana？",
+    "summary": "关于「如何部署Kibana？」的详细回答：\n\n【简要结论】\n运行docker命令，通过ELASTICSEARCH_HOSTS指定es地址\n\n【详细解释】\n· 运行docker命令，通过ELASTICSEARCH_HOSTS指定es地址。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Elasticsearch",
+    "code": "docker run -d \\\n  --name kibana \\\n  -e ELASTICSEARCH_HOSTS=http://es:9200 \\\n  --network=es-net \\\n  -p 5601:5601 \\\n  kibana:7.12.1"
+  },
+  {
+    "id": "microservice_kb_067",
+    "question": "IK分词器有哪些模式？",
+    "summary": "关于「IK分词器有哪些模式？」的详细回答：\n\n【简要结论】\nik_smart(智能切分，粗粒度)和ik_max_word(最细切分，细粒度)\n\n【详细解释】\n· ik_smart(智能切分，粗粒度)和ik_max_word(最细切分，细粒度)。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Elasticsearch",
+    "code": "POST /_analyze\n{\n  \"analyzer\": \"ik_smart\",\n  \"text\": \"黑马程序员学习java太棒了！\"\n}"
+  },
+  {
+    "id": "microservice_kb_068",
+    "question": "如何拓展和停用IK分词器的词条？",
+    "summary": "关于「如何拓展和停用IK分词器的词条？」的详细回答：\n\n【简要结论】\n在IKAnalyzer.cfg.xml中配置ext_dict(扩展词典)和ext_stopwords(停用词典)\n\n【详细解释】\n· 在IKAnalyzer.cfg.xml中配置ext_dict(扩展词典)和ext_stopwords(停用词典)。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Elasticsearch",
+    "code": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE properties SYSTEM \"http://java.sun.com/dtd/properties.dtd\">\n<properties>\n    <comment>IKAnalyzer扩展配置</comment>\n    <entry key=\"ext_dict\">ext.dic</entry>\n    <entry key=\"ext_stopwords\">stopword.dic</entry>\n</properties>"
+  },
+  {
+    "id": "microservice_kb_069",
+    "question": "mapping常见属性有哪些？",
+    "summary": "关于「mapping常见属性有哪些？」的详细回答：\n\n【简要结论】\ntype(数据类型)、index(是否索引)、analyzer(分词器)、properties(子字段)\n\n【详细解释】\n· type(数据类型)、index(是否索引)、analyzer(分词器)、properties(子字段)。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Elasticsearch",
+    "code": "PUT /heima\n{\n  \"mappings\": {\n    \"properties\": {\n      \"info\": {\n        \"type\": \"text\",\n        \"analyzer\": \"ik_smart\"\n      },\n      \"email\": {\n        \"type\": \"keyword\",\n        \"index\": false\n      },\n      \"name\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"firstName\": {\n            \"type\": \"keyword\"\n          }\n        }\n      }\n    }\n  }\n}"
+  },
+  {
+    "id": "microservice_kb_070",
+    "question": "Elasticsearch索引库操作有哪些？",
+    "summary": "关于「Elasticsearch索引库操作有哪些？」的详细回答：\n\n【简要结论】\n创建(PUT)、查看(GET)、删除(DELETE)、修改(添加新字段PUT /_mapping)\n\n【详细解释】\n· 创建(PUT)、查看(GET)、删除(DELETE)、修改(添加新字段PUT /_mapping)。\n\n【代码说明】\n· 配置/注释说明：\n  - 修改(添加新字段)\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Elasticsearch",
+    "code": "// 创建\nPUT /heima\n\n// 查看\nGET /heima\n\n// 删除\nDELETE /heima\n\n// 修改(添加新字段)\nPUT /heima/_mapping\n{\n  \"properties\": {\n    \"age\": {\n      \"type\": \"integer\"\n    }\n  }\n}"
+  },
+  {
+    "id": "microservice_kb_071",
+    "question": "Elasticsearch文档操作有哪些？",
+    "summary": "关于「Elasticsearch文档操作有哪些？」的详细回答：\n\n【简要结论】\n新增(POST /_doc)、查询(GET /_doc/id)、删除(DELETE /_doc/id)、全量修改(PUT /_doc/id)、增量修改(POST /_update/id)\n\n【详细解释】\n· 新增(POST /_doc)、查询(GET /_doc/id)、删除(DELETE /_doc/id)、全量修改(PUT /_doc/id)、增量修改(POST /_update/id)。\n\n【代码说明】\n· 配置/注释说明：\n  - 全量修改\n  - 增量修改\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Elasticsearch",
+    "code": "// 新增\nPOST /heima/_doc/1\n{\n  \"info\": \"黑马程序员Java讲师\",\n  \"email\": \"zy@itcast.cn\"\n}\n\n// 全量修改\nPUT /heima/_doc/1\n{\n  \"info\": \"黑马程序员高级Java讲师\"\n}\n\n// 增量修改\nPOST /heima/_update/1\n{\n  \"doc\": {\n    \"email\": \"ZhaoYun@itcast.cn\"\n  }\n}"
+  },
+  {
+    "id": "microservice_kb_072",
+    "question": "Elasticsearch查询DSL的基本语法是什么？",
+    "summary": "关于「Elasticsearch查询DSL的基本语法是什么？」的详细回答：\n\n【简要结论】\nGET /indexName/_search，query中包含查询类型和条件\n\n【详细解释】\n· GET /indexName/_search，query中包含查询类型和条件。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Elasticsearch",
+    "code": "GET /indexName/_search\n{\n  \"query\": {\n    \"match_all\": {}\n  }\n}"
+  },
+  {
+    "id": "microservice_kb_073",
+    "question": "Elasticsearch全文检索查询有哪些？",
+    "summary": "关于「Elasticsearch全文检索查询有哪些？」的详细回答：\n\n【简要结论】\nmatch(单字段查询)、multi_match(多字段查询)\n\n【详细解释】\n· match(单字段查询)、multi_match(多字段查询)。\n\n【代码说明】\n· 配置/注释说明：\n  - match查询\n  - multi_match查询\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Elasticsearch",
+    "code": "// match查询\nGET /indexName/_search\n{\n  \"query\": {\n    \"match\": {\n      \"FIELD\": \"TEXT\"\n    }\n  }\n}\n\n// multi_match查询\nGET /indexName/_search\n{\n  \"query\": {\n    \"multi_match\": {\n      \"query\": \"TEXT\",\n      \"fields\": [\"FIELD1\", \"FIELD2\"]\n    }\n  }\n}"
+  },
+  {
+    "id": "microservice_kb_074",
+    "question": "Elasticsearch精确查询有哪些？",
+    "summary": "关于「Elasticsearch精确查询有哪些？」的详细回答：\n\n【简要结论】\nterm(词条精确匹配)、range(范围查询)\n\n【详细解释】\n· term(词条精确匹配)、range(范围查询)。\n\n【代码说明】\n· 配置/注释说明：\n  - term查询\n  - range查询\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Elasticsearch",
+    "code": "// term查询\nGET /indexName/_search\n{\n  \"query\": {\n    \"term\": {\n      \"FIELD\": {\n        \"value\": \"VALUE\"\n      }\n    }\n  }\n}\n\n// range查询\nGET /indexName/_search\n{\n  \"query\": {\n    \"range\": {\n      \"FIELD\": {\n        \"gte\": 10,\n        \"lte\": 20\n      }\n    }\n  }\n}"
+  },
+  {
+    "id": "microservice_kb_075",
+    "question": "Elasticsearch地理查询有哪些？",
+    "summary": "关于「Elasticsearch地理查询有哪些？」的详细回答：\n\n【简要结论】\ngeo_bounding_box(矩形范围查询)、geo_distance(距离查询)\n\n【详细解释】\n· geo_bounding_box(矩形范围查询)、geo_distance(距离查询)。\n\n【代码说明】\n· 配置/注释说明：\n  - geo_distance查询\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Elasticsearch",
+    "code": "// geo_distance查询\nGET /hotel/_search\n{\n  \"query\": {\n    \"geo_distance\": {\n      \"distance\": \"15km\",\n      \"location\": \"31.21,121.5\"\n    }\n  }\n}"
+  },
+  {
+    "id": "microservice_kb_076",
+    "question": "Elasticsearch的相关性打分算法是什么？",
+    "summary": "关于「Elasticsearch的相关性打分算法是什么？」的详细回答：\n\n【简要结论】\nES5.0之前使用TF-IDF，ES5.0之后使用BM25算法。BM25随着词频增加增长曲线趋于水平\n\n【详细解释】\n· ES5.0之前使用TF-IDF，ES5.0之后使用BM25算法。\n· BM25随着词频增加增长曲线趋于水平。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "Elasticsearch",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_077",
+    "question": "Elasticsearch复合查询bool有哪些子句？",
+    "summary": "关于「Elasticsearch复合查询bool有哪些子句？」的详细回答：\n\n【简要结论】\nmust(必须匹配，与)、should(选择性匹配，或)、must_not(必须不匹配，非)、filter(必须匹配，不参与算分)\n\n【详细解释】\n· must(必须匹配，与)、should(选择性匹配，或)、must_not(必须不匹配，非)、filter(必须匹配，不参与算分)。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Elasticsearch",
+    "code": "GET /hotel/_search\n{\n  \"query\": {\n    \"bool\": {\n      \"must\": [\n        {\"match\": {\"name\": \"如家\"}}\n      ],\n      \"must_not\": [\n        {\"range\": {\"price\": {\"gt\": 400}}}\n      ],\n      \"filter\": [\n        {\"geo_distance\": {\n          \"distance\": \"10km\",\n          \"location\": {\"lat\": 31.21, \"lon\": 121.5}\n        }}\n      ]\n    }\n  }\n}"
+  },
+  {
+    "id": "microservice_kb_078",
+    "question": "Elasticsearch深度分页问题及解决方案？",
+    "summary": "关于「Elasticsearch深度分页问题及解决方案？」的详细回答：\n\n【简要结论】\nfrom+size默认上限10000。解决方案：searchafter(官方推荐，只能向后翻页)、scroll(快照，不推荐)\n\n【详细解释】\n· from+size默认上限10000。\n· 解决方案：searchafter(官方推荐，只能向后翻页)、scroll(快照，不推荐)。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "Elasticsearch",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_079",
+    "question": "Elasticsearch聚合查询有哪些类型？",
+    "summary": "关于「Elasticsearch聚合查询有哪些类型？」的详细回答：\n\n【简要结论】\n桶聚合(Bucket，如terms按字段值分组)、度量聚合(Metric，如avg/max/min/stats)、管道聚合(Pipeline)\n\n【详细解释】\n· 桶聚合(Bucket，如terms按字段值分组)、度量聚合(Metric，如avg/max/min/stats)、管道聚合(Pipeline)。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "Elasticsearch",
+    "code": "GET /hotel/_search\n{\n  \"size\": 0,\n  \"aggs\": {\n    \"brandAgg\": {\n      \"terms\": {\n        \"field\": \"brand\",\n        \"size\": 20\n      },\n      \"aggs\": {\n        \"score_stats\": {\n          \"stats\": {\n            \"field\": \"score\"\n          }\n        }\n      }\n    }\n  }\n}"
+  },
+  {
+    "id": "microservice_kb_080",
+    "question": "Elasticsearch自动补全如何实现？",
+    "summary": "关于「Elasticsearch自动补全如何实现？」的详细回答：\n\n【简要结论】\n使用CompletionSuggester查询，字段必须是completion类型\n\n【详细解释】\n· 使用CompletionSuggester查询，字段必须是completion类型。\n\n【代码说明】\n· 配置/注释说明：\n  - 创建索引\n  - 自动补全查询\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Elasticsearch",
+    "code": "// 创建索引\nPUT test\n{\n  \"mappings\": {\n    \"properties\": {\n      \"title\": {\n        \"type\": \"completion\"\n      }\n    }\n  }\n}\n\n// 自动补全查询\nGET /test/_search\n{\n  \"suggest\": {\n    \"title_suggest\": {\n      \"text\": \"s\",\n      \"completion\": {\n        \"field\": \"title\",\n        \"skip_duplicates\": true,\n        \"size\": 10\n      }\n    }\n  }\n}"
+  },
+  {
+    "id": "microservice_kb_081",
+    "question": "Elasticsearch数据同步方案有哪些？",
+    "summary": "关于「Elasticsearch数据同步方案有哪些？」的详细回答：\n\n【简要结论】\n同步调用、异步通知(MQ)、监听binlog(canal)\n\n【详细解释】\n· 同步调用、异步通知(MQ)、监听binlog(canal)。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "Elasticsearch",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_082",
+    "question": "ES集群的节点角色有哪些？",
+    "summary": "关于「ES集群的节点角色有哪些？」的详细回答：\n\n【简要结论】\nmaster eligible(备选主节点)、data(数据节点)、ingest(预处理)、coordinating(协调节点)\n\n【详细解释】\n· master eligible(备选主节点)、data(数据节点)、ingest(预处理)、coordinating(协调节点)。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "Elasticsearch集群",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_083",
+    "question": "ES集群的脑裂问题如何解决？",
+    "summary": "关于「ES集群的脑裂问题如何解决？」的详细回答：\n\n【简要结论】\n要求选票超过(eligible节点数量+1)/2才能当选为主，eligible节点数量最好是奇数。ES7.0后已成为默认配置\n\n【详细解释】\n· 要求选票超过(eligible节点数量+1)/2才能当选为主，eligible节点数量最好是奇数。\n· ES7.0后已成为默认配置。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "Elasticsearch集群",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_084",
+    "question": "什么是雪崩问题？如何解决？",
+    "summary": "关于「什么是雪崩问题？如何解决？」的详细回答：\n\n【简要结论】\n微服务调用链中某个服务故障导致级联故障。解决方案：超时处理、舱壁模式(线程隔离)、熔断降级、流量控制\n\n【详细解释】\n· 微服务调用链中某个服务故障导致级联故障。\n· 解决方案：超时处理、舱壁模式(线程隔离)、熔断降级、流量控制。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "微服务保护",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_085",
+    "question": "Sentinel和Hystrix的对比？",
+    "summary": "关于「Sentinel和Hystrix的对比？」的详细回答：\n\n【简要结论】\nSentinel支持信号量隔离、基于QPS和调用关系的限流、流量整形、系统自适应保护、完善的控制台。Hystrix使用线程池隔离\n\n【详细解释】\n· Sentinel支持信号量隔离、基于QPS和调用关系的限流、流量整形、系统自适应保护、完善的控制台。\n· Hystrix：通常采用 线程池隔离。\n  - 线程池隔离：在 Hystrix 体系中承担服务治理或通信支撑作用。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "Sentinel",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_086",
+    "question": "如何安装Sentinel控制台？",
+    "summary": "关于「如何安装Sentinel控制台？」的详细回答：\n\n【简要结论】\n下载jar包，运行java -jar命令，默认端口8080，账号密码都是sentinel\n\n【详细解释】\n· 下载jar包，运行java -jar命令，默认端口8080，账号密码都是sentinel。\n\n【代码说明】\n· 配置/注释说明：\n  - 修改端口、账号密码\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Sentinel",
+    "code": "java -jar sentinel-dashboard-1.8.1.jar\n\n// 修改端口、账号密码\njava -jar sentinel-dashboard-1.8.1.jar -Dserver.port=8090"
+  },
+  {
+    "id": "microservice_kb_087",
+    "question": "如何整合Sentinel到微服务？",
+    "summary": "关于「如何整合Sentinel到微服务？」的详细回答：\n\n【简要结论】\n引入sentinel依赖，配置控制台地址，访问端点触发监控\n\n【详细解释】\n· 引入sentinel依赖，配置控制台地址，访问端点触发监控。\n\n【代码说明】\n· 配置/注释说明：\n  - application.yml\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Sentinel",
+    "code": "<dependency>\n    <groupId>com.alibaba.cloud</groupId>\n    <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>\n</dependency>\n\n// application.yml\nspring:\n  cloud:\n    sentinel:\n      transport:\n        dashboard: localhost:8080"
+  },
+  {
+    "id": "microservice_kb_088",
+    "question": "Sentinel流控模式有哪些？",
+    "summary": "关于「Sentinel流控模式有哪些？」的详细回答：\n\n【简要结论】\n直接(对当前资源限流)、关联(高优先级触发阈值对低优先级限流)、链路(只统计指定链路来源)\n\n【详细解释】\n· 直接(对当前资源限流)、关联(高优先级触发阈值对低优先级限流)、链路(只统计指定链路来源)。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "Sentinel",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_089",
+    "question": "Sentinel流控效果有哪些？",
+    "summary": "关于「Sentinel流控效果有哪些？」的详细回答：\n\n【简要结论】\n快速失败(默认)、WarmUp(预热模式)、排队等待(匀速排队)\n\n【详细解释】\n· 快速失败(默认)、WarmUp(预热模式)、排队等待(匀速排队)。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "Sentinel",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_090",
+    "question": "Sentinel熔断策略有哪些？",
+    "summary": "关于「Sentinel熔断策略有哪些？」的详细回答：\n\n【简要结论】\n慢调用比例、异常比例、异常数。熔断后进入Open状态，熔断时间结束后进入Half-Open尝试放行一次请求\n\n【详细解释】\n· 慢调用比例、异常比例、异常数。\n· 熔断后进入Open状态，熔断时间结束后进入Half-Open尝试放行一次请求。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "Sentinel",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_091",
+    "question": "Feign如何整合Sentinel？",
+    "summary": "关于「Feign如何整合Sentinel？」的详细回答：\n\n【简要结论】\n开启feign.sentinel.enabled，实现FallbackFactory编写降级逻辑\n\n【详细解释】\n· 开启feign.sentinel.enabled，实现FallbackFactory编写降级逻辑。\n\n【代码说明】\n· 配置/注释说明：\n  - FallbackFactory\n  - 注册Bean\n  - FeignClient指定fallbackFactory\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Sentinel",
+    "code": "feign:\n  sentinel:\n    enabled: true\n\n// FallbackFactory\n@Slf4j\npublic class UserClientFallbackFactory implements FallbackFactory<UserClient> {\n    @Override\n    public UserClient create(Throwable throwable) {\n        return new UserClient() {\n            @Override\n            public User findById(Long id) {\n                log.error(\"查询用户失败\", throwable);\n                return new User();\n            }\n        };\n    }\n}\n\n// 注册Bean\n@Bean\npublic UserClientFallbackFactory userClientFallbackFactory() {\n    return new UserClientFallbackFactory();\n}\n\n// FeignClient指定fallbackFactory\n@FeignClient(value = \"userservice\", fallbackFactory = UserClientFallbackFactory.class)\npublic interface UserClient {\n    @GetMapping(\"/user/{id}\")\n    User findById(@PathVariable(\"id\") Long id);\n}"
+  },
+  {
+    "id": "microservice_kb_092",
+    "question": "Sentinel规则管理模式有哪些？",
+    "summary": "关于「Sentinel规则管理模式有哪些？」的详细回答：\n\n【简要结论】\n原始模式(内存，重启丢失)、pull模式(推送到客户端保存到本地文件/数据库)、push模式(推送到远程配置中心如Nacos)\n\n【详细解释】\n· 原始模式(内存，重启丢失)、pull模式(推送到客户端保存到本地文件/数据库)、push模式(推送到远程配置中心如Nacos)。\n  - Nacos 同时支持注册发现与配置管理，是 Spring Cloud Alibaba 核心组件。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "Sentinel",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_093",
+    "question": "CAP定理是什么？",
+    "summary": "关于「CAP定理是什么？」的详细回答：\n\n【简要结论】\n分布式系统无法同时满足一致性(Consistency)、可用性(Availability)、分区容错性(Partition tolerance)三个指标\n\n【详细解释】\n· 分布式系统无法同时满足一致性(Consistency)、可用性(Availability)、分区容错性(Partition tolerance)三个指标。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "分布式事务",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_094",
+    "question": "BASE理论包含哪些思想？",
+    "summary": "关于「BASE理论包含哪些思想？」的详细回答：\n\n【简要结论】\nBasically Available(基本可用)、Soft State(软状态)、Eventually Consistent(最终一致性)\n\n【详细解释】\n· Basically Available(基本可用)、Soft State(软状态)、Eventually Consistent(最终一致性)。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "分布式事务",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_095",
+    "question": "Seata的三种角色是什么？",
+    "summary": "关于「Seata的三种角色是什么？」的详细回答：\n\n【简要结论】\nTC(Transaction Coordinator事务协调者)、TM(Transaction Manager事务管理器)、RM(Resource Manager资源管理器)\n\n【详细解释】\n· TC(Transaction Coordinator事务协调者)、TM(Transaction Manager事务管理器)、RM(Resource Manager资源管理器)。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "Seata",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_096",
+    "question": "Seata的XA模式原理是什么？",
+    "summary": "关于「Seata的XA模式原理是什么？」的详细回答：\n\n【简要结论】\n两阶段提交：一阶段执行业务SQL但不提交，报告状态；二阶段TC检测所有分支状态，成功则提交，失败则回滚\n\n【详细解释】\n· 两阶段提交：一阶段执行业务SQL但不提交，报告状态；。\n· 二阶段TC检测所有分支状态，成功则提交，失败则回滚。\n\n【代码说明】\n· 配置/注释说明：\n  - 扣余额...\n  - 扣减库存...\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Seata",
+    "code": "seata:\n  data-source-proxy-mode: XA\n\n@GlobalTransactional\npublic Long create(Order order) {\n    orderMapper.insert(order);\n    // 扣余额...\n    // 扣减库存...\n    return order.getId();\n}"
+  },
+  {
+    "id": "microservice_kb_097",
+    "question": "Seata的AT模式原理是什么？",
+    "summary": "关于「Seata的AT模式原理是什么？」的详细回答：\n\n【简要结论】\n一阶段执行业务SQL并提交，记录undo-log(数据快照)；二阶段成功则删除undo-log，失败则根据undo-log恢复数据\n\n【详细解释】\n· 一阶段执行业务SQL并提交，记录undo-log(数据快照)；。\n· 二阶段成功则删除undo-log，失败则根据undo-log恢复数据。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Seata",
+    "code": "seata:\n  data-source-proxy-mode: AT"
+  },
+  {
+    "id": "microservice_kb_098",
+    "question": "Seata的TCC模式原理是什么？",
+    "summary": "关于「Seata的TCC模式原理是什么？」的详细回答：\n\n【简要结论】\nTry(资源检查和预留)、Confirm(业务执行和提交)、Cancel(预留资源释放)。需要处理空回滚、业务悬挂、幂等性问题\n\n【详细解释】\n· Try(资源检查和预留)、Confirm(业务执行和提交)、Cancel(预留资源释放)。\n· 需要处理空回滚、业务悬挂、幂等性问题。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "Seata",
+    "code": "@LocalTCC\npublic interface TccService {\n    @TwoPhaseBusinessAction(name = \"prepare\", commitMethod = \"confirm\", rollbackMethod = \"cancel\")\n    void prepare(@BusinessActionContextParameter(paramName = \"param\") String param);\n    \n    boolean confirm(BusinessActionContext context);\n    \n    boolean cancel(BusinessActionContext context);\n}"
+  },
+  {
+    "id": "microservice_kb_099",
+    "question": "Seata的Saga模式是什么？",
+    "summary": "关于「Seata的Saga模式是什么？」的详细回答：\n\n【简要结论】\n长事务解决方案，一阶段直接提交本地事务，二阶段成功则什么都不做，失败则通过补偿业务回滚\n\n【详细解释】\n· 长事务解决方案，一阶段直接提交本地事务，二阶段成功则什么都不做，失败则通过补偿业务回滚。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "Seata",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_100",
+    "question": "Seata四种模式对比？",
+    "summary": "关于「Seata四种模式对比？」的详细回答：\n\n【简要结论】\nXA(强一致、完全隔离、无侵入、性能差)；AT(弱一致、全局锁隔离、无侵入、性能好)；TCC(弱一致、资源预留隔离、有侵入、性能非常好)；Saga(最终一致、无隔离、有侵入、吞吐高)\n\n【详细解释】\n· XA(强一致、完全隔离、无侵入、性能差)；。\n· AT(弱一致、全局锁隔离、无侵入、性能好)；。\n· TCC(弱一致、资源预留隔离、有侵入、性能非常好)；。\n· Saga(最终一致、无隔离、有侵入、吞吐高)。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "Seata",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_101",
+    "question": "RabbitMQ消息可靠性问题有哪些？",
+    "summary": "关于「RabbitMQ消息可靠性问题有哪些？」的详细回答：\n\n【简要结论】\n发送时丢失(未到达exchange或queue)、MQ宕机丢失、consumer接收后未消费就宕机\n\n【详细解释】\n· 发送时丢失(未到达exchange或queue)、MQ宕机丢失、consumer接收后未消费就宕机。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "RabbitMQ高级",
+    "code": ""
+  },
+  {
+    "id": "microservice_kb_102",
+    "question": "RabbitMQ生产者确认机制是什么？",
+    "summary": "关于「RabbitMQ生产者确认机制是什么？」的详细回答：\n\n【简要结论】\npublisher-confirm(确认消息是否到达交换机)、publisher-return(确认消息是否路由到队列)\n\n【详细解释】\n· publisher-confirm(确认消息是否到达交换机)、publisher-return(确认消息是否路由到队列)。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "RabbitMQ高级",
+    "code": "spring:\n  rabbitmq:\n    publisher-confirm-type: correlated\n    publisher-returns: true\n    template:\n      mandatory: true"
+  },
+  {
+    "id": "microservice_kb_103",
+    "question": "RabbitMQ消息持久化如何实现？",
+    "summary": "关于「RabbitMQ消息持久化如何实现？」的详细回答：\n\n【简要结论】\n交换机持久化、队列持久化、消息持久化(MessageDeliveryMode.PERSISTENT)\n\n【详细解释】\n· 交换机持久化、队列持久化、消息持久化(MessageDeliveryMode.PERSISTENT)。\n\n【代码说明】\n· 配置/注释说明：\n  - 交换机持久化\n  - 队列持久化\n  - 消息持久化\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "RabbitMQ高级",
+    "code": "// 交换机持久化\nnew DirectExchange(\"simple.direct\", true, false);\n\n// 队列持久化\nQueueBuilder.durable(\"simple.queue\").build();\n\n// 消息持久化\nMessage msg = MessageBuilder\n    .withBody(message.getBytes(StandardCharsets.UTF_8))\n    .setDeliveryMode(MessageDeliveryMode.PERSISTENT)\n    .build();"
+  },
+  {
+    "id": "microservice_kb_104",
+    "question": "RabbitMQ消费者确认模式有哪些？",
+    "summary": "关于「RabbitMQ消费者确认模式有哪些？」的详细回答：\n\n【简要结论】\nmanual(手动ack)、auto(自动ack，由spring监测异常)、none(关闭ack，消息投递后立即删除)\n\n【详细解释】\n· manual(手动ack)、auto(自动ack，由spring监测异常)、none(关闭ack，消息投递后立即删除)。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "RabbitMQ高级",
+    "code": "spring:\n  rabbitmq:\n    listener:\n      simple:\n        prefetch: 1\n        acknowledge-mode: auto"
+  },
+  {
+    "id": "microservice_kb_105",
+    "question": "RabbitMQ消费者失败重试机制如何配置？",
+    "summary": "关于「RabbitMQ消费者失败重试机制如何配置？」的详细回答：\n\n【简要结论】\n开启retry配置，设置初始间隔、倍数、最大重试次数\n\n【详细解释】\n· 开启retry配置，设置初始间隔、倍数、最大重试次数。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "RabbitMQ高级",
+    "code": "spring:\n  rabbitmq:\n    listener:\n      simple:\n        prefetch: 1\n        retry:\n          enabled: true\n          initial-interval: 1000\n          multiplier: 1\n          max-attempts: 3\n          stateless: true"
+  },
+  {
+    "id": "microservice_kb_106",
+    "question": "RabbitMQ消费者失败消息处理策略有哪些？",
+    "summary": "关于「RabbitMQ消费者失败消息处理策略有哪些？」的详细回答：\n\n【简要结论】\nRejectAndDontRequeueRecoverer(丢弃)、ImmediateRequeueMessageRecoverer(重新入队)、RepublishMessageRecoverer(投递到指定交换机)\n\n【详细解释】\n· RejectAndDontRequeueRecoverer(丢弃)、ImmediateRequeueMessageRecoverer(重新入队)、RepublishMessageRecoverer(投递到指定交换机)。\n\n【代码说明】\n· 配置/注释说明：\n  - RepublishMessageRecoverer\n  - 定义错误交换机和队列\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "RabbitMQ高级",
+    "code": "// RepublishMessageRecoverer\n@Bean\npublic MessageRecoverer republishMessageRecoverer(RabbitTemplate rabbitTemplate) {\n    return new RepublishMessageRecoverer(rabbitTemplate, \"error.direct\", \"error\");\n}\n\n// 定义错误交换机和队列\n@Bean\npublic DirectExchange errorMessageExchange() {\n    return new DirectExchange(\"error.direct\");\n}\n\n@Bean\npublic Queue errorQueue() {\n    return new Queue(\"error.queue\", true);\n}\n\n@Bean\npublic Binding errorBinding() {\n    return BindingBuilder.bind(errorQueue()).to(errorMessageExchange()).with(\"error\");\n}"
+  },
+  {
+    "id": "microservice_kb_107",
+    "question": "什么是死信交换机？",
+    "summary": "关于「什么是死信交换机？」的详细回答：\n\n【简要结论】\n当一个队列中的消息满足一定条件时，可以成为死信(dead letter)，被发送到死信交换机\n\n【详细解释】\n· 当一个队列中的消息满足一定条件时，可以成为死信(dead letter)，被发送到死信交换机。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "RabbitMQ高级",
+    "code": ""
+  }
+]

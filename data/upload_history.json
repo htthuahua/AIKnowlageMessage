@@ -1,0 +1,42 @@
+[
+  {
+    "id": "84a8ad4e-6d96-4395-a7d6-5fe612088c2d",
+    "time": "2026-06-21T17:10:31+08:00",
+    "kb_id": "kb_67e8df05",
+    "kb_name": "kb_67e8df05",
+    "record_id": "kb_67e8df05_kb_003",
+    "question": "郭靖朝是谁",
+    "category": "其他",
+    "is_new_building": false
+  },
+  {
+    "id": "7b9f1723-d6de-4027-bc70-33a673cc236c",
+    "time": "2026-06-21T16:56:31+08:00",
+    "kb_id": "kb_2d25549b",
+    "kb_name": "删除测试",
+    "record_id": "kb_2d25549b_kb_001",
+    "question": "待删除问题?",
+    "category": "测试",
+    "is_new_building": true
+  },
+  {
+    "id": "9ea9a49e-784f-4215-a837-4930205dfb05",
+    "time": "2026-06-21T16:51:02+08:00",
+    "kb_id": "kb_67e8df05",
+    "kb_name": "kb_67e8df05",
+    "record_id": "kb_67e8df05_kb_002",
+    "question": "晋中学院周炜",
+    "category": "其他",
+    "is_new_building": false
+  },
+  {
+    "id": "d85e382b-64c8-41e4-aa7a-c9c29149f756",
+    "time": "2026-06-21T16:43:08+08:00",
+    "kb_id": "kb_67e8df05",
+    "kb_name": "测试上传库",
+    "record_id": "kb_67e8df05_kb_001",
+    "question": "测试问题?",
+    "category": "测试",
+    "is_new_building": true
+  }
+]

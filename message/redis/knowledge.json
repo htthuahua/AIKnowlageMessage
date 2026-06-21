@@ -1,0 +1,100 @@
+[
+  {
+    "id": "redis_kb_001",
+    "question": "Redis是什么类型的数据库？",
+    "summary": "关于「Redis是什么类型的数据库？」的详细回答：\n\n【简要结论】\nRedis是一个键值型（Key-Value）的内存数据库，支持多种数据类型和通用命令。\n\n【详细解释】\n· Redis是一个键值型（Key-Value）的内存数据库，支持多种数据类型和通用命令。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。",
+    "category": "基础概念",
+    "code": ""
+  },
+  {
+    "id": "redis_kb_002",
+    "question": "Redis有哪些常见的数据类型？",
+    "summary": "关于「Redis有哪些常见的数据类型？」的详细回答：\n\n【简要结论】\nRedis常见数据类型包括：String（字符串）、Hash（散列/哈希）、List（列表）、Set（集合）、SortedSet（有序集合）。\n\n【详细解释】\n· Redis常见数据类型包括：String（字符串）、Hash（散列/哈希）、List（列表）、Set（集合）、SortedSet（有序集合）。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。",
+    "category": "数据类型",
+    "code": ""
+  },
+  {
+    "id": "redis_kb_003",
+    "question": "Redis通用命令有哪些？",
+    "summary": "关于「Redis通用命令有哪些？」的详细回答：\n\n【简要结论】\n常用通用命令：HELP（帮助文档）、KEYS pattern（模糊查询，如keys *）、DEL key（删除）、GET key（获取）、SET key value（添加）、EXPIRE key time（计时删除）、TTL key（查询剩余时间）、EXISTS key（检查是否存在）、MSET key1 value1 key2 value2...（多设置）、MGET key1 key2...（多获取）、SETNX key value（键不存在时才设置）、SETEX key time value（设置并指定过期时间）。\n\n【详细解释】\n· 常用通用命令：HELP（帮助文档）、KEYS pattern（模糊查询，如keys *）、DEL key（删除）、GET key（获取）、SET key value（添加）、EXPIRE key time（计时删除）、TTL key（查询剩余时间）、EXISTS key（检查是否存在）、MSET key1 value1 key2 value2...（多设置）、MGET key1 key2...（多获取）、SETNX key value（键不存在时才设置）、SETEX key time value（设置并指定过期时间）。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "通用命令",
+    "code": "SET guotao:phone:1 \"{\\\"id\\\":1,\\\"name\\\":\\\"张三\\\",\\\"age\\\":13}\"\nGET guotao:phone:1\nEXPIRE guotao:phone:1 60\nTTL guotao:phone:1"
+  },
+  {
+    "id": "redis_kb_004",
+    "question": "Redis中key的结构应该如何设计？",
+    "summary": "关于「Redis中key的结构应该如何设计？」的详细回答：\n\n【简要结论】\nRedis的key允许用多个单词形成层级结构，多个单词之间用冒号':'隔开，推荐格式：项目名:业务名:类型:id。例如：heima:user:1、heima:product:1。\n\n【详细解释】\n· Redis的key允许用多个单词形成层级结构，多个单词之间用冒号':'隔开，推荐格式：项目名:业务名:类型:id。\n· 例如：heima:user:1、heima:product:1。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "Key设计",
+    "code": "SET heima:user:1 \"{\\\"id\\\":1, \\\"name\\\": \\\"Jack\\\", \\\"age\\\": 21}\"\nSET heima:product:1 \"{\\\"id\\\":1, \\\"name\\\": \\\"小米11\\\", \\\"price\\\": 4999}\""
+  },
+  {
+    "id": "redis_kb_005",
+    "question": "String类型和Hash类型有什么区别？",
+    "summary": "关于「String类型和Hash类型有什么区别？」的详细回答：\n\n【简要结论】\nString类型将对象序列化为JSON字符串后存储，修改某个字段不方便（需要整体替换）。Hash类型（散列）的value是无序字典，类似于Java的HashMap，可以将对象中的每个字段独立存储，支持针对单个字段做CRUD操作，更加灵活。\n\n【详细解释】\n· String类型将对象序列化为JSON字符串后存储，修改某个字段不方便（需要整体替换）。\n· Hash类型（散列）的value是无序字典，类似于Java的HashMap，可以将对象中的每个字段独立存储，支持针对单个字段做CRUD操作，更加灵活。\n\n【代码说明】\n· 配置/注释说明：\n  - String方式（整体替换）\n  - Hash方式（字段独立操作）\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。\n\n完整代码示例见下方代码块。",
+    "category": "数据类型对比",
+    "code": "// String方式（整体替换）\nSET heima:user:1 \"{name:\"Jack\", age:21}\"\n\n// Hash方式（字段独立操作）\nHSET heima:user:1 name Jack\nHSET heima:user:1 age 21\nHGET heima:user:1 name  // 返回 Jack"
+  },
+  {
+    "id": "redis_kb_006",
+    "question": "Hash类型的常见命令有哪些？",
+    "summary": "关于「Hash类型的常见命令有哪些？」的详细回答：\n\n【简要结论】\nHSET key field value（添加/修改字段值）、HGET key field（获取字段值）、HMSET key field1 value1...（批量添加）、HMGET key field1 field2...（批量获取）、HGETALL key（获取所有field和value）、HKEYS key（获取所有field）、HVALS key（获取所有value）、HINCRBY key field increment（字段值自增）、HSETNX key field value（field不存在时才设置）。\n\n【详细解释】\n· HSET key field value（添加/修改字段值）、HGET key field（获取字段值）、HMSET key field1 value1...（批量添加）、HMGET key field1 field2...（批量获取）、HGETALL key（获取所有field和value）、HKEYS key（获取所有field）、HVALS key（获取所有value）、HINCRBY key field increment（字段值自增）、HSETNX key field value（field不存在时才设置）。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Hash命令",
+    "code": "HSET heima:user:1 name Jack\nHSET heima:user:1 age 21\nHGETALL heima:user:1\nHINCRBY heima:user:1 age 1"
+  },
+  {
+    "id": "redis_kb_007",
+    "question": "List类型的特点和常见命令是什么？",
+    "summary": "关于「List类型的特点和常见命令是什么？」的详细回答：\n\n【简要结论】\nList类型与Java中的LinkedList类似，是双向链表结构。特点：有序、元素可重复、插入删除快、查询速度一般。常用命令：LPUSH/RPUSH（左/右侧插入）、LPOP/RPOP（左/右侧移除并返回）、LRANGE key start end（返回范围内元素）、BLPOP/BRPOP（阻塞式弹出，无元素时等待指定时间）。\n\n【详细解释】\n· List类型与Java中的LinkedList类似，是双向链表结构。\n· 特点：有序、元素可重复、插入删除快、查询速度一般。\n· 常用命令：LPUSH/RPUSH（左/右侧插入）、LPOP/RPOP（左/右侧移除并返回）、LRANGE key start end（返回范围内元素）、BLPOP/BRPOP（阻塞式弹出，无元素时等待指定时间）。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "List命令",
+    "code": "LPUSH mylist A B C    // 结果: C -> A -> B\nRPUSH mylist D          // 结果: C -> A -> B -> D\nLPOP mylist             // 返回 C\nLRANGE mylist 0 2       // 返回范围内元素\nBLPOP users2 100        // 阻塞等待100秒"
+  },
+  {
+    "id": "redis_kb_008",
+    "question": "Set类型的特点和常见命令是什么？",
+    "summary": "关于「Set类型的特点和常见命令是什么？」的详细回答：\n\n【简要结论】\nSet类型比Java的Set多了交集、并集、差集的功能。常用命令：SADD key member（添加元素）、SREM key member（移除元素）、SCARD key（返回元素个数）、SISMEMBER key member（判断是否包含）、SMEMBERS key（获取所有元素）。集合操作：SINTER（交集）、SDIFF（差集）、SUNION（并集）。\n\n【详细解释】\n· Set类型比Java的Set多了交集、并集、差集的功能。\n· 常用命令：SADD key member（添加元素）、SREM key member（移除元素）、SCARD key（返回元素个数）、SISMEMBER key member（判断是否包含）、SMEMBERS key（获取所有元素）。\n· 集合操作：SINTER（交集）、SDIFF（差集）、SUNION（并集）。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "Set命令",
+    "code": "SADD myset a b c\nSISMEMBER myset a       // 返回 1\nSINTER set1 set2        // 交集\nSDIFF set1 set2         // 差集\nSUNION set1 set2        // 并集"
+  },
+  {
+    "id": "redis_kb_009",
+    "question": "SortedSet（ZSet）类型的特点和常见命令是什么？",
+    "summary": "关于「SortedSet（ZSet）类型的特点和常见命令是什么？」的详细回答：\n\n【简要结论】\nSortedSet是可排序的集合，类似于Java的TreeSet，底层是跳表+Hash表。每个元素都有一个score属性用于排序。常用命令：ZADD key score member（添加/更新）、ZREM key member（删除）、ZSCORE key member（获取score）、ZRANK key member（获取排名，升序）、ZCARD key（元素个数）、ZCOUNT key min max（统计范围内元素数）、ZINCRBY key increment member（自增）、ZRANGE key min max（按排名范围获取）、ZRANGEBYSCORE key min max（按score范围获取）。注意：默认升序，降序在Z后加REV（如ZREVRANK）。\n\n【详细解释】\n· SortedSet是可排序的集合，类似于Java的TreeSet，底层是跳表+Hash表。\n· 每个元素都有一个score属性用于排序。\n· 常用命令：ZADD key score member（添加/更新）、ZREM key member（删除）、ZSCORE key member（获取score）、ZRANK key member（获取排名，升序）、ZCARD key（元素个数）、ZCOUNT key min max（统计范围内元素数）、ZINCRBY key increment member（自增）、ZRANGE key min max（按排名范围获取）、ZRANGEBYSCORE key min max（按score范围获取）。\n· 注意：默认升序，降序在Z后加REV（如ZREVRANK）。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "SortedSet命令",
+    "code": "ZADD myzset 100 user1\nZADD myzset 200 user2\nZRANK myzset user2      // 返回排名（升序）\nZREVRANK myzset user2   // 返回排名（降序）\nZRANGEBYSCORE myzset 0 150  // 获取score在0-150的元素"
+  },
+  {
+    "id": "redis_kb_010",
+    "question": "Java中常用的Redis客户端有哪些？",
+    "summary": "关于「Java中常用的Redis客户端有哪些？」的详细回答：\n\n【简要结论】\n三个主流客户端：Jedis（以Redis命令作为方法名，学习成本低，但线程不安全，多线程需配合连接池）、Lettuce（基于Netty实现，支持同步/异步/响应式，线程安全，支持哨兵/集群/管道模式）、Redisson（基于Redis的分布式Java数据结构集合，提供Map、Queue、Lock、Semaphore、AtomicLong等功能）。\n\n【详细解释】\n· 三个主流客户端：Jedis（以Redis命令作为方法名，学习成本低，但线程不安全，多线程需配合连接池）、Lettuce（基于Netty实现，支持同步/异步/响应式，线程安全，支持哨兵/集群/管道模式）、Redisson（基于Redis的分布式Java数据结构集合，提供Map、Queue、Lock、Semaphore、AtomicLong等功能）。\n\n【代码说明】\n· 配置/注释说明：\n  - Jedis依赖\n  - <dependency>\n  - <groupId>redis.clients</groupId>\n  - <artifactId>jedis</artifactId>\n  - </dependency>\n  - Lettuce - SpringBoot 2.x默认\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "Java客户端",
+    "code": "// Jedis依赖\n// <dependency>\n//   <groupId>redis.clients</groupId>\n//   <artifactId>jedis</artifactId>\n// </dependency>\n\n// Lettuce - SpringBoot 2.x默认\n// Redisson - 分布式锁等高级功能"
+  },
+  {
+    "id": "redis_kb_011",
+    "question": "Jedis连接池如何配置？",
+    "summary": "关于「Jedis连接池如何配置？」的详细回答：\n\n【简要结论】\n在高并发场景下，频繁创建和销毁连接会有性能损耗，应使用JedisPool连接池。配置参数包括：最大连接数(setMaxTotal)、最大空闲连接(setMaxIdle)、最小空闲连接(setMinIdle)、最长等待时间(setMaxWaitMillis)。\n\n【详细解释】\n· 在高并发场景下，频繁创建和销毁连接会有性能损耗，应使用JedisPool连接池。\n· 配置参数包括：最大连接数(setMaxTotal)、最大空闲连接(setMaxIdle)、最小空闲连接(setMinIdle)、最长等待时间(setMaxWaitMillis)。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "连接池",
+    "code": "public class JedisConnectionFactory {\n    private static final JedisPool jedisPool;\n    static {\n        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();\n        jedisPoolConfig.setMaxTotal(8);          // 最大连接\n        jedisPoolConfig.setMaxIdle(8);           // 最大空闲连接\n        jedisPoolConfig.setMinIdle(0);           // 最小空闲连接\n        jedisPoolConfig.setMaxWaitMillis(200);   // 最长等待时间(ms)\n        jedisPool = new JedisPool(jedisPoolConfig, \"192.168.150.101\", 6379, 1000, \"123321\");\n    }\n    public static Jedis getJedis(){\n        return jedisPool.getResource();\n    }\n}"
+  },
+  {
+    "id": "redis_kb_012",
+    "question": "SpringDataRedis是什么？有哪些核心特性？",
+    "summary": "关于「SpringDataRedis是什么？有哪些核心特性？」的详细回答：\n\n【简要结论】\nSpringDataRedis是Spring中数据操作模块对Redis的集成。核心特性：整合不同客户端（Lettuce和Jedis）、提供RedisTemplate统一API、支持发布订阅模型、支持哨兵和集群、支持基于Lettuce的响应式编程、支持多种序列化方式（JDK/JSON/字符串/Spring对象）、支持基于Redis的JDK Collection实现。\n\n【详细解释】\n· SpringDataRedis是Spring中数据操作模块对Redis的集成。\n· 核心特性：整合不同客户端（Lettuce和Jedis）、提供RedisTemplate统一API、支持发布订阅模型、支持哨兵和集群、支持基于Lettuce的响应式编程、支持多种序列化方式（JDK/JSON/字符串/Spring对象）、支持基于Redis的JDK Collection实现。\n\n【代码说明】\n· 配置/注释说明：\n  - RedisTemplate API对应关系\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "SpringDataRedis",
+    "code": "// RedisTemplate API对应关系\nredisTemplate.opsForValue()   // ValueOperations - String类型\nredisTemplate.opsForHash()    // HashOperations - Hash类型\nredisTemplate.opsForList()    // ListOperations - List类型\nredisTemplate.opsForSet()     // SetOperations - Set类型\nredisTemplate.opsForZSet()    // ZSetOperations - SortedSet类型\nredisTemplate                 // 通用命令"
+  },
+  {
+    "id": "redis_kb_013",
+    "question": "StringRedisTemplate和RedisTemplate有什么区别？",
+    "summary": "关于「StringRedisTemplate和RedisTemplate有什么区别？」的详细回答：\n\n【简要结论】\nStringRedisTemplate是Spring默认提供的类，其key和value的序列化方式默认就是String方式，省去了自定义RedisTemplate的过程。适合存储String类型的数据，手动序列化/反序列化JSON对象。\n\n【详细解释】\n· StringRedisTemplate是Spring默认提供的类，其key和value的序列化方式默认就是String方式，省去了自定义RedisTemplate的过程。\n· 适合存储String类型的数据，手动序列化/反序列化JSON对象。\n\n【代码说明】\n· 配置/注释说明：\n  - 手动序列化\n  - 写入Redis\n  - 读取数据\n  - 反序列化\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 缓存为主、允许少量丢失：可优先考虑 RDB 或混合持久化。\n· 数据安全要求高：倾向 AOF（everysec），并结合主从/集群保证可用性。\n· 修改 redis.conf 后需重启或执行 CONFIG REWRITE 使配置持久生效。\n\n完整代码示例见下方代码块。",
+    "category": "SpringDataRedis",
+    "code": "@Autowired\nprivate StringRedisTemplate stringRedisTemplate;\nprivate static final ObjectMapper mapper = new ObjectMapper();\n\nvoid testStringTemplate() throws JsonProcessingException {\n    User user = new User(\"虎哥\", 18);\n    // 手动序列化\n    String json = mapper.writeValueAsString(user);\n    // 写入Redis\n    stringRedisTemplate.opsForValue().set(\"user:200\", json);\n    // 读取数据\n    String val = stringRedisTemplate.opsForValue().get(\"user:200\");\n    // 反序列化\n    User user1 = mapper.readValue(val, User.class);\n    System.out.println(\"user1 = \" + user1);\n}"
+  },
+  {
+    "id": "redis_kb_014",
+    "question": "RedisTemplate的两种序列化实践方案是什么？",
+    "summary": "关于「RedisTemplate的两种序列化实践方案是什么？」的详细回答：\n\n【简要结论】\n方案一：自定义RedisTemplate，修改序列化器为GenericJackson2JsonRedisSerializer。方案二：使用StringRedisTemplate，写入时手动把对象序列化为JSON，读取时手动把JSON反序列化为对象。方案二更优雅，推荐手动序列化后封装成工具类使用。\n\n【详细解释】\n· 方案一：自定义RedisTemplate，修改序列化器为GenericJackson2JsonRedisSerializer。\n· 方案二：使用StringRedisTemplate，写入时手动把对象序列化为JSON，读取时手动把JSON反序列化为对象。\n· 方案二更优雅，推荐手动序列化后封装成工具类使用。\n\n【代码说明】\n· 配置/注释说明：\n  - 方案二示例 - Hash操作\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "序列化方案",
+    "code": "// 方案二示例 - Hash操作\nstringRedisTemplate.opsForHash().put(\"user:400\", \"name\", \"虎哥\");\nstringRedisTemplate.opsForHash().put(\"user:400\", \"age\", \"21\");\n\nMap<Object, Object> entries = stringRedisTemplate.opsForHash().entries(\"user:400\");\nSystem.out.println(\"entries = \" + entries);"
+  }
+]

@@ -1,0 +1,25 @@
+# 训练产物（体积大，本地 train.py 生成，勿提交）
+models/
+
+# Python 缓存
+__pycache__/
+*.py[cod]
+*.pyo
+
+# 运行时上传状态（可选保留本地）
+# data/upload_history.json
+# data/upload_state.json
+
+# 环境
+.env
+.venv/
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+Thumbs.db
+.DS_Store

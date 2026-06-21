@@ -1,0 +1,100 @@
+[
+  {
+    "id": "fit_kb_001",
+    "question": "骑行数据CSV文件中如何解析record记录？",
+    "summary": "关于「骑行数据CSV文件中如何解析record记录？」的详细回答：\n\n【简要结论】\n读取CSV文件，筛选Data列且record行的数据，从第4列开始每3列为一组（字段名、值、单位），提取distance、speed、power、heart_rate等字段。\n\n【详细解释】\n· 读取CSV文件，筛选Data列且record行的数据，从第4列开始每3列为一组（字段名、值、单位），提取distance、speed、power、heart_rate等字段。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "数据解析",
+    "code": "def parse_records(filepath: str):\n    records = []\n    with open(filepath, newline=\"\", encoding=\"utf-8-sig\") as f:\n        reader = csv.reader(f)\n        for row in reader:\n            if len(row) < 3 or row[0].strip() != \"Data\" or row[2].strip() != \"record\":\n                continue\n\n            fields = {}\n            i = 3\n            while i + 2 < len(row):\n                field_name = row[i].strip()\n                field_value = row[i + 1].strip()\n                if field_name and field_value:\n                    fields[field_name] = field_value\n                i += 3\n\n            try:\n                distance_m = float(fields.get(\"distance\", 0))\n                speed_ms = float(fields.get(\"speed\", \"0\").split(\"|\")[0])\n                power = float(fields.get(\"power\", 0))\n                heart_rate = float(fields.get(\"heart_rate\", 0))\n\n                if distance_m > 0:\n                    records.append({\n                        \"distance_m\": distance_m,\n                        \"speed_ms\": speed_ms,\n                        \"power\": power,\n                        \"heart_rate\": heart_rate,\n                    })\n            except (ValueError, KeyError, TypeError):\n                continue\n\n    return records"
+  },
+  {
+    "id": "fit_kb_002",
+    "question": "骑行数据中speed字段为什么要用split('|')[0]处理？",
+    "summary": "关于「骑行数据中speed字段为什么要用split('|')[0]处理？」的详细回答：\n\n【简要结论】\nspeed字段格式为'speed值|单位'（如'5.2|m/s'），只取管道符前的数值部分用于计算，单位部分被丢弃。\n\n【详细解释】\n· speed字段格式为'speed值|单位'（如'5.2|m/s'），只取管道符前的数值部分用于计算，单位部分被丢弃。\n\n【代码说明】\n· 配置/注释说明：\n  - 例如：speed = \"5.2|m/s\" → 取 \"5.2\" 转为 float\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "数据解析",
+    "code": "speed_ms = float(fields.get(\"speed\", \"0\").split(\"|\")[0])\n# 例如：speed = \"5.2|m/s\" → 取 \"5.2\" 转为 float"
+  },
+  {
+    "id": "fit_kb_003",
+    "question": "骑行数据解析时如何按公里分组计算？",
+    "summary": "关于「骑行数据解析时如何按公里分组计算？」的详细回答：\n\n【简要结论】\n使用defaultdict以公里索引为键，将每条记录的speed、power、heart_rate分别追加到对应列表，便于后续计算每公里平均值。\n\n【详细解释】\n· 使用defaultdict以公里索引为键，将每条记录的speed、power、heart_rate分别追加到对应列表，便于后续计算每公里平均值。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "数据处理",
+    "code": "from collections import defaultdict\n\ndef calc_per_km(records):\n    if not records:\n        return [], {}\n\n    km_data = defaultdict(lambda: {\"speeds\": [], \"powers\": [], \"hrs\": []})\n\n    for r in records:\n        km_idx = int(r[\"distance_m\"] // 1000)\n        km_data[km_idx][\"speeds\"].append(r[\"speed_ms\"])\n        km_data[km_idx][\"powers\"].append(r[\"power\"])\n        km_data[km_idx][\"hrs\"].append(r[\"heart_rate\"])\n\n    return results, summary"
+  },
+  {
+    "id": "fit_kb_004",
+    "question": "骑行数据如何计算每公里配速？",
+    "summary": "关于「骑行数据如何计算每公里配速？」的详细回答：\n\n【简要结论】\n配速 = 1000米 / 平均速度(m/s)，结果转换为分'秒\"格式，如'3'45\"'表示每公里3分45秒。\n\n【详细解释】\n· 配速 = 1000米 / 平均速度(m/s)，结果转换为分'秒\"格式，如'3'45\"'表示每公里3分45秒。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "数据处理",
+    "code": "avg_ms = sum(speeds) / len(speeds)\npace_sec = 1000 / avg_ms if avg_ms > 0 else 0\npace = f\"{int(pace_sec // 60)}'{int(pace_sec % 60):02d}\\\"\""
+  },
+  {
+    "id": "fit_kb_005",
+    "question": "骑行数据分析后汇总了哪些整体指标？",
+    "summary": "关于「骑行数据分析后汇总了哪些整体指标？」的详细回答：\n\n【简要结论】\n总距离、整体平均速度、整体配速、整体平均功率、整体平均心率、最高速度、总记录数及生成日期。\n\n【详细解释】\n· 总距离、整体平均速度、整体配速、整体平均功率、整体平均心率、最高速度、总记录数及生成日期。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "数据处理",
+    "code": "summary = {\n    \"total_distance_km\": round(total_distance_m / 1000, 2),\n    \"overall_avg_speed\": overall_avg_kmh,\n    \"overall_pace\": overall_pace,\n    \"overall_avg_power\": round(total_power / total_samples, 0) if total_samples else 0,\n    \"overall_avg_hr\": round(total_hr / total_samples, 0) if total_samples else 0,\n    \"max_speed\": round(max(r[\"speed_ms\"] for r in records) * 3.6, 1),\n    \"total_records\": len(records),\n    \"date\": datetime.now().strftime(\"%Y年%m月%d日 %H:%M\")\n}"
+  },
+  {
+    "id": "fit_kb_006",
+    "question": "骑行数据CSV文件的有效记录行判断条件是什么？",
+    "summary": "关于「骑行数据CSV文件的有效记录行判断条件是什么？」的详细回答：\n\n【简要结论】\n行长度>=3，第一列内容为'Data'（去除空格），第三列内容为'record'（去除空格），才视为有效数据行。\n\n【详细解释】\n· 行长度>=3，第一列内容为'Data'（去除空格），第三列内容为'record'（去除空格），才视为有效数据行。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "数据解析",
+    "code": "if len(row) < 3 or row[0].strip() != \"Data\" or row[2].strip() != \"record\":\n    continue"
+  },
+  {
+    "id": "fit_kb_007",
+    "question": "CSV解析时字段提取的循环逻辑是什么？",
+    "summary": "关于「CSV解析时字段提取的循环逻辑是什么？」的详细回答：\n\n【简要结论】\n从索引3开始遍历，步长为3，每次取字段名(row[i])、字段值(row[i+1])、单位(row[i+2])，只存储非空字段名和值。\n\n【详细解释】\n· 从索引3开始遍历，步长为3，每次取字段名(row[i])、字段值(row[i+1])、单位(row[i+2])，只存储非空字段名和值。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "数据解析",
+    "code": "i = 3\nwhile i + 2 < len(row):\n    field_name = row[i].strip()\n    field_value = row[i + 1].strip()\n    if field_name and field_value:\n        fields[field_name] = field_value\n    i += 3"
+  },
+  {
+    "id": "fit_kb_008",
+    "question": "为什么计算整体平均速度时要按样本数加权？",
+    "summary": "关于「为什么计算整体平均速度时要按样本数加权？」的详细回答：\n\n【简要结论】\n因为不同公里段的采样点数量不同，直接取各公里平均值的算术平均会忽略采样密度差异，加权平均更准确。\n\n【详细解释】\n· 因为不同公里段的采样点数量不同，直接取各公里平均值的算术平均会忽略采样密度差异，加权平均更准确。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "数据处理",
+    "code": "total_speed += avg_ms * len(speeds)\ntotal_samples += len(speeds)\noverall_avg_ms = total_speed / total_samples if total_samples else 0"
+  },
+  {
+    "id": "fit_kb_009",
+    "question": "骑行数据解析时如何处理异常字段？",
+    "summary": "关于「骑行数据解析时如何处理异常字段？」的详细回答：\n\n【简要结论】\n在try-except块中捕获ValueError、KeyError、TypeError异常，跳过异常数据行，保证程序不会因个别脏数据崩溃。\n\n【详细解释】\n· 在try-except块中捕获ValueError、KeyError、TypeError异常，跳过异常数据行，保证程序不会因个别脏数据崩溃。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "数据解析",
+    "code": "try:\n    distance_m = float(fields.get(\"distance\", 0))\n    speed_ms = float(fields.get(\"speed\", \"0\").split(\"|\")[0])\n    power = float(fields.get(\"power\", 0))\n    heart_rate = float(fields.get(\"heart_rate\", 0))\n\n    if distance_m > 0:\n        records.append({...})\nexcept (ValueError, KeyError, TypeError):\n    continue"
+  },
+  {
+    "id": "fit_kb_010",
+    "question": "每公里数据包含哪些统计值？",
+    "summary": "关于「每公里数据包含哪些统计值？」的详细回答：\n\n【简要结论】\n公里序号、平均速度(km/h)、配速(分'秒\")、平均功率(W)、平均心率(bpm)、采样点数量、最大速度(km/h)。\n\n【详细解释】\n· 公里序号、平均速度(km/h)、配速(分'秒\")、平均功率(W)、平均心率(bpm)、采样点数量、最大速度(km/h)。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "数据处理",
+    "code": "results.append({\n    \"km\": km_idx + 1,\n    \"km_segment\": f\"{km_idx + 1} 公里\",\n    \"avg_speed_kmh\": avg_kmh,\n    \"pace\": pace,\n    \"avg_power\": avg_power,\n    \"avg_hr\": avg_hr,\n    \"sample_count\": len(speeds),\n    \"max_speed\": round(max(speeds) * 3.6, 1)\n})"
+  },
+  {
+    "id": "fit_kb_011",
+    "question": "CSV文件读取时为什么使用encoding='utf-8-sig'？",
+    "summary": "关于「CSV文件读取时为什么使用encoding='utf-8-sig'？」的详细回答：\n\n【简要结论】\nutf-8-sig可以自动去除UTF-8 BOM（字节顺序标记），避免Excel保存的CSV文件开头出现不可见字符导致解析错误。\n\n【详细解释】\n· utf-8-sig可以自动去除UTF-8 BOM（字节顺序标记），避免Excel保存的CSV文件开头出现不可见字符导致解析错误。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。\n\n完整代码示例见下方代码块。",
+    "category": "数据解析",
+    "code": "with open(filepath, newline=\"\", encoding=\"utf-8-sig\") as f:\n    reader = csv.reader(f)"
+  },
+  {
+    "id": "fit_kb_012",
+    "question": "生成HTML报表时图表数据如何传递给JavaScript？",
+    "summary": "关于「生成HTML报表时图表数据如何传递给JavaScript？」的详细回答：\n\n【简要结论】\n在Python中构建km_labels、speeds、powers、hrs列表，通过json.dumps序列化后嵌入HTML的script标签，Chart.js读取这些数据渲染图表。\n\n【详细解释】\n· 在Python中构建km_labels、speeds、powers、hrs列表，通过json.dumps序列化后嵌入HTML的script标签，Chart.js读取这些数据渲染图表。\n\n【代码说明】\n· 配置/注释说明：\n  - 在 HTML 模板中嵌入\n  - <script>\n  - const labels = {{ km_labels_json }};\n  - const speeds = {{ speeds_json }};\n  - </script>\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "数据可视化",
+    "code": "import json\n\nkm_labels = [r[\"km_segment\"] for r in results]\nspeeds = [r[\"avg_speed_kmh\"] for r in results]\npowers = [r[\"avg_power\"] for r in results]\nhrs = [r[\"avg_hr\"] for r in results]\n\n# 在 HTML 模板中嵌入\n# <script>\n#   const labels = {{ km_labels_json }};\n#   const speeds = {{ speeds_json }};\n# </script>"
+  },
+  {
+    "id": "fit_kb_013",
+    "question": "骑行分析HTML报表中如何实现功率和心率双轴图？",
+    "summary": "关于「骑行分析HTML报表中如何实现功率和心率双轴图？」的详细回答：\n\n【简要结论】\nChart.js支持多轴，功率数据使用左侧y轴，心率数据使用右侧y1轴，grid.drawOnChartArea:false避免网格重叠。\n\n【详细解释】\n· Chart.js支持多轴，功率数据使用左侧y轴，心率数据使用右侧y1轴，grid.drawOnChartArea:false避免网格重叠。\n\n【代码说明】\n· 配置/注释说明：\n  - f59e0b',\n  - ef4444',\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "数据可视化",
+    "code": "new Chart(document.getElementById('powerHrChart'), {\n    type: 'line',\n    data: {\n        labels: labels,\n        datasets: [\n            {\n                label: '平均功率 (W)',\n                data: powers,\n                borderColor: '#f59e0b',\n                yAxisID: 'y',\n                tension: 0.3,\n                borderWidth: 3\n            },\n            {\n                label: '平均心率 (bpm)',\n                data: hrs,\n                borderColor: '#ef4444',\n                yAxisID: 'y1',\n                tension: 0.3,\n                borderWidth: 3\n            }\n        ]\n    },\n    options: {\n        responsive: true,\n        scales: {\n            y: { type: 'linear', position: 'left', title: { display: true, text: '功率 (W)' } },\n            y1: { type: 'linear', position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: '心率 (bpm)' } }\n        }\n    }\n});"
+  },
+  {
+    "id": "fit_kb_014",
+    "question": "骑行分析主函数的执行流程是什么？",
+    "summary": "关于「骑行分析主函数的执行流程是什么？」的详细回答：\n\n【简要结论】\n配置输入输出路径 → parse_records解析CSV → calc_per_km计算每公里数据 → generate_html_report生成HTML报表 → 终端输出简要统计。\n\n【详细解释】\n· 配置输入输出路径 → parse_records解析CSV → calc_per_km计算每公里数据 → generate_html_report生成HTML报表 → 终端输出简要统计。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "程序结构",
+    "code": "def main():\n    input_file = r\"hj.csv\"\n    html_output = r\"骑行数据完整报表.html\"\n\n    print(f\"正在读取: {input_file}\")\n    records = parse_records(input_file)\n\n    if not records:\n        print(\"未找到有效记录，请检查文件路径或数据格式。\")\n        sys.exit(1)\n\n    print(f\"共解析 {len(records)} 条记录\")\n\n    results, summary = calc_per_km(records)\n    generate_html_report(results, summary, html_output)\n\n    if RICH_AVAILABLE:\n        console = Console()\n        console.print(f\"总距离: {summary['total_distance_km']:.2f} km | 平均速度: {summary['overall_avg_speed']} km/h\")"
+  }
+]

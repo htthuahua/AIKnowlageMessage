@@ -1,0 +1,86 @@
+[
+  {
+    "id": "springboot_kb_001",
+    "question": "SpringBoot 如何集成 Redis？",
+    "summary": "关于「SpringBoot 如何集成 Redis？」的详细回答：\n\n【简要结论】\n导入 spring-boot-starter-data-redis 依赖，在 yml 中配置连接信息，通过 StringRedisTemplate 完成字符串存取操作。\n\n【详细解释】\n· 导入 spring-boot-starter-data-redis 依赖，在 yml 中配置连接信息，通过 StringRedisTemplate 完成字符串存取操作。\n\n【代码说明】\n· 配置/注释说明：\n  - application.yml\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 设计 key 时带上业务前缀，并设置合理 TTL，避免内存持续增长。\n· 线上变更前先在测试环境验证持久化与淘汰策略是否符合预期。\n\n完整代码示例见下方代码块。",
+    "category": "SpringBoot-Redis集成",
+    "code": "<dependency>\n    <groupId>org.springframework.boot</groupId>\n    <artifactId>spring-boot-starter-data-redis</artifactId>\n</dependency>\n\n// application.yml\nspring:\n  data:\n    redis:\n      host: localhost\n      port: 6379\n\n// 使用\nstringRedisTemplate.opsForValue().set(\"username\",\"如花\");\nstringRedisTemplate.opsForValue().get(\"username\");"
+  },
+  {
+    "id": "springboot_kb_002",
+    "question": "什么是令牌主动失效机制？",
+    "summary": "关于「什么是令牌主动失效机制？」的详细回答：\n\n【简要结论】\n登录成功后将令牌存入 Redis，修改密码后删除 Redis 中的旧令牌，使旧令牌失效。\n\n【详细解释】\n· 登录成功后将令牌存入 Redis，修改密码后删除 Redis 中的旧令牌，使旧令牌失效。\n\n【代码说明】\n· 配置/注释说明：\n  - 修改密码时删除 Redis 中的 token\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "安全-令牌管理",
+    "code": "// 修改密码时删除 Redis 中的 token\nValueOperations<String, String> operations = stringRedisTemplate.opsForValue();\noperations.getOperations().delete(token);"
+  },
+  {
+    "id": "springboot_kb_003",
+    "question": "SpringBoot 项目如何打包部署？",
+    "summary": "关于「SpringBoot 项目如何打包部署？」的详细回答：\n\n【简要结论】\n使用 spring-boot-maven-plugin 打包成 JAR，通过 java -jar 命令运行，服务器需有 Java 环境。\n\n【详细解释】\n· 使用 spring-boot-maven-plugin 打包成 JAR，通过 java -jar 命令运行，服务器需有 Java 环境。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "SpringBoot-部署",
+    "code": "<plugin>\n    <groupId>org.springframework.boot</groupId>\n    <artifactId>spring-boot-maven-plugin</artifactId>\n    <version>3.1.3</version>\n</plugin>\n\n// 运行\njava -jar jar包位置"
+  },
+  {
+    "id": "springboot_kb_004",
+    "question": "部署后的 SpringBoot 项目如何修改配置？",
+    "summary": "关于「部署后的 SpringBoot 项目如何修改配置？」的详细回答：\n\n【简要结论】\n可通过命令行参数、环境变量或外部配置文件（与 jar 同目录的 application.yml）修改配置。\n\n【详细解释】\n· 可通过命令行参数、环境变量或外部配置文件（与 jar 同目录的 application.yml）修改配置。\n\n【代码说明】\n· 配置/注释说明：\n  - 命令行参数\n  - 环境变量配置 server.port=8888\n  - 外部配置文件：在 jar 包同级目录创建 application.yml\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "SpringBoot-配置管理",
+    "code": "// 命令行参数\njava -jar xxx.jar --server.port=9999\n\n// 环境变量配置 server.port=8888\n\n// 外部配置文件：在 jar 包同级目录创建 application.yml"
+  },
+  {
+    "id": "springboot_kb_005",
+    "question": "SpringBoot 配置优先级是怎样的？",
+    "summary": "关于「SpringBoot 配置优先级是怎样的？」的详细回答：\n\n【简要结论】\n优先级从高到低：命令行参数 > 操作系统环境变量 > jar 包所在目录的 application.yml > 项目中 resources 目录下的 application.yml。\n\n【详细解释】\n· 优先级从高到低：命令行参数 > 操作系统环境变量 > jar 包所在目录的 application.yml > 项目中 resources 目录下的 application.yml。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "SpringBoot-配置管理",
+    "code": ""
+  },
+  {
+    "id": "springboot_kb_006",
+    "question": "SpringBoot 多环境开发如何配置？",
+    "summary": "关于「SpringBoot 多环境开发如何配置？」的详细回答：\n\n【简要结论】\n使用 Profiles 技术，通过 spring.profiles.active 指定生效环境，可用单文件（--- 分隔）或多文件（application-环境名.yml）方式。\n\n【详细解释】\n· 使用 Profiles 技术，通过 spring.profiles.active 指定生效环境，可用单文件（--- 分隔）或多文件（application-环境名.yml）方式。\n\n【代码说明】\n· 配置/注释说明：\n  - 单文件方式\n  - 多文件方式：application-dev.yml、application-test.yml、application-pro.yml\n  - 主文件 application.yml 中指定：spring.profiles.active: test\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "SpringBoot-多环境配置",
+    "code": "// 单文件方式\nspring:\n  profiles:\n    active: dev\n---\nspring:\n  config:\n    activate:\n      on-profile: dev\nserver:\n  port: 8081\n---\nspring:\n  config:\n    activate:\n      on-profile: test\nserver:\n  port: 8082\n\n// 多文件方式：application-dev.yml、application-test.yml、application-pro.yml\n// 主文件 application.yml 中指定：spring.profiles.active: test"
+  },
+  {
+    "id": "springboot_kb_007",
+    "question": "多环境开发如何进行分组配置？",
+    "summary": "关于「多环境开发如何进行分组配置？」的详细回答：\n\n【简要结论】\n使用 group 将多个配置文件组合，如将服务器、数据源、自定义配置分别放在不同文件中，通过 group 统一激活。\n\n【详细解释】\n· 使用 group 将多个配置文件组合，如将服务器、数据源、自定义配置分别放在不同文件中，通过 group 统一激活。\n\n【代码说明】\n· 配置/注释说明：\n  - 对应文件：application-devServer.yml、application-devDB.yml、application-devSelf.yml\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "SpringBoot-多环境配置",
+    "code": "spring:\n  profiles:\n    active: dev\n    group:\n      \"dev\": devServer,devDB,devSelf\n\n// 对应文件：application-devServer.yml、application-devDB.yml、application-devSelf.yml"
+  },
+  {
+    "id": "springboot_kb_008",
+    "question": "如何解决前端跨域问题？",
+    "summary": "关于「如何解决前端跨域问题？」的详细回答：\n\n【简要结论】\n前端通过 Vite 配置代理，将 /api 请求转发到后端服务，解决浏览器同源策略限制。\n\n【详细解释】\n· 前端通过 Vite 配置代理，将 /api 请求转发到后端服务，解决浏览器同源策略限制。\n\n【代码说明】\n· 配置/注释说明：\n  - request.js\n  - vite.config.js\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "前端-跨域配置",
+    "code": "// request.js\nconst baseURL = '/api';\nconst instance = axios.create({ baseURL });\n\n// vite.config.js\nserver: {\n  proxy: {\n    '/api': {\n      target: 'http://localhost:8080',\n      changeOrigin: true,\n      rewrite: (path) => path.replace(/^\\/api/, '')\n    }\n  }\n}"
+  },
+  {
+    "id": "springboot_kb_009",
+    "question": "Axios 响应拦截器的作用是什么？",
+    "summary": "关于「Axios 响应拦截器的作用是什么？」的详细回答：\n\n【简要结论】\n在响应返回后统一处理，如判断业务状态码 code===0 返回数据，否则提示错误并拒绝 Promise。\n\n【详细解释】\n· 在响应返回后统一处理，如判断业务状态码 code===0 返回数据，否则提示错误并拒绝 Promise。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "前端-Axios配置",
+    "code": "instance.interceptors.response.use(\n  result => {\n    if (result.data.code === 0) {\n      return result.data;\n    }\n    alert(result.data.msg ? result.data.msg : '服务异常');\n    return Promise.reject(result.data);\n  },\n  err => {\n    alert('服务异常');\n    return Promise.reject(err);\n  }\n);"
+  },
+  {
+    "id": "springboot_kb_010",
+    "question": "Axios 请求拦截器如何添加 Token？",
+    "summary": "关于「Axios 请求拦截器如何添加 Token？」的详细回答：\n\n【简要结论】\n在请求发送前从 Pinia 获取 token，设置到请求头 Authorization 中。\n\n【详细解释】\n· 在请求发送前从 Pinia 获取 token，设置到请求头 Authorization 中。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "前端-Axios配置",
+    "code": "import { useTokenStore } from '@/stores/token.js';\n\ninstance.interceptors.request.use(\n  (config) => {\n    let tokenStore = useTokenStore();\n    if (tokenStore.token) {\n      config.headers.Authorization = tokenStore.token;\n    }\n    return config;\n  },\n  (err) => {\n    return Promise.reject(err);\n  }\n);"
+  },
+  {
+    "id": "springboot_kb_011",
+    "question": "Pinia 状态管理库如何使用？",
+    "summary": "关于「Pinia 状态管理库如何使用？」的详细回答：\n\n【简要结论】\n安装 pinia 后，在 main.js 中创建并使用 Pinia，在 stores 目录下定义 store，在组件中导入使用。\n\n【详细解释】\n· 安装 pinia 后，在 main.js 中创建并使用 Pinia，在 stores 目录下定义 store，在组件中导入使用。\n\n【代码说明】\n· 配置/注释说明：\n  - main.js\n  - stores/token.js\n  - 组件中使用\n  - tokenStore.token / tokenStore.setToken() / tokenStore.removeToken()\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "前端-Pinia状态管理",
+    "code": "// main.js\nimport { createPinia } from 'pinia';\nconst pinia = createPinia();\napp.use(pinia);\n\n// stores/token.js\nimport { defineStore } from 'pinia';\nimport { ref } from 'vue';\n\nexport const useTokenStore = defineStore('token', () => {\n  const token = ref('');\n  const setToken = (newToken) => { token.value = newToken; };\n  const removeToken = () => { token.value = ''; };\n  return { token, setToken, removeToken };\n});\n\n// 组件中使用\nconst tokenStore = useTokenStore();\n// tokenStore.token / tokenStore.setToken() / tokenStore.removeToken()"
+  },
+  {
+    "id": "springboot_kb_012",
+    "question": "Pinia 数据刷新后丢失怎么办？",
+    "summary": "关于「Pinia 数据刷新后丢失怎么办？」的详细回答：\n\n【简要结论】\n使用 pinia-persistedstate-plugin 插件实现数据持久化存储，刷新浏览器后数据不丢失。\n\n【详细解释】\n· 使用 pinia-persistedstate-plugin 插件实现数据持久化存储，刷新浏览器后数据不丢失。\n\n【代码说明】\n· 配置/注释说明：\n  - 安装：npm install pinia-persistedstate-plugin\n  - 定义 store 时添加 persist: true\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "前端-Pinia状态管理",
+    "code": "// 安装：npm install pinia-persistedstate-plugin\n\nimport { createPersistedState } from 'pinia-persistedstate-plugin';\nconst persist = createPersistedState();\npinia.use(persist);\n\n// 定义 store 时添加 persist: true\nexport const useTokenStore = defineStore('token', () => {\n  const token = ref('');\n  const setToken = (newToken) => { token.value = newToken; };\n  const removeToken = () => { token.value = ''; };\n  return { token, setToken, removeToken };\n}, {\n  persist: true\n});"
+  }
+]

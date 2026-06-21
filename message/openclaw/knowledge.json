@@ -1,0 +1,142 @@
+[
+  {
+    "id": "openclaw_kb_001",
+    "question": "OpenClaw 是什么？有什么作用？",
+    "summary": "关于「OpenClaw 是什么？有什么作用？」的详细回答：\n\n【简要结论】\nOpenClaw 是一个本地 Agent，可通过手机通信软件（WhatsApp、Telegram、Discord 等）与电脑交互，让本地 AI 读取电脑文件、修改代码和远程对话。支持自动化任务、系统控制、浏览器操作等。\n\n【详细解释】\n· OpenClaw 是一个本地 Agent，可通过手机通信软件（WhatsApp、Telegram、Discord 等）与电脑交互，让本地 AI 读取电脑文件、修改代码和远程对话。\n· 支持自动化任务、系统控制、浏览器操作等。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "OpenClaw-简介",
+    "code": ""
+  },
+  {
+    "id": "openclaw_kb_002",
+    "question": "OpenClaw 对 AI 模型和 API Key 有什么要求？",
+    "summary": "关于「OpenClaw 对 AI 模型和 API Key 有什么要求？」的详细回答：\n\n【简要结论】\n支持 Gemini、GPT、Grok 等国外模型（效果好但收费），也支持国内 AI（如千问，免费额度多但效果稍差）。API Key 有使用额度限制，超出后会额外收费。\n\n【详细解释】\n· 支持 Gemini、GPT、Grok 等国外模型（效果好但收费），也支持国内 AI（如千问，免费额度多但效果稍差）。\n· API Key 有使用额度限制，超出后会额外收费。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "OpenClaw-模型配置",
+    "code": ""
+  },
+  {
+    "id": "openclaw_kb_003",
+    "question": "安装 OpenClaw 前需要准备什么环境？",
+    "summary": "关于「安装 OpenClaw 前需要准备什么环境？」的详细回答：\n\n【简要结论】\n需要 Node.js 环境（版本需大于 22）和 Git 工具。Node 用于运行 JS 编写的 OpenClaw，Git 用于版本更新。Node 官网下载安装程序会自动配置环境变量。\n\n【详细解释】\n· 需要 Node.js 环境（版本需大于 22）和 Git 工具。\n· Node 用于运行 JS 编写的 OpenClaw，Git 用于版本更新。\n· Node 官网下载安装程序会自动配置环境变量。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "OpenClaw-环境准备",
+    "code": ""
+  },
+  {
+    "id": "openclaw_kb_004",
+    "question": "如何一键安装 OpenClaw？",
+    "summary": "关于「如何一键安装 OpenClaw？」的详细回答：\n\n【简要结论】\n官方提供一键脚本，会自动安装 Node.js 和 OpenClaw，执行后引导扫描 WhatsApp QR 码进行配对。\n\n【详细解释】\n· 官方提供一键脚本，会自动安装 Node.js 和 OpenClaw，执行后引导扫描 WhatsApp QR 码进行配对。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "OpenClaw-安装",
+    "code": "curl -fsSL https://openclaw.ai/install.sh | bash"
+  },
+  {
+    "id": "openclaw_kb_005",
+    "question": "如何手动安装 OpenClaw？",
+    "summary": "关于「如何手动安装 OpenClaw？」的详细回答：\n\n【简要结论】\n使用 npm 全局安装最新版 OpenClaw，然后初始化并安装后台守护进程。安装不能指定盘符，C 盘需空出约 20G 空间。\n\n【详细解释】\n· 使用 npm 全局安装最新版 OpenClaw，然后初始化并安装后台守护进程。\n· 安装不能指定盘符，C 盘需空出约 20G 空间。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "OpenClaw-安装",
+    "code": "npm install -g openclaw@latest\nopenclaw onboard --install-daemon"
+  },
+  {
+    "id": "openclaw_kb_006",
+    "question": "OpenClaw 初始化时如何选择 AI 模型提供商？",
+    "summary": "关于「OpenClaw 初始化时如何选择 AI 模型提供商？」的详细回答：\n\n【简要结论】\n运行 onboard 后选择 QuickStart，然后在 Model/auth provider 列表中选择对应的 AI 模型，如 OpenAI、Anthropic、Qwen、Google、Moonshot AI 等。\n\n【详细解释】\n· 运行 onboard 后选择 QuickStart，然后在 Model/auth provider 列表中选择对应的 AI 模型，如 OpenAI、Anthropic、Qwen、Google、Moonshot AI 等。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "OpenClaw-模型配置",
+    "code": ""
+  },
+  {
+    "id": "openclaw_kb_007",
+    "question": "如何配置千问（Qwen）模型？",
+    "summary": "关于「如何配置千问（Qwen）模型？」的详细回答：\n\n【简要结论】\n选择 Qwen OAuth 后，系统会自动打开浏览器跳转千问官网进行登录认证，认证成功后自动配置 API Key。默认模型为 qwen-portal/coder-model。\n\n【详细解释】\n· 选择 Qwen OAuth 后，系统会自动打开浏览器跳转千问官网进行登录认证，认证成功后自动配置 API Key。\n· 默认模型为 qwen-portal/coder-model。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "OpenClaw-模型配置",
+    "code": ""
+  },
+  {
+    "id": "openclaw_kb_008",
+    "question": "OpenClaw 支持哪些聊天渠道？",
+    "summary": "关于「OpenClaw 支持哪些聊天渠道？」的详细回答：\n\n【简要结论】\n支持 Telegram（Bot API）、WhatsApp（QR Link）、Discord（Bot API）、Google Chat、Slack、Signal、iMessage、Nostr、Microsoft Teams、Mattermost、Matrix、LINE、Zalo 等。\n\n【详细解释】\n· 支持 Telegram（Bot API）、WhatsApp（QR Link）、Discord（Bot API）、Google Chat、Slack、Signal、iMessage、Nostr、Microsoft Teams、Mattermost、Matrix、LINE、Zalo 等。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "OpenClaw-渠道配置",
+    "code": ""
+  },
+  {
+    "id": "openclaw_kb_009",
+    "question": "为什么推荐用 WhatsApp 而不是 Telegram？",
+    "summary": "关于「为什么推荐用 WhatsApp 而不是 Telegram？」的详细回答：\n\n【简要结论】\nTelegram 新号注册需要付费（SMS 验证费用），而 WhatsApp 正常注册登录即可，无需付费。但 WhatsApp 权限较低，仅限于对话和发送文件。\n\n【详细解释】\n· Telegram 新号注册需要付费（SMS 验证费用），而 WhatsApp 正常注册登录即可，无需付费。\n· 但 WhatsApp 权限较低，仅限于对话和发送文件。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "OpenClaw-渠道配置",
+    "code": ""
+  },
+  {
+    "id": "openclaw_kb_010",
+    "question": "如何通过 WhatsApp 关联 OpenClaw？",
+    "summary": "关于「如何通过 WhatsApp 关联 OpenClaw？」的详细回答：\n\n【简要结论】\n在 WhatsApp 中点击右上角菜单 → 已关联的设备 → 关联新设备，然后在 OpenClaw 终端选择 WhatsApp (QR link)，扫描显示的 QR 码完成配对。\n\n【详细解释】\n· 在 WhatsApp 中点击右上角菜单 → 已关联的设备 → 关联新设备，然后在 OpenClaw 终端选择 WhatsApp (QR link)，扫描显示的 QR 码完成配对。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "OpenClaw-渠道配置",
+    "code": ""
+  },
+  {
+    "id": "openclaw_kb_011",
+    "question": "OpenClaw 运行后如何访问管理界面？",
+    "summary": "关于「OpenClaw 运行后如何访问管理界面？」的详细回答：\n\n【简要结论】\nOpenClaw 默认运行在 http://127.0.0.1:18789/，可通过浏览器访问 Web 管理界面进行聊天、查看日志、配置等操作。\n\n【详细解释】\n· OpenClaw 默认运行在 http://127.0.0.1:18789/，可通过浏览器访问 Web 管理界面进行聊天、查看日志、配置等操作。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "OpenClaw-运行管理",
+    "code": ""
+  },
+  {
+    "id": "openclaw_kb_012",
+    "question": "OpenClaw 关闭后如何重新启动？",
+    "summary": "关于「OpenClaw 关闭后如何重新启动？」的详细回答：\n\n【简要结论】\n在终端执行 openclaw gateway start 命令即可重新启动 OpenClaw Gateway。\n\n【详细解释】\n· 在终端执行 openclaw gateway start 命令即可重新启动 OpenClaw Gateway。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "OpenClaw-运行管理",
+    "code": "openclaw gateway start"
+  },
+  {
+    "id": "openclaw_kb_013",
+    "question": "如何在手机上与 OpenClaw AI 对话？",
+    "summary": "关于「如何在手机上与 OpenClaw AI 对话？」的详细回答：\n\n【简要结论】\n通过 WhatsApp 给自己发消息即可与 AI 对话。AI 会以 [openclaw] 前缀回复，可以回答问题、编写代码、处理文件等。\n\n【详细解释】\n· 通过 WhatsApp 给自己发消息即可与 AI 对话。\n· AI 会以 [openclaw] 前缀回复，可以回答问题、编写代码、处理文件等。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "OpenClaw-使用",
+    "code": ""
+  },
+  {
+    "id": "openclaw_kb_014",
+    "question": "OpenClaw 能否发送本地文件到手机？",
+    "summary": "关于「OpenClaw 能否发送本地文件到手机？」的详细回答：\n\n【简要结论】\n可以。在 WhatsApp 中发送文件路径（如 D:\\test\\image.png 或 D:\\test\\win.pdf），OpenClaw 会读取本地文件并发送到手机上。\n\n【详细解释】\n· 可以。\n· 在 WhatsApp 中发送文件路径（如 D:\\test\\image.png 或 D:\\test\\win.pdf），OpenClaw 会读取本地文件并发送到手机上。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "OpenClaw-使用",
+    "code": ""
+  },
+  {
+    "id": "openclaw_kb_015",
+    "question": "OpenClaw 网页端有哪些功能模块？",
+    "summary": "关于「OpenClaw 网页端有哪些功能模块？」的详细回答：\n\n【简要结论】\n网页端包含 Chat（聊天）、Overview（概览）、Channels（渠道）、Instances（实例）、Sessions（会话）、Cron Jobs（定时任务）、Skills（技能）、Nodes（节点）、Config（配置）、Debug（调试）、Logs（日志）、Docs（文档）等模块。\n\n【详细解释】\n· 网页端包含 Chat（聊天）、Overview（概览）、Channels（渠道）、Instances（实例）、Sessions（会话）、Cron Jobs（定时任务）、Skills（技能）、Nodes（节点）、Config（配置）、Debug（调试）、Logs（日志）、Docs（文档）等模块。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "OpenClaw-网页端",
+    "code": ""
+  },
+  {
+    "id": "openclaw_kb_016",
+    "question": "如何在网页端切换 WhatsApp 账号？",
+    "summary": "关于「如何在网页端切换 WhatsApp 账号？」的详细回答：\n\n【简要结论】\n点击左侧 Channels → 进入 WhatsApp 配置页面 → 点击 Relink 或 Show QR 重新扫码，即可切换或重新关联 WhatsApp 账号。\n\n【详细解释】\n· 点击左侧 Channels → 进入 WhatsApp 配置页面 → 点击 Relink 或 Show QR 重新扫码，即可切换或重新关联 WhatsApp 账号。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "OpenClaw-网页端",
+    "code": ""
+  },
+  {
+    "id": "openclaw_kb_017",
+    "question": "OpenClaw 的 Skills 是什么？如何配置？",
+    "summary": "关于「OpenClaw 的 Skills 是什么？如何配置？」的详细回答：\n\n【简要结论】\nSkills 是 AI Agent 的能力扩展，如 1password、apple-notes、apple-reminders、bear-notes 等。在网页端 Skills 页面选择对应技能进行配置，部分技能需要特定系统环境（如 macOS）。\n\n【详细解释】\n· Skills 是 AI Agent 的能力扩展，如 1password、apple-notes、apple-reminders、bear-notes 等。\n· 在网页端 Skills 页面选择对应技能进行配置，部分技能需要特定系统环境（如 macOS）。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "OpenClaw-技能配置",
+    "code": ""
+  },
+  {
+    "id": "openclaw_kb_018",
+    "question": "如何查看 OpenClaw 的运行日志？",
+    "summary": "关于「如何查看 OpenClaw 的运行日志？」的详细回答：\n\n【简要结论】\n在网页端点击左侧 Logs 菜单，可查看 Gateway 的运行日志，支持按 trace、debug、info、warn、error、fatal 级别筛选，也可导出日志。\n\n【详细解释】\n· 在网页端点击左侧 Logs 菜单，可查看 Gateway 的运行日志，支持按 trace、debug、info、warn、error、fatal 级别筛选，也可导出日志。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "OpenClaw-调试",
+    "code": ""
+  },
+  {
+    "id": "openclaw_kb_019",
+    "question": "如何通过终端修改 OpenClaw 配置？",
+    "summary": "关于「如何通过终端修改 OpenClaw 配置？」的详细回答：\n\n【简要结论】\n在终端执行 openclaw config 命令，即可进入终端配置界面进行相关设置。\n\n【详细解释】\n· 在终端执行 openclaw config 命令，即可进入终端配置界面进行相关设置。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "OpenClaw-配置",
+    "code": "openclaw config"
+  },
+  {
+    "id": "openclaw_kb_020",
+    "question": "OpenClaw 使用时需要注意什么安全问题？",
+    "summary": "关于「OpenClaw 使用时需要注意什么安全问题？」的详细回答：\n\n【简要结论】\nOpenClaw 会赋予 AI 系统级权限（读写文件、运行命令），数据虽然更私密（本地运行），但风险较高。初始化时会提示风险，需确认后才可继续使用。所有操作需在挂梯子的前提下执行。\n\n【详细解释】\n· OpenClaw 会赋予 AI 系统级权限（读写文件、运行命令），数据虽然更私密（本地运行），但风险较高。\n· 初始化时会提示风险，需确认后才可继续使用。\n· 所有操作需在挂梯子的前提下执行。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "OpenClaw-安全注意",
+    "code": ""
+  }
+]
