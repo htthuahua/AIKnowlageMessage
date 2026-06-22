@@ -6,6 +6,7 @@ set PYTHONIOENCODING=utf-8
 set PYTHONUTF8=1
 set HF_HUB_DISABLE_PROGRESS_BARS=1
 set TOKENIZERS_PARALLELISM=false
+set HF_ENDPOINT=https://hf-mirror.com
 
 echo Stopping old server if any...
 powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\run_web.ps1" -StopOnly >nul 2>&1

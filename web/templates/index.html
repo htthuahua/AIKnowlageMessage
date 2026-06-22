@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>知识库助手</title>
-  <link rel="stylesheet" href="/static/style.css?v=3" />
+  <link rel="stylesheet" href="/static/style.css?v=4" />
 </head>
 <body>
   <div class="app">
@@ -122,6 +122,12 @@
             <div class="upload-status-card" id="uploadStatusCard">
               <span class="upload-status-label">训练进度</span>
               <span class="upload-status-value" id="uploadStatusText">加载中...</span>
+              <div class="upload-training-progress hidden" id="uploadTrainingProgress">
+                <div class="upload-progress-track">
+                  <div class="upload-progress-fill" id="uploadProgressFill"></div>
+                </div>
+                <p class="upload-progress-detail" id="uploadProgressDetail"></p>
+              </div>
             </div>
           </header>
 
@@ -236,6 +242,6 @@
     }
   </script>
   <script type="module" src="/static/city-boot.js?v=7"></script>
-  <script src="/static/app.js?v=5"></script>
+  <script src="/static/app.js?v=7"></script>
 </body>
 </html>

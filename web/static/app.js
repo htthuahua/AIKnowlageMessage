@@ -48,6 +48,9 @@ const uploadCodeEl = document.getElementById("uploadCode");
 const uploadSubmitBtn = document.getElementById("uploadSubmitBtn");
 const uploadFeedbackEl = document.getElementById("uploadFeedback");
 const uploadStatusTextEl = document.getElementById("uploadStatusText");
+const uploadTrainingProgressEl = document.getElementById("uploadTrainingProgress");
+const uploadProgressFillEl = document.getElementById("uploadProgressFill");
+const uploadProgressDetailEl = document.getElementById("uploadProgressDetail");
 const uploadHistoryListEl = document.getElementById("uploadHistoryList");
 const uploadHistoryRefreshEl = document.getElementById("uploadHistoryRefresh");
 const uploadEditIdEl = document.getElementById("uploadEditId");
@@ -490,18 +493,38 @@ function formatUploadTime(iso) {
 function renderUploadStatus(data) {
   if (!uploadStatusTextEl) return;
   if (data.training) {
-    uploadStatusTextEl.textContent = "模型训练中，请稍候...";
+    const pct = Math.max(0, Math.min(100, Number(data.training_progress) || 0));
+    const msg = data.training_message || "模型训练中，请稍候...";
+    const epoch = data.training_epoch || 0;
+    const totalEpochs = data.training_total_epochs || 0;
+    const step = data.training_step || 0;
+    const totalSteps = data.training_total_steps || 0;
+    const epochLabel =
+      epoch > 0 && totalEpochs > 0 ? ` · 第 ${epoch}/${totalEpochs} 轮` : "";
+    const stepLabel =
+      step > 0 && totalSteps > 0 ? ` · 步数 ${step}/${totalSteps}` : "";
+    uploadStatusTextEl.textContent = `模型训练中 ${pct}%${epochLabel}${stepLabel}`;
     uploadStatusTextEl.classList.add("training");
+    if (uploadTrainingProgressEl) uploadTrainingProgressEl.classList.remove("hidden");
+    if (uploadProgressFillEl) uploadProgressFillEl.style.width = `${pct}%`;
+    if (uploadProgressDetailEl) uploadProgressDetailEl.textContent = msg;
     return;
   }
   uploadStatusTextEl.classList.remove("training");
+  if (uploadTrainingProgressEl) uploadTrainingProgressEl.classList.add("hidden");
+  if (uploadProgressFillEl) uploadProgressFillEl.style.width = "0%";
+  if (uploadProgressDetailEl) uploadProgressDetailEl.textContent = "";
   const pending = data.pending_since_train ?? 0;
-  const threshold = data.train_threshold ?? 50;
+  const threshold = data.train_threshold ?? data.threshold ?? 50;
   const remain = Math.max(0, threshold - pending);
+  if (pending === 0 && data.last_train_at) {
+    uploadStatusTextEl.textContent = `上次训练：${formatUploadTime(data.last_train_at)} · 距下次还差 ${threshold} 条`;
+    return;
+  }
   uploadStatusTextEl.textContent =
     remain > 0
       ? `距自动训练还差 ${remain} 条（已累积 ${pending}/${threshold}）`
-      : `已达 ${threshold} 条，训练将自动开始`;
+      : "已达 50 条，正在启动自动训练...";
 }
 
 async function fetchUploadStatus() {
@@ -521,9 +544,10 @@ async function fetchUploadStatus() {
 
 function startUploadStatusPolling() {
   stopUploadStatusPolling();
+  fetchUploadStatus();
   uploadStatusTimer = window.setInterval(() => {
     fetchUploadStatus();
-  }, 5000);
+  }, 1000);
 }
 
 function stopUploadStatusPolling() {
@@ -982,3 +1006,7 @@ fetch("/api/health")
   .catch(() => {
     setModelStatus(false, "服务未连接");
   });
+
+fetchUploadStatus().then((data) => {
+  if (data?.training) startUploadStatusPolling();
+});

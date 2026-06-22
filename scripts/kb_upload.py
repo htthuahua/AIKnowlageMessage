@@ -16,8 +16,44 @@ STATE_PATH = DATA_DIR / "upload_state.json"
 META_PATH = DATA_DIR / "kb_meta.json"
 TRAIN_THRESHOLD = 50
 
-_train_lock = threading.Lock()
+_train_lock = threading.RLock()
 _training = False
+_training_progress: dict = {
+    "percent": 0,
+    "phase": "",
+    "message": "",
+    "epoch": 0,
+    "total_epochs": 0,
+    "step": 0,
+    "total_steps": 0,
+}
+
+
+def _set_training_progress(
+    percent: int,
+    phase: str,
+    message: str,
+    *,
+    epoch: int = 0,
+    total_epochs: int = 0,
+    step: int = 0,
+    total_steps: int = 0,
+) -> None:
+    global _training_progress
+    with _train_lock:
+        _training_progress = {
+            "percent": max(0, min(100, int(percent))),
+            "phase": phase,
+            "message": message,
+            "epoch": epoch,
+            "total_epochs": total_epochs,
+            "step": step,
+            "total_steps": total_steps,
+        }
+
+
+def _reset_training_progress() -> None:
+    _set_training_progress(0, "", "")
 
 FOLDER_LABELS = {
     "exam": "Exam 题库",
@@ -348,14 +384,24 @@ def get_upload_history(limit: int = 50) -> list[dict]:
 
 
 def get_upload_status() -> dict:
-    global _training
+    global _training, _training_progress
     state = load_upload_state()
+    with _train_lock:
+        progress = dict(_training_progress)
     return {
         "pending_since_train": state.get("pending_since_train", 0),
         "threshold": TRAIN_THRESHOLD,
+        "train_threshold": TRAIN_THRESHOLD,
         "training": _training,
         "last_train_at": state.get("last_train_at"),
         "total_uploads": state.get("total_uploads", 0),
+        "training_progress": progress.get("percent", 0),
+        "training_phase": progress.get("phase", ""),
+        "training_message": progress.get("message", ""),
+        "training_epoch": progress.get("epoch", 0),
+        "training_total_epochs": progress.get("total_epochs", 0),
+        "training_step": progress.get("step", 0),
+        "training_total_steps": progress.get("total_steps", 0),
     }
 
 
@@ -363,16 +409,56 @@ def _run_training(qa_engine) -> None:
     global _training
     from train import build_embeddings, train_model
 
+    epochs = 5
+
+    def on_progress(
+        phase: str,
+        percent: int,
+        message: str,
+        epoch: int = 0,
+        total_epochs: int = 0,
+        step: int = 0,
+        total_steps: int = 0,
+    ) -> None:
+        _set_training_progress(
+            percent,
+            phase,
+            message,
+            epoch=epoch,
+            total_epochs=total_epochs or (epochs if phase == "training" else 0),
+            step=step,
+            total_steps=total_steps,
+        )
+
     try:
+        _set_training_progress(2, "prepare", "准备训练数据...")
         records = load_records()
-        model = train_model(records, epochs=5, batch_size=16)
-        embeddings = build_embeddings(model, records)
+        _set_training_progress(5, "prepare", f"已加载 {len(records)} 条问答，开始训练...")
+        model = train_model(
+            records,
+            epochs=epochs,
+            batch_size=16,
+            progress_callback=on_progress,
+            show_progress_bar=True,
+        )
+        embeddings = build_embeddings(
+            model,
+            records,
+            progress_callback=on_progress,
+            show_progress_bar=True,
+        )
+        _set_training_progress(92, "saving", "保存索引到 index.pkl...")
         save_index(records, embeddings)
+        _set_training_progress(96, "reloading", "重新加载模型与索引...")
         qa_engine._reload_model()
         state = load_upload_state()
         state["pending_since_train"] = 0
         state["last_train_at"] = _now_iso()
         save_upload_state(state)
+        _set_training_progress(100, "done", "训练完成")
+    except Exception as exc:
+        _set_training_progress(0, "error", f"训练失败: {exc}")
+        raise
     finally:
         _training = False
 
@@ -381,6 +467,29 @@ def refresh_index_after_upload(qa_engine) -> None:
     qa_engine.load()
     qa_engine._records, qa_engine._embeddings = rebuild_index(qa_engine.model)
     qa_engine._index_mtime = qa_engine._current_index_mtime()
+
+
+def start_pending_training(qa_engine) -> bool:
+    """累计上传已达阈值且当前未训练时，启动后台训练。"""
+    global _training
+    if qa_engine is None:
+        return False
+    state = load_upload_state()
+    if int(state.get("pending_since_train", 0)) < TRAIN_THRESHOLD:
+        return False
+    with _train_lock:
+        if _training:
+            return False
+        _training = True
+        _reset_training_progress()
+        _set_training_progress(1, "starting", "累计 50 条，正在启动自动训练...")
+        thread = threading.Thread(
+            target=_run_training,
+            args=(qa_engine,),
+            daemon=True,
+        )
+        thread.start()
+        return True
 
 
 def upload_knowledge(
@@ -423,18 +532,7 @@ def upload_knowledge(
     }
     append_history(history_entry)
 
-    training_started = False
-    if state["pending_since_train"] >= TRAIN_THRESHOLD and not _training:
-        with _train_lock:
-            if not _training:
-                _training = True
-                training_started = True
-                thread = threading.Thread(
-                    target=_run_training,
-                    args=(qa_engine,),
-                    daemon=True,
-                )
-                thread.start()
+    training_started = start_pending_training(qa_engine)
 
     return {
         "ok": True,

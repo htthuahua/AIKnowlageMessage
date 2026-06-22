@@ -102,7 +102,7 @@ class KnowledgeQA:
             raise FileNotFoundError(
                 f"模型不存在: {MODEL_DIR}\n请先运行: python scripts/train.py"
             )
-        self._model = SentenceTransformer(str(MODEL_DIR))
+        self._model = SentenceTransformer(str(MODEL_DIR), local_files_only=True)
         self._records, self._embeddings = ensure_index(self._model)
         self._index_mtime = self._current_index_mtime()
 

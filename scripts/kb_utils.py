@@ -13,6 +13,18 @@ MODEL_DIR = ROOT / "models" / "kb_matcher"
 INDEX_PATH = MODEL_DIR / "index.pkl"
 
 
+def local_model_ready() -> bool:
+    if not MODEL_DIR.exists() or not (MODEL_DIR / "config.json").exists():
+        return False
+    return (MODEL_DIR / "model.safetensors").exists() or (MODEL_DIR / "pytorch_model.bin").exists()
+
+
+def resolve_train_model_path(base_model: str) -> tuple[str, bool]:
+    if local_model_ready():
+        return str(MODEL_DIR), True
+    return base_model, False
+
+
 def load_records() -> list[dict]:
     records: list[dict] = []
     for path in sorted(MESSAGE_DIR.rglob("*.json")):

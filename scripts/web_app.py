@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
+import logging
 import os
 import sys
 from pathlib import Path
@@ -9,6 +10,7 @@ os.environ.setdefault("PYTHONIOENCODING", "utf-8")
 os.environ.setdefault("PYTHONUTF8", "1")
 os.environ.setdefault("HF_HUB_DISABLE_PROGRESS_BARS", "1")
 os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+os.environ.setdefault("HF_ENDPOINT", "https://hf-mirror.com")
 
 from flask import Flask, jsonify, render_template, request
 
@@ -25,6 +27,7 @@ from kb_upload import (
     get_upload_status,
     list_kb_records,
     list_knowledge_bases,
+    start_pending_training,
     update_record,
     upload_knowledge,
 )
@@ -35,6 +38,19 @@ app = Flask(
     template_folder=str(ROOT / "web" / "templates"),
     static_folder=str(ROOT / "web" / "static"),
 )
+
+
+class _SkipPollAccessLogFilter(logging.Filter):
+    """屏蔽高频轮询接口的 Werkzeug 访问日志。"""
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        return "/api/upload/status" not in record.getMessage()
+
+
+def _quiet_poll_access_logs() -> None:
+    poll_filter = _SkipPollAccessLogFilter()
+    for logger_name in ("werkzeug", "werkzeug.serving"):
+        logging.getLogger(logger_name).addFilter(poll_filter)
 
 
 @app.get("/")
@@ -89,6 +105,7 @@ def knowledge_bases_api():
 @app.get("/api/upload/status")
 def upload_status_api():
     try:
+        start_pending_training(qa_engine)
         status = get_upload_status()
         status["record_count"] = len(load_records())
         return jsonify(status)
@@ -257,11 +274,14 @@ def main() -> None:
 
     print("正在加载模型与索引...")
     qa_engine.load()
+    if start_pending_training(qa_engine):
+        print("检测到累计 50 条待训练，已在后台启动自动训练...")
     records = qa_engine._records or load_records()
     print(f"知识库条目: {len(records)}")
     print("个人知识库 Web 已启动: http://127.0.0.1:5000")
     print("直接运行: python scripts/web_app.py")
-    app.run(host="127.0.0.1", port=5000, debug=False, threaded=False, use_reloader=False)
+    _quiet_poll_access_logs()
+    app.run(host="127.0.0.1", port=5000, debug=False, threaded=True, use_reloader=False)
 
 
 if __name__ == "__main__":

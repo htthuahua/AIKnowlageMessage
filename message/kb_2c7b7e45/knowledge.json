@@ -1,0 +1,247 @@
+[
+  {
+    "id": "kb_2c7b7e45_kb_001",
+    "question": "搭建模型前的准备工作是什么",
+    "summary": "关于「搭建模型前的准备工作是什么」的详细回答：\n\n【简要结论】\n设置控制面板 parser = argparse.ArgumentParser(description=\"训练个人知识库匹配模型\") parser.add_argument(\"--epochs\", type=int, default=8) parser.add_argument(\"--batch-size\", type=int, default=16) parser.add_argument(\"--base-model\", type=str, default=BASE_MODEL)在这里进行训练模型前的设置，设置训练多少轮每批次输入量是多少，以及使用什么模型作为基座模型， args = parser.parse_args()根据我们设置的量最终用一个变量进行接收\n\n【详细解释】\n· 设置控制面板 parser = argparse.ArgumentParser(description=\"训练个人知识库匹配模型\") parser.add_argument(\"--epochs\", type=int, default=8) parser.add_argument(\"--batch-size\", type=int, default=16) parser.add_argument(\"--base-model\", type=str, default=BASE_MODEL)在这里进行训练模型前的设置，设置训练多少轮每批次输入量是多少，以及使用什么模型作为基座模型， args = parser.parse_args()根据我们设置的量最终用一个变量进行接收。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。\n\n完整代码示例见下方代码块。",
+    "category": "基本概念",
+    "code": "parser = argparse.ArgumentParser(description=\"训练个人知识库匹配模型\")\n    parser.add_argument(\"--epochs\", type=int, default=8)\n    parser.add_argument(\"--batch-size\", type=int, default=16)\n    parser.add_argument(\"--base-model\", type=str, default=BASE_MODEL)\n    args = parser.parse_args()"
+  },
+  {
+    "id": "kb_2c7b7e45_kb_002",
+    "question": "如何进行模型的训练",
+    "summary": "关于「如何进行模型的训练」的详细回答：\n\n【简要结论】\n先加载指定的基座模型 → 把 JSON 问答包装成 InputExample 训练样本 → 用 DataLoader 按 batch_size 分批并打乱 → 用 MultipleNegativesRankingLoss 做对比学习 → 调用 model.fit 训练（设置轮数 epochs、学习率预热 warmup_steps、保存路径 output_path、进度条）→ 从磁盘重新加载训好的模型并返回，供后续向量化使用。\n\n【详细解释】\n· 先加载指定的基座模型 → 把 JSON 问答包装成 InputExample 训练样本 → 用 DataLoader 按 batch_size 分批并打乱 → 用 MultipleNegativesRankingLoss 做对比学习 → 调用 model.fit 训练（设置轮数 epochs、学习率预热 warmup_steps、保存路径 output_path、进度条）→ 从磁盘重新加载训好的模型并返回，供后续向量化使用。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "基本概念",
+    "code": "model = train_model(\n        records,\n        epochs=args.epochs,\n        batch_size=args.batch_size,\n        base_model=args.base_model,\n    )\ndef train_model(\n    records: list[dict],\n    epochs: int = 8,\n    batch_size: int = 16,\n    base_model: str = BASE_MODEL,\n) -> SentenceTransformer:\n    print(f\"加载基座模型: {base_model}\")\n    model = SentenceTransformer(base_model)\n\n    examples = build_examples(records)\n    loader = DataLoader(examples, shuffle=True, batch_size=batch_size)\n    loss = MultipleNegativesRankingLoss(model)\n\n    print(f\"开始训练: {len(records)} 条样本, epochs={epochs}, batch_size={batch_size}\")\n    model.fit(\n        train_objectives=[(loader, loss)],\n        epochs=epochs,\n        warmup_steps=max(10, len(records) // batch_size),\n        output_path=str(MODEL_DIR),\n        show_progress_bar=True,\n    )\n    return SentenceTransformer(str(MODEL_DIR))"
+  },
+  {
+    "id": "kb_2c7b7e45_kb_003",
+    "question": "训练好的模型如何进行问题和答案的快速匹配",
+    "summary": "关于「训练好的模型如何进行问题和答案的快速匹配」的详细回答：\n\n【简要结论】\n之前的训练是使训练好的模型更懂语义化就是能够进行听懂，现在就是进行再通过训练好的模型把问题进行向量化的转变用来进行快速检索，通过问题进行检索推理出来我们想要的结果encode就是进行把传递进去的第一参数进行向量化，normalize_embeddings=True 向量归一化，方便用 余弦相似度 比较，这个就是我们所说的权重之间的比较，返回的是一个形状约 (554, 768) 的 NumPy 数组：每一行对应一条「问题」的语义向量，用 float32 小数存储，后面会写进 index.pkl 供 Web 问答检索用。\n\n【详细解释】\n· 之前的训练是使训练好的模型更懂语义化就是能够进行听懂，现在就是进行再通过训练好的模型把问题进行向量化的转变用来进行快速检索，通过问题进行检索推理出来我们想要的结果encode就是进行把传递进去的第一参数进行向量化，normalize_embeddings=True 向量归一化，方便用 余弦相似度 比较，这个就是我们所说的权重之间的比较，返回的是一个形状约 (554, 768) 的 NumPy 数组：每一行对应一条「问题」的语义向量，用 float32 小数存储，后面会写进 index.pkl 供 Web 问答检索用。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "基本概念",
+    "code": "def build_embeddings(model: SentenceTransformer, records: list[dict]) -> np.ndarray:\n    questions = [item[\"question\"] for item in records]\n    print(\"构建向量索引...\")\n    embeddings = model.encode(\n        questions,\n        batch_size=32,\n        show_progress_bar=True,\n        normalize_embeddings=True,\n    )\n    return np.asarray(embeddings, dtype=np.float32)"
+  },
+  {
+    "id": "kb_2c7b7e45_kb_004",
+    "question": "训练好的模型最后应该怎么进行打包",
+    "summary": "关于「训练好的模型最后应该怎么进行打包」的详细回答：\n\n【简要结论】\nsave_index(records, embeddings) 把问答内容和问题向量一起保存到 models/kb_matcher/index.pkl，以后 Web 提问时直接读这个文件做语义检索，不用重新遍历所有 JSON 为什么要存这个文件？ Web 问答时不会每次都重新 encode 全部 554 条问题，而是： 1. 加载 index.pkl 2. 用户提问 → 编码成 1 个向量 3. 和 embeddings 里 554 个向量比相似度 4. 找到最相似的那一行 i 5. 返回 records[i] 的 summary、code 所以 index.pkl = 检索用的「向量库 + 答案库」\n\n【详细解释】\n· save_index(records, embeddings) 把问答内容和问题向量一起保存到 models/kb_matcher/index.pkl，以后 Web 提问时直接读这个文件做语义检索，不用重新遍历所有 JSON 为什么要存这个文件？。\n· Web 问答时不会每次都重新 encode 全部 554 条问题，而是： 1. 加载 index.pkl 2. 用户提问 → 编码成 1 个向量 3. 和 embeddings 里 554 个向量比相似度 4. 找到最相似的那一行 i 5. 返回 records[i] 的 summary、code 所以 index.pkl = 检索用的「向量库 + 答案库」。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "基础概念",
+    "code": "def save_index(records: list[dict], embeddings) -> None:\n    MODEL_DIR.mkdir(parents=True, exist_ok=True)\n    payload = {\"records\": records, \"embeddings\": embeddings}\n    with open(INDEX_PATH, \"wb\") as f:\n        pickle.dump(payload, f)"
+  },
+  {
+    "id": "kb_2c7b7e45_kb_005",
+    "question": "@staticmethod和@classmethod有什么区别",
+    "summary": "关于「@staticmethod和@classmethod有什么区别」的详细回答：\n\n【简要结论】\n普通方法 def query(self, question) question self = 这个实例 qa @classmethod question cls = 类 KnowledgeQA @staticmethod question 什么都不传 1. 普通方法 def foo(self, ...) — 要用「这个对象里的数据」 def query(self, question: str, threshold: float = 0.45): self._model # 内存里的模型 self._records # 索引里的问答 self._embeddings # 向量矩阵 用处：问答引擎是「有状态的」——模型、索引都挂在 qa_engine 这一个实例上，必须用 self 才能访问。 2. @staticmethod — 工具函数，和实例无关 @staticmethod def _normalize_question(question: str) -> str: text = question.strip().rstrip(\"？?。!！\") return text.replace(\" \", \"\") 用处： 只做字符串清理，不需要 self._model 放在类里，表示「这是 KnowledgeQA 相关的工具」，命名更清楚：KnowledgeQA._normalize_question(q) 也可以写成模块级函数，但放类里 组织代码、方便查找 同类还有 _find_exact_record(records, question)：只根据传入的 records 查找，不碰实例状态。 3. @classmethod — 和类相关，可能要调类上的其他方法 @classmethod def _is_catalog_question(cls, question: str) -> bool: text = cls._normalize_question(question) # 调同类的 staticmethod ... 用处： 逻辑上属于 KnowledgeQA，但 不需要 加载模型、读索引 通过 cls 可以调用 同类别的其他方法（如 cls._normalize_question） 子类继承时，cls 会是子类，扩展更方便（你这个项目里用得不多，但是 classmethod 的常见理由） 对比：如果不用这些装饰器会怎样？ 写法 问题 全写成普通方法 _normalize_question 也要写 self，但根本不用 self，容易误导 全写成模块函数 能跑，但和 KnowledgeQA 拆散了，不好看出哪些属于问答逻辑 classmethod 改成 staticmethod _is_catalog_question 里就要写死 KnowledgeQA._normalize_question，不如 cls._normalize_question 灵活\n\n【详细解释】\n· 普通方法 def query(self, question) question self = 这个实例 qa @classmethod question cls = 类 KnowledgeQA @staticmethod question 什么都不传 1. 普通方法 def foo(self, ...) — 要用「这个对象里的数据」 def query(self, question: str, threshold: float = 0.45): self._model # 内存里的模型 self._records # 索引里的问答 self._embeddings # 向量矩阵 用处：问答引擎是「有状态的」——模型、索引都挂在 qa_engine 这一个实例上，必须用 self 才能访问。\n· 2. @staticmethod — 工具函数，和实例无关 @staticmethod def _normalize_question(question: str) -> str: text = question.strip().rstrip(\"？。\n· ?。\n· !！。\n· \") return text.replace(\" \", \"\") 用处： 只做字符串清理，不需要 self._model 放在类里，表示「这是 KnowledgeQA 相关的工具」，命名更清楚：KnowledgeQA._normalize_question(q) 也可以写成模块级函数，但放类里 组织代码、方便查找 同类还有 _find_exact_record(records, question)：只根据传入的 records 查找，不碰实例状态。\n· 3. @classmethod — 和类相关，可能要调类上的其他方法 @classmethod def _is_catalog_question(cls, question: str) -> bool: text = cls._normalize_question(question) # 调同类的 staticmethod ... 用处： 逻辑上属于 KnowledgeQA，但 不需要 加载模型、读索引 通过 cls 可以调用 同类别的其他方法（如 cls._normalize_question） 子类继承时，cls 会是子类，扩展更方便（你这个项目里用得不多，但是 classmethod 的常见理由） 对比：如果不用这些装饰器会怎样？。\n· 写法 问题 全写成普通方法 _normalize_question 也要写 self，但根本不用 self，容易误导 全写成模块函数 能跑，但和 KnowledgeQA 拆散了，不好看出哪些属于问答逻辑 classmethod 改成 staticmethod _is_catalog_question 里就要写死 KnowledgeQA._normalize_question，不如 cls._normalize_question 灵活。\n\n【代码说明】\n· 配置/注释说明：\n  - 需要实例上的模型 → 必须 self\n  - 通过类调另一个方法 → 要 cls\n  - 只处理字符串 → 不需要 self/cls\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。\n\n完整代码示例见下方代码块。",
+    "category": "基本概念",
+    "code": "def query(self, question):\n    self._model          # 需要实例上的模型 → 必须 self\n\n@classmethod\ndef _is_catalog_question(cls, question):\n    cls._normalize_question(question)   # 通过类调另一个方法 → 要 cls\n\n@staticmethod\ndef _normalize_question(question):\n    question.strip()     # 只处理字符串 → 不需要 self/cls"
+  },
+  {
+    "id": "kb_2c7b7e45_kb_006",
+    "question": "flask框架如何进行使用",
+    "summary": "关于「flask框架如何进行使用」的详细回答：\n\n【简要结论】\n2. 最小用法（三步） ① 创建应用 app = Flask( __name__, template_folder=str(ROOT / \"web\" / \"templates\"), static_folder=str(ROOT / \"web\" / \"static\"), ) 参数 作用 __name__ Flask 应用标识 template_folder HTML 模板目录 static_folder CSS/JS/图片等静态文件 ② 注册路由（URL → 函数） @app.get(\"/\") # 浏览器访问 http://127.0.0.1:5000/ def index(): return render_template(\"index.html\") @app.post(\"/api/ask\") # 前端 POST 到 /api/ask def ask_api(): ... return jsonify({...}) 装饰器 @app.get / @app.post 的意思：某个 URL 用什么 HTTP 方法访问时，执行下面这个函数。 ③ 启动服务 app.run(host=\"127.0.0.1\", port=5000, debug=False, threaded=False, use_reloader=False) 运行 python scripts/web_app.py 或 start.bat 后，本机 http://127.0.0.1:5000 就能访问。\n\n【详细解释】\n· 2. 最小用法（三步） ① 创建应用 app = Flask( __name__, template_folder=str(ROOT / \"web\" / \"templates\"), static_folder=str(ROOT / \"web\" / \"static\"), ) 参数 作用 __name__ Flask 应用标识 template_folder HTML 模板目录 static_folder CSS/JS/图片等静态文件 ② 注册路由（URL → 函数） @app.get(\"/\") # 浏览器访问 http://127.0.0.1:5000/ def index(): return render_template(\"index.html\") @app.post(\"/api/ask\") # 前端 POST 到 /api/ask def ask_api(): ... return jsonify({...}) 装饰器 @app.get / @app.post 的意思：某个 URL 用什么 HTTP 方法访问时，执行下面这个函数。\n· ③ 启动服务 app.run(host=\"127.0.0.1\", port=5000, debug=False, threaded=False, use_reloader=False) 运行 python scripts/web_app.py 或 start.bat 后，本机 http://127.0.0.1:5000 就能访问。\n\n【代码说明】\n· 可将示例参数替换为你的业务场景后再验证。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。\n\n完整代码示例见下方代码块。",
+    "category": "基础概念",
+    "code": "app = Flask(\n    __name__,\n    template_folder=str(ROOT / \"web\" / \"templates\"),\n    static_folder=str(ROOT / \"web\" / \"static\"),\n)\n\n\n@app.get(\"/\")\ndef index():\n    return render_template(\"index.html\")\n\n\n@app.after_request\ndef disable_static_cache(response):\n    if request.path == \"/\" or request.path.startswith(\"/static/\"):\n        response.headers[\"Cache-Control\"] = \"no-cache, no-store, must-revalidate\"\n        response.headers[\"Pragma\"] = \"no-cache\"\n        response.headers[\"Expires\"] = \"0\"\n    return response"
+  },
+  {
+    "id": "kb_2c7b7e45_kb_007",
+    "question": "这个项目是生成式大模型吗？和 ChatGPT 有什么区别？",
+    "summary": "关于「这个项目是生成式大模型吗？和 ChatGPT 有什么区别？」的详细回答：\n\n【简要结论】\n不是。它是 检索式问答：用 Sentence-BERT 把用户问题和知识库里的问题做语义相似度匹配，返回 JSON 里预先写好的 summary 和 code，不凭空生成答案，所以答案可控、可审计。\n\n【详细解释】\n· 不是。\n· 它是 检索式问答：用 Sentence-BERT 把用户问题和知识库里的问题做语义相似度匹配，返回 JSON 里预先写好的 summary 和 code，不凭空生成答案，所以答案可控、可审计。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_008",
+    "question": "从用户提问到返回答案，数据流怎么走？",
+    "summary": "关于「从用户提问到返回答案，数据流怎么走？」的详细回答：\n\n【简要结论】\n浏览器 POST /api/ask → web_app.ask_api() 解析 JSON → qa_engine.query() → 用户问题 model.encode 成向量 → 与 index.pkl 里 embeddings 比相似度 → 取 records[i] 的 summary/code → jsonify 返回前端。\n\n【详细解释】\n· 浏览器 POST /api/ask → web_app.ask_api() 解析 JSON → qa_engine.query() → 用户问题 model.encode 成向量 → 与 index.pkl 里 embeddings 比相似度 → 取 records[i] 的 summary/code → jsonify 返回前端。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_009",
+    "question": "训练和使用的产物分别是什么？存在哪？",
+    "summary": "关于「训练和使用的产物分别是什么？存在哪？」的详细回答：\n\n【简要结论】\n训练产出两样：① 微调模型 → models/kb_matcher/；② 问答+问题向量索引 → models/kb_matcher/index.pkl。使用时模型负责 encode，pkl 负责检索和取答案。\n\n【详细解释】\n· 训练产出两样：① 微调模型 → models/kb_matcher/；。\n· ② 问答+问题向量索引 → models/kb_matcher/index.pkl。\n· 使用时模型负责 encode，pkl 负责检索和取答案\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_010",
+    "question": "InputExample 是什么？为什么要用它？",
+    "summary": "关于「InputExample 是什么？为什么要用它？」的详细回答：\n\n【简要结论】\n它是 Sentence Transformers 库里的 训练样本类（不是函数），把每条 JSON 包装成 texts=[question, summary]，供 DataLoader 和损失函数使用。\n\n【详细解释】\n· 它是 Sentence Transformers 库里的 训练样本类（不是函数），把每条 JSON 包装成 texts=[question, summary]，供 DataLoader 和损失函数使用。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_011",
+    "question": "MultipleNegativesRankingLoss 在学什么？",
+    "summary": "关于「MultipleNegativesRankingLoss 在学什么？」的详细回答：\n\n【简要结论】\n对比学习：一个 batch 里，每个 问题 应和自己的 摘要 更近，和同 batch 其他摘要更远，从而学会语义匹配，而不是死记字符串。\n\n【详细解释】\n· 对比学习：一个 batch 里，每个 问题 应和自己的 摘要 更近，和同 batch 其他摘要更远，从而学会语义匹配，而不是死记字符串。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_012",
+    "question": "build_embeddings 和 train_model 有什么区别？",
+    "summary": "关于「build_embeddings 和 train_model 有什么区别？」的详细回答：\n\n【简要结论】\ntrain_model 更新模型参数（微调）；build_embeddings 不训练，只用训好的模型把所有 question 编码成向量，写入 index.pkl 供检索。\n\n【详细解释】\n· train_model 更新模型参数（微调）；。\n· build_embeddings 不训练，只用训好的模型把所有 question 编码成向量，写入 index.pkl 供检索。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_013",
+    "question": "argparse 里的 ArgumentParser 是加载 AI 模型吗？",
+    "summary": "关于「argparse 里的 ArgumentParser 是加载 AI 模型吗？」的详细回答：\n\n【简要结论】\n不是。它是 命令行参数解析器，用来读 --epochs、--batch-size、--base-model 等运行配置；真正加载模型是后面的 SentenceTransformer(base_model)。\n\n【详细解释】\n· 不是。\n· 它是 命令行参数解析器，用来读 --epochs、--batch-size、--base-model 等运行配置；。\n· 真正加载模型是后面的 SentenceTransformer(base_model)。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_014",
+    "question": "warmup_steps 是预热模型吗？",
+    "summary": "关于「warmup_steps 是预热模型吗？」的详细回答：\n\n【简要结论】\n不是。它是 学习率预热：训练前几步学习率从小慢慢变大，避免一开始更新过猛；和模型预加载无关。\n\n【详细解释】\n· 不是。\n· 它是 学习率预热：训练前几步学习率从小慢慢变大，避免一开始更新过猛；。\n· 和模型预加载无关。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_015",
+    "question": "index.pkl 里存的是什么？",
+    "summary": "关于「index.pkl 里存的是什么？」的详细回答：\n\n【简要结论】\n一个字典：records（完整问答文字）+ embeddings（每条 question 的向量）。摘要没有单独存成向量。\n\n【详细解释】\n· 一个字典：records（完整问答文字）+ embeddings（每条 question 的向量）。\n· 摘要没有单独存成向量。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_016",
+    "question": "records 和 embeddings 怎么对应？",
+    "summary": "关于「records 和 embeddings 怎么对应？」的详细回答：\n\n【简要结论】\n靠 下标对齐：records[i] 的问题 ↔ embeddings[i] 那一行向量。检索时找到第 i 行最像，就去 records[i] 取 summary/code。\n\n【详细解释】\n· 靠 下标对齐：records[i] 的问题 ↔ embeddings[i] 那一行向量。\n· 检索时找到第 i 行最像，就去 records[i] 取 summary/code。\n\n【实践建议】\n· 先写最小可运行示例，确认流程正确后再补异常处理和边界情况。\n· 改配置或命令参数后，记得观察日志确认已生效。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_017",
+    "question": "embeddings 是模型吗？",
+    "summary": "关于「embeddings 是模型吗？」的详细回答：\n\n【简要结论】\n不是。模型在 models/kb_matcher/；embeddings 是模型 算出来的数字结果（向量集合），存在 pkl 里用来比相似度。\n\n【详细解释】\n· 不是。\n· 模型在 models/kb_matcher/；。\n· embeddings 是模型 算出来的数字结果（向量集合），存在 pkl 里用来比相似度。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_018",
+    "question": "np.asarray(payload[\"embeddings\"], dtype=np.float32) 是推理吗？",
+    "summary": "关于「np.asarray(payload[\"embeddings\"], dtype=np.float32) 是推理吗？」的详细回答：\n\n【简要结论】\n不是。只是从 pkl 读出已有向量并转成 NumPy 数组；推理是 model.encode(文字)，把新文本变成向量。\n\n【详细解释】\n· 不是。\n· 只是从 pkl 读出已有向量并转成 NumPy 数组；。\n· 推理是 model.encode(文字)，把新文本变成向量。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_019",
+    "question": "index_is_valid() 为什么需要？",
+    "summary": "关于「index_is_valid() 为什么需要？」的详细回答：\n\n【简要结论】\n上传/删改 JSON 后，索引可能和 message/ 条数不一致或损坏；先校验，有效就直接加载，无效就 rebuild_index() 重建，避免检索错乱\n\n【详细解释】\n· 上传/删改 JSON 后，索引可能和 message/ 条数不一致或损坏；。\n· 先校验，有效就直接加载，无效就 rebuild_index() 重建，避免检索错乱。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_020",
+    "question": "payload[\"records\"] 是什么调用方式？",
+    "summary": "关于「payload[\"records\"] 是什么调用方式？」的详细回答：\n\n【简要结论】\nPython 字典按 key 取值，不是函数调用。payload 是 pickle.load 读出的 dict，[\"records\"] 取问答列表。\n\n【详细解释】\n· Python 字典按 key 取值，不是函数调用。\n· payload 是 pickle.load 读出的 dict，[\"records\"] 取问答列表。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_021",
+    "question": "threshold 是什么？默认多少",
+    "summary": "关于「threshold 是什么？默认多少」的详细回答：\n\n【简要结论】\n相似度 及格线，默认 0.45。best_score >= threshold 才返回匹配答案，否则 matched=False，提示可能没有相关内容。\n\n【详细解释】\n· 相似度 及格线，默认 0.45。\n· best_score >= threshold 才返回匹配答案，否则 matched=False，提示可能没有相关内容。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_022",
+    "question": "query() 里有哪些分支？按什么顺序？",
+    "summary": "关于「query() 里有哪些分支？按什么顺序？」的详细回答：\n\n【简要结论】\n空问题 → 目录类（「你会什么」）→ 身份类（「你是谁」）→ 精确文字匹配 → 语义检索（encode + 矩阵乘 + argmax + 比 threshold）。常见问答走最后一条。\n\n【详细解释】\n· 空问题 → 目录类（「你会什么」）→ 身份类（「你是谁」）→ 精确文字匹配 → 语义检索（encode + 矩阵乘 + argmax + 比 threshold）。\n· 常见问答走最后一条。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_023",
+    "question": "语义检索那几行核心代码在干什么？",
+    "summary": "关于「语义检索那几行核心代码在干什么？」的详细回答：\n\n【简要结论】\nq_emb = model.encode([question]) 把用户问题变向量；scores = embeddings @ q_emb.T 和库中 554 条比相似度；argmax 找最高分；和 threshold 比，通过则返回 records[best_idx]。\n\n【详细解释】\n· q_emb = model.encode([question]) 把用户问题变向量；。\n· scores = embeddings @ q_emb.T 和库中 554 条比相似度；。\n· argmax 找最高分；。\n· 和 threshold 比，通过则返回 records[best_idx]。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_024",
+    "question": "_reload_model() 做什么？",
+    "summary": "关于「_reload_model() 做什么？」的详细回答：\n\n【简要结论】\n从磁盘加载微调模型到 _model，通过 ensure_index 加载/重建 _records 和 _embeddings，并记录 index.pkl 修改时间供后续自动刷新。\n\n【详细解释】\n· 从磁盘加载微调模型到 _model，通过 ensure_index 加载/重建 _records 和 _embeddings，并记录 index.pkl 修改时间供后续自动刷新。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_025",
+    "question": "self._index_mtime 有什么用？",
+    "summary": "关于「self._index_mtime 有什么用？」的详细回答：\n\n【简要结论】\n记住 index.pkl 最后修改时间；上传或训练后文件变了，_index_changed() 为真，自动 _reload_model()，不用重启 Web。\n\n【详细解释】\n· 记住 index.pkl 最后修改时间；。\n· 上传或训练后文件变了，_index_changed() 为真，自动 _reload_model()，不用重启 Web。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_026",
+    "question": "@staticmethod 和 @classmethod 区别？项目里为何这么用？",
+    "summary": "关于「@staticmethod 和 @classmethod 区别？项目里为何这么用？」的详细回答：\n\n【简要结论】\n普通方法自动传 self（要用实例上的模型/索引）；@classmethod 自动传 cls（如调 cls._normalize_question）；@staticmethod 谁都不传（如 _normalize_question 只处理字符串）。区别是 自动绑定谁，不是直接/间接调用。\n\n【详细解释】\n· 普通方法自动传 self（要用实例上的模型/索引）；。\n· @classmethod 自动传 cls（如调 cls._normalize_question）；。\n· @staticmethod 谁都不传（如 _normalize_question 只处理字符串）。\n· 区别是 自动绑定谁，不是直接/间接调用。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_027",
+    "question": "Flask 在本项目里负责什么？",
+    "summary": "关于「Flask 在本项目里负责什么？」的详细回答：\n\n【简要结论】\n接 HTTP 请求、调业务（qa_engine、kb_upload 等）、返回 HTML 或 JSON；不负责训练和向量计算本身。\n\n【详细解释】\n· 接 HTTP 请求、调业务（qa_engine、kb_upload 等）、返回 HTML 或 JSON；。\n· 不负责训练和向量计算本身。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_028",
+    "question": "render_template 和 jsonify 分别什么时候用？",
+    "summary": "关于「render_template 和 jsonify 分别什么时候用？」的详细回答：\n\n【简要结论】\nrender_template 返回 HTML 页面（如首页 /）；jsonify 返回 JSON API（如 /api/ask、/api/health），给前端 fetch 用。\n\n【详细解释】\n· render_template 返回 HTML 页面（如首页 /）；。\n· jsonify 返回 JSON API（如 /api/ask、/api/health），给前端 fetch 用。\n\n【实践建议】\n· 对比方案时同时看性能、一致性、运维复杂度和团队熟悉度。\n· 不要只看名称，建议结合一个最小 Demo 验证后再定型。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_029",
+    "question": "request.get_json() 取的是什么？",
+    "summary": "关于「request.get_json() 取的是什么？」的详细回答：\n\n【简要结论】\nPOST 请求 body 里的 JSON，解析成 Python 字典，如 {\"question\": \"...\", \"threshold\": 0.45}。\n\n【详细解释】\n· POST 请求 body 里的 JSON，解析成 Python 字典，如 {\"question\": \"...\", \"threshold\": 0.45}。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_030",
+    "question": "读 JSON 是在 build_examples 还是 load_records？",
+    "summary": "关于「读 JSON 是在 build_examples 还是 load_records？」的详细回答：\n\n【简要结论】\n在 kb_utils.load_records()（open + json.load）；build_examples 只从内存里的 dict 取 question/summary 包装成 InputExample。\n\n【详细解释】\n· 在 kb_utils.load_records()（open + json.load）；。\n· build_examples 只从内存里的 dict 取 question/summary 包装成 InputExample。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_031",
+    "question": "为什么索引里只存 question 的向量，不存 summary 的向量？",
+    "summary": "关于「为什么索引里只存 question 的向量，不存 summary 的向量？」的详细回答：\n\n【简要结论】\n用户提问更像 问题 而不是摘要；训练时已让 question 和 summary 语义靠近，用 question 向量检索即可，匹配后再从 records 取 summary 文字。\n\n【详细解释】\n· 用户提问更像 问题 而不是摘要；。\n· 训练时已让 question 和 summary 语义靠近，用 question 向量检索即可，匹配后再从 records 取 summary 文字。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_032",
+    "question": "上传一条新知识点后，为什么要更新 index？",
+    "summary": "关于「上传一条新知识点后，为什么要更新 index？」的详细回答：\n\n【简要结论】\n新 question 没有向量就检索不到；kb_upload 会触发重建/更新 index.pkl，必要时满 50 条自动 train.py 微调模型。\n\n【详细解释】\n· 新 question 没有向量就检索不到；。\n· kb_upload 会触发重建/更新 index.pkl，必要时满 50 条自动 train.py 微调模型。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_033",
+    "question": "3D 知识之城的数据从哪来？",
+    "summary": "关于「3D 知识之城的数据从哪来？」的详细回答：\n\n【简要结论】\n前端调 GET /api/knowledge-map，web_app 读 load_records()，按 message/ 文件夹分组为「楼宇」，不是训练产物，是 JSON 结构的可视化。\n\n【详细解释】\n· 前端调 GET /api/knowledge-map，web_app 读 load_records()，按 message/ 文件夹分组为「楼宇」，不是训练产物，是 JSON 结构的可视化。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_034",
+    "question": "启动时 qa_engine.load() 和 train.py 的关系？",
+    "summary": "关于「启动时 qa_engine.load() 和 train.py 的关系？」的详细回答：\n\n【简要结论】\nload() 不训练，只 加载 train.py 已产出的模型和 index；没训练过会报「请先运行 train.py」。\n\n【详细解释】\n· load() 不训练，只 加载 train.py 已产出的模型和 index；。\n· 没训练过会报「请先运行 train.py」。\n\n【实践建议】\n· 建议把本题要点整理成笔记，并补一个实际项目中的例子。\n· 若涉及版本差异，以当前使用框架/库的官方文档为准。",
+    "category": "基本概念",
+    "code": ""
+  },
+  {
+    "id": "kb_2c7b7e45_kb_035",
+    "question": "什么是微调模型",
+    "summary": "关于「什么是微调模型」的详细回答：\n\n【简要结论】\n微调模型（Fine-tuning）：在 已经训练好的模型 基础上，用 你自己的数据 再训练一段时间，让模型更适应你的具体任务，而不是从零开始训练。 先理解两个概念 概念 含义 预训练模型 / 基座模型 别人用大量通用数据训练好的模型，已有基础能力 微调模型 在基座模型上，用你的数据继续训练后得到的模型 微调 不是 从「空模型」开始，而是在 已有能力 上 针对性加强。 2. 为什么要微调？ 通用模型懂中文、懂大致语义，但不一定懂 你的业务。 例如你的项目里： 基座：text2vec-base-chinese（通用中文句向量） 你的数据：554 条「问题 + 摘要」 微调后：更会把 你的问法 和 你的标准答案摘要 配在一起 3. 在你项目里怎么体现 基座模型（开源、已预训练） shibing624/text2vec-base-chinese ↓ train.py：用你的 JSON 问答继续训练 （question + summary 成对，对比学习） ↓ 微调模型（保存在本地） models/kb_matcher/ 输入：message/ 里的问答 JSON 方法：train_model() + MultipleNegativesRankingLoss 输出：更适合你知识库的模型文件 使用时 qa_engine 加载的就是这个 微调后的模型，不是原始基座。\n\n【详细解释】\n· 微调模型（Fine-tuning）：在 已经训练好的模型 基础上，用 你自己的数据 再训练一段时间，让模型更适应你的具体任务，而不是从零开始训练。\n· 先理解两个概念 概念 含义 预训练模型 / 基座模型 别人用大量通用数据训练好的模型，已有基础能力 微调模型 在基座模型上，用你的数据继续训练后得到的模型 微调 不是 从「空模型」开始，而是在 已有能力 上 针对性加强。\n· 2. 为什么要微调？。\n· 通用模型懂中文、懂大致语义，但不一定懂 你的业务。\n· 例如你的项目里： 基座：text2vec-base-chinese（通用中文句向量） 你的数据：554 条「问题 + 摘要」 微调后：更会把 你的问法 和 你的标准答案摘要 配在一起 3. 在你项目里怎么体现 基座模型（开源、已预训练） shibing624/text2vec-base-chinese ↓ train.py：用你的 JSON 问答继续训练 （question + summary 成对，对比学习） ↓ 微调模型（保存在本地） models/kb_matcher/ 输入：message/ 里的问答 JSON 方法：train_model() + MultipleNegativesRankingLoss 输出：更适合你知识库的模型文件 使用时 qa_engine 加载的就是这个 微调后的模型，不是原始基座。\n\n【实践建议】\n· 理解概念后，尝试用自己的话复述并各举一个项目场景。\n· 排查问题时先确认概念边界，再定位是配置、代码还是环境问题。",
+    "category": "基本概念",
+    "code": ""
+  }
+]

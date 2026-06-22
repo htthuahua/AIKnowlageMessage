@@ -1,5 +1,455 @@
 [
   {
+    "id": "1cd84aba-9d99-4d84-9947-5e650321e419",
+    "time": "2026-06-22T15:24:27+08:00",
+    "kb_id": "kb_67e8df05",
+    "kb_name": "kb_67e8df05",
+    "record_id": "kb_67e8df05_kb_012",
+    "question": "面对考研、考公、就业、创业、科研、出国六条发展路径，该如何选出适合自己的方向？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "fd4e0aa8-2443-4425-8663-9f22cdeb58b9",
+    "time": "2026-06-22T15:23:15+08:00",
+    "kb_id": "kb_67e8df05",
+    "kb_name": "kb_67e8df05",
+    "record_id": "kb_67e8df05_kb_011",
+    "question": "规划出国深造 / 工作需要提升哪些条件？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "9a69627d-d644-41e4-9d8f-35c3b4073fb3",
+    "time": "2026-06-22T15:22:52+08:00",
+    "kb_id": "kb_67e8df05",
+    "kb_name": "kb_67e8df05",
+    "record_id": "kb_67e8df05_kb_010",
+    "question": "走科研发展路线的核心任务是什么？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "2ef5723e-4e13-42aa-9794-e219638ef573",
+    "time": "2026-06-22T15:22:22+08:00",
+    "kb_id": "kb_67e8df05",
+    "kb_name": "kb_67e8df05",
+    "record_id": "kb_67e8df05_kb_009",
+    "question": "选择自主创业方向要积累哪些能力？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "492e39f8-0093-4f6c-bd35-3025d9906785",
+    "time": "2026-06-22T15:21:53+08:00",
+    "kb_id": "kb_67e8df05",
+    "kb_name": "kb_67e8df05",
+    "record_id": "kb_67e8df05_kb_008",
+    "question": "直接就业需要做好哪些准备？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "6c619f2a-4e06-438c-832f-53534041d3d7",
+    "time": "2026-06-22T15:21:27+08:00",
+    "kb_id": "kb_67e8df05",
+    "kb_name": "kb_67e8df05",
+    "record_id": "kb_67e8df05_kb_007",
+    "question": "考公的发展规划和职业追求是什么？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "55474d93-5512-42d0-a496-a3575946ba41",
+    "time": "2026-06-22T15:20:59+08:00",
+    "kb_id": "kb_67e8df05",
+    "kb_name": "kb_67e8df05",
+    "record_id": "kb_67e8df05_kb_006",
+    "question": "选择考研这条路，核心目标是什么？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "485686dd-c174-4916-8c99-db703f8c451d",
+    "time": "2026-06-22T15:05:28+08:00",
+    "kb_id": "kb_67e8df05",
+    "kb_name": "kb_67e8df05",
+    "record_id": "kb_67e8df05_kb_005",
+    "question": "实验室项目有哪些",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "3264bc7f-1583-48b7-8166-176b743a8693",
+    "time": "2026-06-22T15:02:42+08:00",
+    "kb_id": "kb_67e8df05",
+    "kb_name": "kb_67e8df05",
+    "record_id": "kb_67e8df05_kb_004",
+    "question": "实验室成员有哪些",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "450fd222-a84c-4ffe-9582-eebb03d15872",
+    "time": "2026-06-22T14:57:24+08:00",
+    "kb_id": "kb_67e8df05",
+    "kb_name": "kb_67e8df05",
+    "record_id": "kb_67e8df05_kb_003",
+    "question": "晋中学院信工系实验室",
+    "category": "基础概念",
+    "is_new_building": false
+  },
+  {
+    "id": "31a0da43-c3be-4a45-86d7-88bcdfef88b3",
+    "time": "2026-06-22T14:48:08+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_035",
+    "question": "什么是微调模型",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "28730222-92d1-4aa7-9ed4-e53168d20d86",
+    "time": "2026-06-22T14:43:18+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_034",
+    "question": "启动时 qa_engine.load() 和 train.py 的关系？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "08a5115d-781e-4854-858a-ec798870c6f7",
+    "time": "2026-06-22T14:42:47+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_033",
+    "question": "3D 知识之城的数据从哪来？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "94d66458-c205-4bf8-a158-c9d456663a46",
+    "time": "2026-06-22T14:42:22+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_032",
+    "question": "上传一条新知识点后，为什么要更新 index？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "d2297598-0247-4c5b-b144-39c2903f895c",
+    "time": "2026-06-22T14:42:04+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_031",
+    "question": "为什么索引里只存 question 的向量，不存 summary 的向量？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "a39f82d1-88fe-45d6-8860-1a932280350f",
+    "time": "2026-06-22T14:41:41+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_030",
+    "question": "读 JSON 是在 build_examples 还是 load_records？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "e55da594-ae56-4813-a3a2-b8c25244fba9",
+    "time": "2026-06-22T14:41:09+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_029",
+    "question": "request.get_json() 取的是什么？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "a725e2e1-f0df-4594-a610-99b181b90b99",
+    "time": "2026-06-22T14:40:43+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_028",
+    "question": "render_template 和 jsonify 分别什么时候用？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "7f8d0b37-de5a-44f7-be74-d82714f617f6",
+    "time": "2026-06-22T14:40:09+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_027",
+    "question": "Flask 在本项目里负责什么？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "9f6120e2-df91-4e75-b781-f9b9feb02af7",
+    "time": "2026-06-22T14:39:44+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_026",
+    "question": "@staticmethod 和 @classmethod 区别？项目里为何这么用？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "d5c414b3-b449-404c-97a5-eb32e27228e5",
+    "time": "2026-06-22T14:39:16+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_025",
+    "question": "self._index_mtime 有什么用？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "3bda08e1-cf13-4fa4-b8d5-985f0b998200",
+    "time": "2026-06-22T14:38:48+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_024",
+    "question": "_reload_model() 做什么？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "77e48222-4bb1-4e3a-9e66-ef9791027a4c",
+    "time": "2026-06-22T14:38:15+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_023",
+    "question": "语义检索那几行核心代码在干什么？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "4fd382e2-e2af-4bff-9fdc-066f8176a41e",
+    "time": "2026-06-22T14:37:41+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_022",
+    "question": "query() 里有哪些分支？按什么顺序？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "e7a78042-a5bd-4acd-bac0-f7dfcc13cc83",
+    "time": "2026-06-22T14:37:21+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_021",
+    "question": "threshold 是什么？默认多少",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "7f371da3-db4d-49e9-8175-e2bb85827351",
+    "time": "2026-06-22T14:36:53+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_020",
+    "question": "payload[\"records\"] 是什么调用方式？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "7b77e5b8-380f-4cce-bece-f4310b6cd90e",
+    "time": "2026-06-22T14:36:05+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_019",
+    "question": "index_is_valid() 为什么需要？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "2a675fef-cb50-440c-8b6a-5b9152a52bc5",
+    "time": "2026-06-22T14:35:30+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_018",
+    "question": "np.asarray(payload[\"embeddings\"], dtype=np.float32) 是推理吗？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "fb9ecd1a-7f8f-4b42-abce-7ca8b804e07d",
+    "time": "2026-06-22T14:35:06+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_017",
+    "question": "embeddings 是模型吗？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "2f5dcdd0-9421-41cb-92b4-151a49480083",
+    "time": "2026-06-22T14:34:42+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_016",
+    "question": "records 和 embeddings 怎么对应？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "1dbe6aa7-1f2e-41da-9a62-436360869941",
+    "time": "2026-06-22T14:34:10+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_015",
+    "question": "index.pkl 里存的是什么？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "970c2df0-8d43-4c0a-b5b9-ca47f40c350f",
+    "time": "2026-06-22T14:33:46+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_014",
+    "question": "warmup_steps 是预热模型吗？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "c2b16c99-da06-4ceb-aae4-ff90dcdd40cb",
+    "time": "2026-06-22T14:33:19+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_013",
+    "question": "argparse 里的 ArgumentParser 是加载 AI 模型吗？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "cb50bd2f-6856-4ec0-a9dd-83c8d5309b20",
+    "time": "2026-06-22T14:32:52+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_012",
+    "question": "build_embeddings 和 train_model 有什么区别？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "0eb6b367-eb22-40dc-a45e-85e3409e7904",
+    "time": "2026-06-22T14:32:17+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_011",
+    "question": "MultipleNegativesRankingLoss 在学什么？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "0a210e59-60b7-4440-9918-61f1623d8aec",
+    "time": "2026-06-22T14:31:42+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_010",
+    "question": "InputExample 是什么？为什么要用它？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "8f8801eb-1242-4032-a720-9b11444880d8",
+    "time": "2026-06-22T14:31:08+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_009",
+    "question": "训练和使用的产物分别是什么？存在哪？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "4dcae226-5b05-47d5-adc0-d6cdeb74c8bc",
+    "time": "2026-06-22T14:30:36+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_008",
+    "question": "从用户提问到返回答案，数据流怎么走？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "d91078e2-8ede-476f-a3c8-5f7eaf32113a",
+    "time": "2026-06-22T14:30:02+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_007",
+    "question": "这个项目是生成式大模型吗？和 ChatGPT 有什么区别？",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "cf598a3f-ddad-4306-ab09-02deada0b8c0",
+    "time": "2026-06-22T12:25:16+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_006",
+    "question": "flask框架如何进行使用",
+    "category": "基础概念",
+    "is_new_building": false
+  },
+  {
+    "id": "faf76b40-fdb7-4b61-8346-e131e392d4bb",
+    "time": "2026-06-22T11:22:26+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_005",
+    "question": "@staticmethod和@classmethod有什么区别",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "3f219c1a-3d99-4231-bf35-5422c3aeb147",
+    "time": "2026-06-22T01:08:54+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_004",
+    "question": "训练好的模型最后应该怎么进行打包",
+    "category": "基础概念",
+    "is_new_building": false
+  },
+  {
+    "id": "af421fb4-8e54-45a2-a026-1b66546380ab",
+    "time": "2026-06-22T01:03:48+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_003",
+    "question": "训练好的模型如何进行问题和答案的快速匹配",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "fbe1a155-28de-4238-8347-3828e59dbe9d",
+    "time": "2026-06-22T00:46:46+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_002",
+    "question": "如何进行模型的训练",
+    "category": "基本概念",
+    "is_new_building": false
+  },
+  {
+    "id": "4a876b62-c3e1-4ee0-877d-621507a2ce0c",
+    "time": "2026-06-22T00:31:55+08:00",
+    "kb_id": "kb_2c7b7e45",
+    "kb_name": "个人训练模型技术要领",
+    "record_id": "kb_2c7b7e45_kb_001",
+    "question": "搭建模型前的准备工作是什么",
+    "category": "基本概念",
+    "is_new_building": true
+  },
+  {
     "id": "7f0d8b4f-4165-4a58-b80b-ad9f47c8c9d1",
     "time": "2026-06-21T19:22:10+08:00",
     "kb_id": "kb_67e8df05",

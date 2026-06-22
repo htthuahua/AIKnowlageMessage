@@ -927,6 +927,36 @@ button {
   color: #fbbf24;
 }
 
+.upload-training-progress {
+  margin-top: 10px;
+}
+
+.upload-training-progress.hidden {
+  display: none;
+}
+
+.upload-progress-track {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.upload-progress-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  transition: width 0.35s ease;
+}
+
+.upload-progress-detail {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
 .upload-form {
   display: flex;
   flex-direction: column;
